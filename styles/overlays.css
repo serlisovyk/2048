@@ -1,0 +1,74 @@
+.game-over,
+.win-overlay {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 30px;
+  border-radius: 15px;
+  color: #ffffff;
+  z-index: 100;
+  animation: modal-pop 0.3s ease-out;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.game-over::before,
+.win-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  border-radius: 15px;
+}
+
+.game-over {
+  background-color: rgba(80, 50, 50, 0.95);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.win-overlay {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.5);
+}
+
+.game-over h2,
+.win-overlay h2 {
+  font-size: clamp(24px, 5vw, 40px);
+  margin-bottom: 15px;
+}
+
+.game-over p,
+.win-overlay p {
+  font-size: clamp(14px, 3vw, 18px);
+  margin-bottom: 25px;
+  opacity: 0.95;
+}
+
+@keyframes modal-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .game-over,
+  .win-overlay {
+    padding: 30px 20px;
+    margin: 0 20px;
+  }
+}

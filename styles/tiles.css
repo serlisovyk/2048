@@ -1,0 +1,103 @@
+.grid-cell[data-value='2'] {
+  background: linear-gradient(135deg, #eee4da 0%, #ede0c8 100%);
+  color: #776e65;
+}
+
+.grid-cell[data-value='4'] {
+  background: linear-gradient(135deg, #ede0c8 0%, #f2b179 100%);
+  color: #f9f6f2;
+}
+
+.grid-cell[data-value='8'] {
+  background: linear-gradient(135deg, #f2b179 0%, #f59563 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+}
+
+.grid-cell[data-value='16'] {
+  background: linear-gradient(135deg, #f59563 0%, #f67c5f 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+}
+
+.grid-cell[data-value='32'] {
+  background: linear-gradient(135deg, #f67c5f 0%, #f65e3b 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+}
+
+.grid-cell[data-value='64'] {
+  background: linear-gradient(135deg, #f65e3b 0%, #edcf72 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+}
+
+.grid-cell[data-value='128'] {
+  background: linear-gradient(135deg, #edcf72 0%, #edcc61 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+  font-size: clamp(18px, 3.5vw, 35px);
+}
+
+.grid-cell[data-value='256'] {
+  background: linear-gradient(135deg, #edcc61 0%, #edc850 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+  font-size: clamp(18px, 3.5vw, 35px);
+}
+
+.grid-cell[data-value='512'] {
+  background: linear-gradient(135deg, #edc850 0%, #edc53f 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+  font-size: clamp(18px, 3.5vw, 35px);
+}
+
+.grid-cell[data-value='1024'] {
+  background: linear-gradient(135deg, #edc22e 0%, #3c3c0c 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+  font-size: clamp(16px, 3vw, 30px);
+}
+
+.grid-cell[data-value='2048'] {
+  background: linear-gradient(135deg, #3d2817 0%, #000000 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+  font-size: clamp(16px, 3vw, 30px);
+  box-shadow: 0 0 20px rgba(237, 194, 46, 0.5);
+}
+
+.grid-cell[data-value='4096'] {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+  font-size: clamp(14px, 2.5vw, 25px);
+}
+
+.grid-cell[data-value='8192'] {
+  background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+  font-size: clamp(14px, 2.5vw, 25px);
+}
+
+.grid-cell[data-value='16384'] {
+  background: linear-gradient(135deg, #f093fb 0%, #4facfe 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+  font-size: clamp(12px, 2vw, 20px);
+}
+
+.grid-cell[data-value]:not([data-value='2']):not([data-value='4']):not(
+    [data-value='8']
+  ):not([data-value='16']):not([data-value='32']):not([data-value='64']):not(
+    [data-value='128']
+  ):not([data-value='256']):not([data-value='512']):not([data-value='1024']):not(
+    [data-value='2048']
+  ):not([data-value='4096']):not([data-value='8192']):not([data-value='16384']) {
+  background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+  color: #f9f6f2;
+  font-weight: bold;
+  font-size: clamp(7px, 1.2vw, 12px);
+}

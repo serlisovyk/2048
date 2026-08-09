@@ -1,0 +1,49 @@
+.restart-game-button,
+.continue-button {
+  padding: 12px 24px;
+  cursor: pointer;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin-top: 10px;
+}
+
+.restart-game-button:hover,
+.continue-button:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.restart-game-button:active,
+.continue-button:active {
+  transform: translateY(0);
+}
+
+.new-game-button {
+  margin-top: 24px;
+  padding: 12px 28px;
+  background-color: #555555;
+  color: #f0f0f0;
+  border: 2px solid #666666;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: clamp(14px, 2.5vw, 16px);
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.new-game-button:hover {
+  background-color: #666666;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.new-game-button:active {
+  transform: translateY(0);
+}

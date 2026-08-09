@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="./script.js" defer></script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <script type="module" src="./script.js"></script>
     <title>2048</title>
   </head>
   <body>
@@ -14,34 +14,17 @@
       <div>High Score: <span class="high-score">0</span></div>
     </header>
     <main class="game-container">
-      <div class="game-grid">
-        <div class="grid-cell" data-row="0" data-col="0"></div>
-        <div class="grid-cell" data-row="0" data-col="1"></div>
-        <div class="grid-cell" data-row="0" data-col="2"></div>
-        <div class="grid-cell" data-row="0" data-col="3"></div>
-        <div class="grid-cell" data-row="1" data-col="0"></div>
-        <div class="grid-cell" data-row="1" data-col="1"></div>
-        <div class="grid-cell" data-row="1" data-col="2"></div>
-        <div class="grid-cell" data-row="1" data-col="3"></div>
-        <div class="grid-cell" data-row="2" data-col="0"></div>
-        <div class="grid-cell" data-row="2" data-col="1"></div>
-        <div class="grid-cell" data-row="2" data-col="2"></div>
-        <div class="grid-cell" data-row="2" data-col="3"></div>
-        <div class="grid-cell" data-row="3" data-col="0"></div>
-        <div class="grid-cell" data-row="3" data-col="1"></div>
-        <div class="grid-cell" data-row="3" data-col="2"></div>
-        <div class="grid-cell" data-row="3" data-col="3"></div>
-      </div>
+      <div class="game-grid" aria-label="2048 board"></div>
     </main>
 
-    <div class="win-overlay">
-      <h2>You Won!</h2>
+    <div class="win-overlay" role="dialog" aria-modal="true" aria-labelledby="win-title">
+      <h2 id="win-title">You Won!</h2>
       <p>You've reached 2048!</p>
       <button class="continue-button">Continue Playing</button>
     </div>
 
-    <div class="game-over">
-      <h2>Game Over!</h2>
+    <div class="game-over" role="dialog" aria-modal="true" aria-labelledby="game-over-title">
+      <h2 id="game-over-title">Game Over!</h2>
       <p>No more moves available</p>
       <button class="restart-game-button">Restart Game</button>
     </div>

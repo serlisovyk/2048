@@ -1,5 +1,12 @@
+import './styles/main.css'
+
 document.addEventListener('DOMContentLoaded', () => {
+  createGrid()
+
   document.addEventListener('keydown', handleKeydown)
+  gameGridElement.addEventListener('pointerdown', handlePointerDown)
+  gameGridElement.addEventListener('pointerup', handlePointerUp)
+  gameGridElement.addEventListener('pointercancel', resetPointer)
 
   restartButtonElement.addEventListener('click', restartGame)
   newGameButtonElement.addEventListener('click', restartGame)
@@ -9,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const SIZE = 4
+const SWIPE_THRESHOLD = 30
 
 const ARROWS_KEYS = {
   ArrowUp: 'ArrowUp',
@@ -22,12 +30,13 @@ const currentScoreElement = document.querySelector('.current-score')
 const highScoreElement = document.querySelector('.high-score')
 const gameOverElement = document.querySelector('.game-over')
 const winOverlayElement = document.querySelector('.win-overlay')
-const cellElements = gameGridElement.querySelectorAll('.grid-cell')
 const restartButtonElement = document.querySelector('.restart-game-button')
 const continueButtonElement = document.querySelector('.continue-button')
 const newGameButtonElement = document.querySelector('.new-game-button')
 
 let board = []
+let cellElements = []
+let pointerStart = null
 
 let currentScore = 0
 
@@ -36,15 +45,42 @@ let highScore = Number(localStorage.getItem('highScore')) || 0
 let hasWon = false
 
 let isMoving = false
+let isPausedAfterWin = false
+let isGameOver = false
+let animationCleanupTimeoutId = null
 
 highScoreElement.textContent = highScore
+
+function createGrid() {
+  gameGridElement.innerHTML = ''
+  gameGridElement.tabIndex = -1
+
+  cellElements = [...Array(SIZE)].map((_, row) =>
+    [...Array(SIZE)].map((_, col) => {
+      const cell = document.createElement('div')
+
+      cell.className = 'grid-cell'
+      cell.dataset.row = row
+      cell.dataset.col = col
+
+      gameGridElement.append(cell)
+
+      return cell
+    }),
+  )
+}
 
 function restartGame() {
   currentScore = 0
   currentScoreElement.textContent = currentScore
+
   hasWon = false
+  isPausedAfterWin = false
+  isGameOver = false
+
   gameOverElement.style.display = 'none'
   winOverlayElement.style.display = 'none'
+
   initializeGame()
 }
 
@@ -58,22 +94,59 @@ function initializeGame() {
 }
 
 function handleKeydown(event) {
-  if (Object.values(ARROWS_KEYS).includes(event.key)) {
-    event.preventDefault()
+  if (!Object.values(ARROWS_KEYS).includes(event.key)) return
 
-    if (isMoving) return
+  event.preventDefault()
+  requestMove(event.key)
+}
 
-    move(event.key)
+function handlePointerDown(event) {
+  if (event.pointerType === 'mouse' && event.button !== 0) return
+
+  pointerStart = {
+    x: event.clientX,
+    y: event.clientY,
   }
+}
+
+function handlePointerUp(event) {
+  if (!pointerStart) return
+
+  const deltaX = event.clientX - pointerStart.x
+  const deltaY = event.clientY - pointerStart.y
+  const absX = Math.abs(deltaX)
+  const absY = Math.abs(deltaY)
+
+  resetPointer()
+
+  if (Math.max(absX, absY) < SWIPE_THRESHOLD) return
+
+  const direction =
+    absX > absY
+      ? deltaX > 0
+        ? ARROWS_KEYS.ArrowRight
+        : ARROWS_KEYS.ArrowLeft
+      : deltaY > 0
+        ? ARROWS_KEYS.ArrowDown
+        : ARROWS_KEYS.ArrowUp
+
+  requestMove(direction)
+}
+
+function resetPointer() {
+  pointerStart = null
+}
+
+function requestMove(direction) {
+  if (isMoving || isPausedAfterWin || isGameOver) return
+
+  move(direction)
 }
 
 function renderBoard() {
   for (let i = 0; i < SIZE; i++) {
     for (let j = 0; j < SIZE; j++) {
-      const cell = gameGridElement.querySelector(
-        `[data-row="${i}"][data-col="${j}"]`
-      )
-
+      const cell = cellElements[i][j]
       const prevValue = cell.dataset.value
       const currentValue = board[i][j]
 
@@ -94,10 +167,12 @@ function renderBoard() {
     }
   }
 
-  setTimeout(() => {
-    cellElements.forEach((cell) => {
-      cell.classList.remove('merged-cell', 'new-cell')
-    })
+  clearTimeout(animationCleanupTimeoutId)
+
+  animationCleanupTimeoutId = setTimeout(() => {
+    cellElements
+      .flat()
+      .forEach((cell) => cell.classList.remove('merged-cell', 'new-cell'))
   }, 250)
 }
 
@@ -126,10 +201,7 @@ function placeRandom() {
     const randomCell = available[Math.floor(Math.random() * available.length)]
     board[randomCell.i][randomCell.j] = Math.random() < 0.9 ? 2 : 4
 
-    const cell = gameGridElement.querySelector(
-      `[data-row="${randomCell.i}"][data-col="${randomCell.j}"]`
-    )
-    cell.classList.add('new-cell')
+    cellElements[randomCell.i][randomCell.j].classList.add('new-cell')
   }
 }
 
@@ -137,18 +209,21 @@ function move(direction) {
   isMoving = true
 
   let hasChanged = false
+  let scoreGained = 0
 
   if (direction === ARROWS_KEYS.ArrowUp || direction === ARROWS_KEYS.ArrowDown) {
     for (let j = 0; j < SIZE; j++) {
       const column = [...Array(SIZE)].map((_, i) => board[i][j])
-      const newColumn = transform(column, direction === ARROWS_KEYS.ArrowUp)
+      const result = transform(column, direction === ARROWS_KEYS.ArrowUp)
 
       for (let i = 0; i < SIZE; i++) {
-        if (board[i][j] !== newColumn[i]) {
+        if (board[i][j] !== result.line[i]) {
           hasChanged = true
-          board[i][j] = newColumn[i]
+          board[i][j] = result.line[i]
         }
       }
+
+      scoreGained += result.scoreGained
     }
   } else if (
     direction === ARROWS_KEYS.ArrowLeft ||
@@ -156,16 +231,19 @@ function move(direction) {
   ) {
     for (let i = 0; i < SIZE; i++) {
       const row = board[i]
-      const newRow = transform(row, direction === ARROWS_KEYS.ArrowLeft)
+      const result = transform(row, direction === ARROWS_KEYS.ArrowLeft)
 
-      if (row.join(',') !== newRow.join(',')) {
+      if (row.join(',') !== result.line.join(',')) {
         hasChanged = true
-        board[i] = newRow
+        board[i] = result.line
       }
+
+      scoreGained += result.scoreGained
     }
   }
 
   if (hasChanged) {
+    updateScore(scoreGained)
     placeRandom()
     renderBoard()
     checkWin()
@@ -177,13 +255,14 @@ function move(direction) {
 
 function transform(line, moveTowardsStart) {
   let newLine = line.filter((cell) => cell !== 0)
+  let scoreGained = 0
 
   if (!moveTowardsStart) newLine.reverse()
 
   for (let i = 0; i < newLine.length - 1; i++) {
     if (newLine[i] === newLine[i + 1]) {
       newLine[i] *= 2
-      updateScore(newLine[i])
+      scoreGained += newLine[i]
       newLine.splice(i + 1, 1)
     }
   }
@@ -194,7 +273,10 @@ function transform(line, moveTowardsStart) {
 
   if (!moveTowardsStart) newLine.reverse()
 
-  return newLine
+  return {
+    line: newLine,
+    scoreGained,
+  }
 }
 
 function checkWin() {
@@ -204,7 +286,9 @@ function checkWin() {
     for (let j = 0; j < SIZE; j++) {
       if (board[i][j] === 2048) {
         hasWon = true
+        isPausedAfterWin = true
         winOverlayElement.style.display = 'flex'
+        continueButtonElement.focus()
         return
       }
     }
@@ -224,9 +308,13 @@ function checkGameOver() {
     }
   }
 
+  isGameOver = true
   gameOverElement.style.display = 'flex'
+  restartButtonElement.focus()
 }
 
 function hideWinOverlay() {
+  isPausedAfterWin = false
   winOverlayElement.style.display = 'none'
+  gameGridElement.focus()
 }

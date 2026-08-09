@@ -1,0 +1,61 @@
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(4, var(--cell-size));
+  grid-template-rows: repeat(4, var(--cell-size));
+  gap: var(--cell-gap);
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: var(--cell-gap);
+  border-radius: 8px;
+  touch-action: none;
+  user-select: none;
+}
+
+.grid-cell {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.grid-cell[data-value] {
+  font-size: clamp(20px, 4vw, 40px);
+  font-weight: bold;
+  transition: all 0.1s ease-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.new-cell {
+  animation: pop-in 0.2s ease-out;
+}
+
+.merged-cell {
+  animation: merge-scale 0.2s ease-out;
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes merge-scale {
+  0% {
+    transform: scale(0.95);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

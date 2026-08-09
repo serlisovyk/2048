@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -17,13 +17,23 @@
       <div class="game-grid" aria-label="2048 board"></div>
     </main>
 
-    <div class="win-overlay" role="dialog" aria-modal="true" aria-labelledby="win-title">
+    <div
+      class="win-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="win-title"
+    >
       <h2 id="win-title">You Won!</h2>
       <p>You've reached 2048!</p>
       <button class="continue-button">Continue Playing</button>
     </div>
 
-    <div class="game-over" role="dialog" aria-modal="true" aria-labelledby="game-over-title">
+    <div
+      class="game-over"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="game-over-title"
+    >
       <h2 id="game-over-title">Game Over!</h2>
       <p>No more moves available</p>
       <button class="restart-game-button">Restart Game</button>

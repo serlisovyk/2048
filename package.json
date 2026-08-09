@@ -1,17 +1,22 @@
 {
   "name": "2048-vanilla-js",
   "version": "1.0.0",
-  "private": true,
+  "author": "Serhii Lisovyk",
+  "description": "2048 browser game built with HTML, CSS, vanilla JavaScript, and Vite.",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "^7.0.0",
     "autoprefixer": "^10.4.20",
     "html-minifier-terser": "^7.2.0",
+    "postcss": "^8.5.25",
+    "prettier": "^3.9.6",
     "terser": "^5.31.6",
     "vite": "^7.0.0"
   }

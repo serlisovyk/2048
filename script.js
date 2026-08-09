@@ -1,20 +1,5 @@
 import './styles/main.css'
 
-document.addEventListener('DOMContentLoaded', () => {
-  createGrid()
-
-  document.addEventListener('keydown', handleKeydown)
-  gameGridElement.addEventListener('pointerdown', handlePointerDown)
-  gameGridElement.addEventListener('pointerup', handlePointerUp)
-  gameGridElement.addEventListener('pointercancel', resetPointer)
-
-  restartButtonElement.addEventListener('click', restartGame)
-  newGameButtonElement.addEventListener('click', restartGame)
-  continueButtonElement.addEventListener('click', hideWinOverlay)
-
-  initializeGame()
-})
-
 const SIZE = 4
 const SWIPE_THRESHOLD = 30
 
@@ -50,6 +35,24 @@ let isGameOver = false
 let animationCleanupTimeoutId = null
 
 highScoreElement.textContent = highScore
+
+document.addEventListener('DOMContentLoaded', () => {
+  createGrid()
+  bindEvents()
+  initializeGame()
+})
+
+function bindEvents() {
+  document.addEventListener('keydown', handleKeydown)
+
+  gameGridElement.addEventListener('pointerdown', handlePointerDown)
+  gameGridElement.addEventListener('pointerup', handlePointerUp)
+  gameGridElement.addEventListener('pointercancel', resetPointer)
+
+  restartButtonElement.addEventListener('click', restartGame)
+  newGameButtonElement.addEventListener('click', restartGame)
+  continueButtonElement.addEventListener('click', hideWinOverlay)
+}
 
 function createGrid() {
   gameGridElement.innerHTML = ''
@@ -91,56 +94,6 @@ function initializeGame() {
   placeRandom()
 
   renderBoard()
-}
-
-function handleKeydown(event) {
-  if (!Object.values(ARROWS_KEYS).includes(event.key)) return
-
-  event.preventDefault()
-  requestMove(event.key)
-}
-
-function handlePointerDown(event) {
-  if (event.pointerType === 'mouse' && event.button !== 0) return
-
-  pointerStart = {
-    x: event.clientX,
-    y: event.clientY,
-  }
-}
-
-function handlePointerUp(event) {
-  if (!pointerStart) return
-
-  const deltaX = event.clientX - pointerStart.x
-  const deltaY = event.clientY - pointerStart.y
-  const absX = Math.abs(deltaX)
-  const absY = Math.abs(deltaY)
-
-  resetPointer()
-
-  if (Math.max(absX, absY) < SWIPE_THRESHOLD) return
-
-  const direction =
-    absX > absY
-      ? deltaX > 0
-        ? ARROWS_KEYS.ArrowRight
-        : ARROWS_KEYS.ArrowLeft
-      : deltaY > 0
-        ? ARROWS_KEYS.ArrowDown
-        : ARROWS_KEYS.ArrowUp
-
-  requestMove(direction)
-}
-
-function resetPointer() {
-  pointerStart = null
-}
-
-function requestMove(direction) {
-  if (isMoving || isPausedAfterWin || isGameOver) return
-
-  move(direction)
 }
 
 function renderBoard() {
@@ -317,4 +270,54 @@ function hideWinOverlay() {
   isPausedAfterWin = false
   winOverlayElement.style.display = 'none'
   gameGridElement.focus()
+}
+
+function handleKeydown(event) {
+  if (!Object.values(ARROWS_KEYS).includes(event.key)) return
+
+  event.preventDefault()
+  requestMove(event.key)
+}
+
+function handlePointerDown(event) {
+  if (event.pointerType === 'mouse' && event.button !== 0) return
+
+  pointerStart = {
+    x: event.clientX,
+    y: event.clientY,
+  }
+}
+
+function handlePointerUp(event) {
+  if (!pointerStart) return
+
+  const deltaX = event.clientX - pointerStart.x
+  const deltaY = event.clientY - pointerStart.y
+  const absX = Math.abs(deltaX)
+  const absY = Math.abs(deltaY)
+
+  resetPointer()
+
+  if (Math.max(absX, absY) < SWIPE_THRESHOLD) return
+
+  const direction =
+    absX > absY
+      ? deltaX > 0
+        ? ARROWS_KEYS.ArrowRight
+        : ARROWS_KEYS.ArrowLeft
+      : deltaY > 0
+        ? ARROWS_KEYS.ArrowDown
+        : ARROWS_KEYS.ArrowUp
+
+  requestMove(direction)
+}
+
+function resetPointer() {
+  pointerStart = null
+}
+
+function requestMove(direction) {
+  if (isMoving || isPausedAfterWin || isGameOver) return
+
+  move(direction)
 }

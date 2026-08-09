@@ -19,7 +19,9 @@ clear AI-agent rule set for future maintenance.
 - Game-over dialog when no moves remain
 - Responsive layout for desktop, tablet, and small mobile screens
 - Generated board cells controlled by one `SIZE` constant
-- SVG favicon based on the 2048 tile style
+- SVG favicon based on a compact 2x2 2048 board
+- Basic metadata and Open Graph title/description
+- Reduced-motion support for users who prefer less animation
 - Vite production build with HTML, CSS, and JavaScript minification
 - Autoprefixer and legacy browser chunks through the Vite legacy plugin
 
@@ -49,6 +51,7 @@ styles/
   tiles.css          Tile value colors and text sizing
   overlays.css       Win and game-over dialogs
   controls.css       Button styles
+  motion.css         Reduced-motion preferences
 rules/               AI-agent project rules
 AGENTS.md            AI-agent entry instructions
 vite.config.js       Vite production build configuration
@@ -96,7 +99,8 @@ yarn format:check
 
 ## 🧱 Architecture Notes
 
-- `index.html` owns the static page shell and leaves board cells to JavaScript.
+- `index.html` owns the static page shell, basic metadata, favicon, and Vite
+  entry point while leaving board cells to JavaScript.
 - `script.js` stays as one vanilla JavaScript module because the game logic is
   still small enough to understand in one file.
 - Grid cells are generated from `SIZE` so the board structure is not duplicated
@@ -105,6 +109,8 @@ yarn format:check
   paused, and game-over states consistent.
 - CSS is split by responsibility rather than by page because the project has
   one screen.
+- Motion preferences live in `styles/motion.css` so accessibility-related
+  animation rules stay visible and easy to adjust.
 - Vite owns production optimization: hashed assets, minified HTML, minified CSS,
   minified JavaScript, and legacy chunks.
 - The project is kept proportional to its size: improvements should favor

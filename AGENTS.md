@@ -37,6 +37,7 @@ Read these files before making changes:
 - Build tool: Vite
 - Languages: HTML, CSS, and JavaScript ESM
 - Styling: modular plain CSS imported from `styles/main.css`
+- Metadata: basic description, theme color, and Open Graph title/description
 - Compatibility: Vite legacy plugin for non-modern browsers, excluding IE 11
 - Formatting: Prettier
 

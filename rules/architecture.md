@@ -14,6 +14,7 @@
 - `styles/tiles.css` contains value-specific tile colors and text sizing.
 - `styles/overlays.css` contains win and game-over dialog styles.
 - `styles/controls.css` contains button styles.
+- `styles/motion.css` contains reduced-motion preferences.
 - `vite.config.js` owns production build behavior: minification, legacy output,
   and HTML optimization.
 - `dist/` is generated output. Do not edit it manually.

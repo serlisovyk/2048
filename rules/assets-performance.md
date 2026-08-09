@@ -4,8 +4,18 @@
 
 - Keep the favicon as source in the project root unless more static assets are
   added later.
+- Keep the favicon visually readable at small sizes. Prefer simple tile shapes
+  over tiny text.
 - Let Vite hash and copy assets into `dist/` during `yarn build`.
 - Do not manually edit generated assets in `dist/`.
+
+## Metadata
+
+- Keep the page title, description, theme color, favicon, and Open Graph
+  title/description in `index.html`.
+- Keep metadata truthful to the visible game and current tech stack.
+- Do not add larger SEO infrastructure such as `robots.txt`, `sitemap.xml`, or
+  web app manifests unless the user asks for it.
 
 ## Performance
 

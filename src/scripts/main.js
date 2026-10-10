@@ -6,6 +6,7 @@ import { Game } from './game/Game.js'
 import { KeyboardInput } from './input/KeyboardInput.js'
 import { SwipeInput } from './input/SwipeInput.js'
 import { SafeStorage } from './storage/SafeStorage.js'
+import { ConfirmDialogView } from './ui/ConfirmDialogView.js'
 import { GridView } from './ui/GridView.js'
 import { OverlayView } from './ui/OverlayView.js'
 import { ScoreView } from './ui/ScoreView.js'
@@ -23,6 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
     winNote: document.querySelector('.game-over-win-note'),
   })
 
+  const confirmDialogView = new ConfirmDialogView({
+    dialog: document.querySelector('.confirm-dialog'),
+    titleElement: document.querySelector('.confirm-title'),
+    messageElement: document.querySelector('.confirm-message'),
+    cancelButton: document.querySelector('.confirm-cancel-button'),
+    confirmButton: document.querySelector('.confirm-accept-button'),
+  })
+
   const controller = new GameController({
     game: new Game({ size: BOARD_SIZE, winTile: WIN_TILE }),
     gridView: new GridView(gridElement, BOARD_SIZE),
@@ -31,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
       highScoreElement: document.querySelector('.high-score'),
     }),
     overlayView,
+    confirmDialogView,
     storage: new SafeStorage(),
   })
 
@@ -43,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   overlayView.onContinue(() => controller.continueAfterWin())
   overlayView.onRestart(restart)
   overlayView.onClose(() => controller.returnFocusToBoard())
-  newGameButton.addEventListener('click', restart)
+  newGameButton.addEventListener('click', () => controller.requestNewGame())
 
   controller.start()
 })

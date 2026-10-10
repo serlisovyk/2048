@@ -53,23 +53,31 @@
   border-radius: 8px;
 }
 
-/* Floats over the box, out of the layout, so a pop never moves the header. `right` is
-   the box's side padding; `bottom` lines the pop up with the score digits. */
+/* A zero-size anchor at the right end of the label row, with its bottom edge on the line
+   between that row and the digits. The pop is positioned from it, so it sits above the
+   digits, level with the short `SCORE` label, however wide the score or the font gets, and
+   it takes no space, so a pop never moves the header. */
 .score-pops {
   --score-pop-duration: 600ms;
 
-  position: absolute;
-  right: 12px;
-  bottom: 10px;
+  position: relative;
+  grid-row: 1;
+  grid-column: 2;
+  align-self: end;
+  justify-self: end;
+  width: 0;
+  height: 0;
   pointer-events: none;
 }
 
 .score-pop {
-  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 2px;
   color: var(--accent);
   font-size: clamp(14px, 4vw, 18px);
   font-weight: bold;
-  line-height: 1.2;
+  line-height: 1;
   white-space: nowrap;
   animation: score-pop var(--score-pop-duration) ease-out forwards;
 }
@@ -86,7 +94,7 @@
 
   100% {
     opacity: 0;
-    transform: translateY(var(--score-pop-rise, -28px));
+    transform: translateY(var(--score-pop-rise, -6px));
   }
 }
 
@@ -140,6 +148,7 @@
 }
 
 .score-label {
+  grid-row: 1;
   grid-column: 1 / -1;
   color: var(--text-muted);
   font-size: clamp(11px, 2.8vw, 13px);

@@ -42,6 +42,7 @@
 }
 
 .score-box {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
@@ -50,6 +51,43 @@
   background-color: #444444;
   border: 1px solid #555555;
   border-radius: 8px;
+}
+
+/* Floats over the box, out of the layout, so a pop never moves the header. `right` is
+   the box's side padding; `bottom` lines the pop up with the score digits. */
+.score-pops {
+  --score-pop-duration: 600ms;
+
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  pointer-events: none;
+}
+
+.score-pop {
+  display: block;
+  color: #ffd700;
+  font-size: clamp(14px, 4vw, 18px);
+  font-weight: bold;
+  line-height: 1.2;
+  white-space: nowrap;
+  animation: score-pop var(--score-pop-duration) ease-out forwards;
+}
+
+@keyframes score-pop {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(var(--score-pop-rise, -28px));
+  }
 }
 
 .score-label {

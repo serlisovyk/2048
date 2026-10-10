@@ -8,4 +8,11 @@
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* The score pop has to stay visible long enough to read: it fades in place. */
+  .score-pop {
+    --score-pop-rise: 0px;
+
+    animation-duration: var(--score-pop-duration) !important;
+  }
 }

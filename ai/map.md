@@ -84,16 +84,16 @@ an empty cell (MY-126).
 
 `main.css` imports, in order:
 
-| File           | What it holds                                                                                                                                                             |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `base.css`     | Reset, body font and colors, `overscroll-behavior-y`, page `touch-action`, `--focus-ring-color`, the one `button:focus-visible` ring for every button, `.visually-hidden` |
-| `layout.css`   | Page layout, safe-area body padding, `--cell-size` / `--cell-gap`, game area `touch-action`, breakpoints                                                                  |
-| `header.css`   | `.game-layout`, the header (`width: min-content; min-width: 100%`), `.logo`, `.toolbar` row, score boxes, `--header-gap`                                                  |
-| `board.css`    | Grid (`repeat(var(--board-size, 4), …)`, no focus ring on the script-focused board), cells, `pop-in` / `merge-scale` animations (`var(--tile-animation-duration, 200ms)`) |
-| `tiles.css`    | Per-value tile colors and font sizes, fallback for larger values                                                                                                          |
-| `overlays.css` | Win, game-over, and confirmation `<dialog>`s: `[open]` layout, `dialog::backdrop`, `modal-pop` / `backdrop-fade`                                                          |
-| `controls.css` | Buttons (the dialogs' primary white and secondary outlined looks), the dialog button row (`.dialog-actions`), the reset-high-score icon, `.toolbar-button`                |
-| `motion.css`   | `prefers-reduced-motion` overrides                                                                                                                                        |
+| File           | What it holds                                                                                                                                                                                                                             |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `base.css`     | Reset, body font and colors, `overscroll-behavior-y`, page `touch-action`, `--focus-ring-color`, the one `button:focus-visible` ring for every button, `.visually-hidden`                                                                 |
+| `layout.css`   | Page layout, safe-area body padding, `--cell-size` / `--cell-gap`, game area `touch-action`, breakpoints                                                                                                                                  |
+| `header.css`   | `.game-layout`, the header (`width: min-content; min-width: 100%`), `.logo`, `.toolbar` row, score boxes, `--header-gap`                                                                                                                  |
+| `board.css`    | Grid (`repeat(var(--board-size, 4), …)`, no focus ring on the script-focused board), cells, the tile structure (weight, shadow, `transition`), `pop-in` / `merge-scale` animations (`var(--tile-animation-duration, 200ms)`)              |
+| `tiles.css`    | Tile palette tokens on `:root` (`--tile-<value>`, `--tile-fallback`, text, sheen, 2048 glow), the base `.grid-cell[data-value]` fallback rule (32768 and up), one rule per value 2 … 16384 (colour, text token, font size by digit count) |
+| `overlays.css` | Win, game-over, and confirmation `<dialog>`s: `[open]` layout, `dialog::backdrop`, `modal-pop` / `backdrop-fade`                                                                                                                          |
+| `controls.css` | Buttons (the dialogs' primary white and secondary outlined looks), the dialog button row (`.dialog-actions`), the reset-high-score icon, `.toolbar-button`                                                                                |
+| `motion.css`   | `prefers-reduced-motion` overrides                                                                                                                                                                                                        |
 
 Touch and safe areas: `html` and `body` have `overscroll-behavior-y: none` and
 `touch-action: manipulation`; `.game-container` (the swipe surface) has

@@ -36,6 +36,10 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
 - **Dialogs**: native `<dialog>` opened with `showModal()`, never two open at once,
   `Escape` does what the dialog's purpose says, the page behind is dimmed and inert.
 - **Responsive**: 320px wide to desktop, no horizontal scroll, swipes work on touch.
+- **Tile colours**: only tokens in `tiles.css` (no literals in the per-value rules),
+  the base `.grid-cell[data-value]` rule first and no `:not()` chain, text at least
+  3:1 on both ends of the gradient for every value, the widest number (six digits)
+  fits its tile at 320px.
 - **Scope**: nothing from `ai/rules/scope.md` or
   `ai/decisions/2026-10-10-rejected-features.md` slipped in; no unrelated rewrites.
 - **Dead code**: removed behavior left no unused functions, classes, styles, or

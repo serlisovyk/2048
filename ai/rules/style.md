@@ -51,6 +51,27 @@
   and would otherwise animate the ring in.
 - An element focused only from script (`tabindex="-1"`, like the board) gets
   `:focus-visible { outline: none }` instead of a ring.
+- Tile colours live in `src/styles/tiles.css` and nowhere else. Every colour is a
+  custom property on `:root` (`--tile-<value>`, `--tile-fallback`, `--tile-text-dark`,
+  `--tile-text-light`, `--tile-sheen`, `--tile-2048-glow`) and the rules only read
+  tokens, so a theme overrides the tokens and touches no selector. `board.css` keeps
+  only the structure of a tile (weight, shadow, `transition`).
+- The base rule `.grid-cell[data-value]` is the first rule in `tiles.css` and is the
+  fallback for every value that has no rule of its own (32768 and up). The per-value
+  rules `[data-value='N']` come after it: same specificity, so they win by order. Never
+  write the fallback as a `:not()` chain of the values that have a rule.
+- Adding a tile value is a token plus one rule after the base rule, in value order:
+  `background-color`, `color` (`--tile-text-dark` or `--tile-text-light`) and
+  `font-size`. Size follows the digit count, each as a `clamp()`: 1-2 digits 40px,
+  3 digits 35px, 4 digits 30px, 5 digits 25px, the fallback 20px (6 digits).
+- Tile colours are two ramps in one logic: 2 to 2048 run from cream through amber, red
+  and magenta, 4096 and up restart in lavender and run to deep blue. A new colour keeps
+  that order (lightness falls, chroma rises, hue keeps turning) and stays clearly
+  different from its neighbours.
+- The tile text must reach 3:1 against **both** ends of the gradient: the base colour
+  and the base colour blended 14% with white (the light end of `--tile-sheen`). Use dark
+  text where the tile is light, light text where it is dark, and compute the ratio with
+  the WCAG formula, because axe does not check gradients.
 - Avoid one-off visual effects that do not improve the game UI.
 
 ## JavaScript

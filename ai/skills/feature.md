@@ -32,7 +32,10 @@ reads or writes persisted data.
      the model (`Game.toState` / `Game.restore`); the controller owns the `version`
      envelope and when to save or delete (`ai/decisions/2026-10-10-saved-game-format.md`).
    - **Styles** — the CSS file that owns that responsibility (see `ai/map.md`);
-     motion overrides in `motion.css`.
+     motion overrides in `motion.css`. A new tile value or colour is a token on
+     `:root` plus one rule after the base `.grid-cell[data-value]` rule in
+     `tiles.css`, with 3:1 text contrast on both ends of the gradient
+     (`ai/rules/style.md`).
 3. Wire new objects in `main.js` only — it is the one place that queries the DOM and
    calls `new` for the object graph.
 4. Put every new shared value (sizes, thresholds, timings, storage keys, targets) in
@@ -119,6 +122,8 @@ reads or writes persisted data.
   `title`.
 - `aria-live` on text that changes with every move with no debounce, `assertive` live
   regions, or a live region on the high score.
+- A `:not()` chain that lists every value with a rule to build a fallback, or tile
+  colours written as literals inside the per-value rules.
 - Base classes, factories, or other abstractions for a single implementation.
 - Reading `localStorage` directly instead of through `SafeStorage`.
 - Features listed in `ai/decisions/2026-10-10-rejected-features.md`.

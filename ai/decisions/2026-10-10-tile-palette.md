@@ -51,6 +51,9 @@ specificity of (0,16,0) and beat the own rule of any new value.
   gradient by hand; axe does not check gradients.
 - Not changed: the win dialog's gradient (`#667eea` to `#764ba2`), which used to share its
   colours with the old 4096 tile.
+- The header logo (MY-120) stays gold, the accent it shares with the score numbers and
+  the 2048 glow; it does not follow the 2048 tile's magenta. The author chose this over
+  recolouring the logo.
 - Rejected: a hand-written `from` / `to` pair per tile (it brings back the unrelated ends
   and doubles the tokens); `color-mix()` to derive the light end (Chrome 111+, Firefox
   113+, Safari 16.2+, newer than Vite's default `baseline-widely-available` target, and

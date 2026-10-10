@@ -15,9 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const newGameButton = document.querySelector('.new-game-button')
 
   const overlayView = new OverlayView({
-    winElement: document.querySelector('.win-overlay'),
-    gameOverElement: document.querySelector('.game-over'),
+    winDialog: document.querySelector('.win-overlay'),
+    gameOverDialog: document.querySelector('.game-over'),
     continueButton: document.querySelector('.continue-button'),
+    winRestartButton: document.querySelector('.win-restart-button'),
     restartButton: document.querySelector('.restart-game-button'),
   })
 

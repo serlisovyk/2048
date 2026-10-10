@@ -1,40 +1,57 @@
 export class OverlayView {
-  #winElement
-  #gameOverElement
+  #winDialog
+  #gameOverDialog
   #continueButton
+  #winRestartButton
   #restartButton
 
-  constructor({ winElement, gameOverElement, continueButton, restartButton }) {
-    this.#winElement = winElement
-    this.#gameOverElement = gameOverElement
+  constructor({
+    winDialog,
+    gameOverDialog,
+    continueButton,
+    winRestartButton,
+    restartButton,
+  }) {
+    this.#winDialog = winDialog
+    this.#gameOverDialog = gameOverDialog
     this.#continueButton = continueButton
+    this.#winRestartButton = winRestartButton
     this.#restartButton = restartButton
+
+    this.#gameOverDialog.addEventListener('cancel', (event) =>
+      event.preventDefault(),
+    )
   }
 
   onContinue(handler) {
     this.#continueButton.addEventListener('click', handler)
+    this.#winDialog.addEventListener('cancel', (event) => {
+      event.preventDefault()
+      handler()
+    })
   }
 
   onRestart(handler) {
+    this.#winRestartButton.addEventListener('click', handler)
     this.#restartButton.addEventListener('click', handler)
   }
 
   showWin() {
-    this.#winElement.style.display = 'flex'
-    this.#continueButton.focus()
-  }
-
-  hideWin() {
-    this.#winElement.style.display = 'none'
+    this.#gameOverDialog.close()
+    this.#winDialog.showModal()
   }
 
   showGameOver() {
-    this.#gameOverElement.style.display = 'flex'
-    this.#restartButton.focus()
+    this.#winDialog.close()
+    this.#gameOverDialog.showModal()
+  }
+
+  hideWin() {
+    this.#winDialog.close()
   }
 
   hideAll() {
-    this.hideWin()
-    this.#gameOverElement.style.display = 'none'
+    this.#winDialog.close()
+    this.#gameOverDialog.close()
   }
 }

@@ -1,4 +1,3 @@
-import legacy from '@vitejs/plugin-legacy'
 import { minify } from 'html-minifier-terser'
 import { defineConfig } from 'vite'
 
@@ -38,13 +37,7 @@ function minifyHtml() {
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
-  plugins: [
-    legacy({
-      targets: ['defaults', 'not IE 11', 'not dead'],
-      renderLegacyChunks: true,
-    }),
-    minifyHtml(),
-  ],
+  plugins: [minifyHtml()],
   build: {
     outDir: '../dist',
     assetsDir: 'assets',

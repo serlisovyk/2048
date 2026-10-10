@@ -52,7 +52,7 @@ record", and a flag about the game's flow is controller state (`ai/rules/oop.md`
 
 One flag is enough because the high score is raised on every move that passes it: the
 first move that passes it is the only one that can see `#hasRecordToBeat` still set, and
-that clears it. The flag is cleared for a record of 0 too (a first game, a reset), so the
+that clears it. The flag is never set for a record of 0 (a first game, a reset), so the
 rest of such a game stays silent: with a "has the badge been shown" flag instead, the
 second move after a reset would "beat the record" the first move had just set.
 
@@ -65,7 +65,7 @@ boolean. Rejected: the view deciding (rules do not belong in views).
 
 | Case                                              | Result                                                                                   |
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| First game ever (high score 0)                    | No badge, ever; the flag is cleared on the first points                                  |
+| First game ever (high score 0)                    | No badge, ever; the flag is never set (record 0)                                         |
 | Record 100, game passes 100                       | Badge once, on that move                                                                 |
 | The same game keeps going                         | Nothing more: the flag is clear                                                          |
 | Score ties the record, then passes it             | Badge on the move that passes it                                                         |

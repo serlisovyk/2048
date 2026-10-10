@@ -27,6 +27,10 @@
 - A decoration that repeats a value the live region already announces (the score pop,
   `+N`) sits in its own container with `aria-hidden="true"`, outside the live region and
   outside the visible value, so it is never read and never changes the value's text.
+- A decoration whose meaning must be heard (the `New record!` badge) is `aria-hidden`
+  too and has no live region of its own: its view keeps a pending flag, and the one
+  announcement of the score that follows reads `New record! <score>` (the badge's own
+  text, written once). Never a second live region for the same event.
 - Text that is only for assistive technology uses the `.visually-hidden` class, not
   `display: none` or `hidden`, which also hide it from screen readers.
 - Keep metadata concise and aligned with the visible game.
@@ -44,9 +48,15 @@
   `!important`. An animation that the player must still see (the score pop) would be
   gone at once, so it gets its own override in `motion.css`: no movement (the rise is a
   custom property, `--score-pop-rise: 0px`) and its duration restored with `!important`;
-  the more specific selector beats `*`. Every other animation stays instant.
+  the more specific selector beats `*`. Every other animation stays instant. The record
+  badge is the second case and is static: its override restores the duration and swaps in
+  keyframes that change nothing (`record-badge-static`), because `animationend` still has
+  to fire to remove it.
 - A transient element that JS creates (the score pop) removes itself on `animationend`
-  and takes its duration from a CSS custom property, so JS holds no timer for it.
+  and takes its duration from a CSS custom property, so JS holds no timer for it. One that
+  is a `hidden` element in the markup (the record badge) is shown by clearing `hidden`,
+  which starts its animation afresh each time, and hidden again on `animationend`; it sets
+  no `display`, so `hidden` keeps working, and it floats out of the layout like the pop.
 - Use CSS custom properties for values that are shared inside a component.
 - When CSS needs a number defined in `src/scripts/constants.js` (board size,
   durations), the owning view sets it as a custom property and the CSS reads it with

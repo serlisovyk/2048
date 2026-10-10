@@ -67,3 +67,6 @@ The obvious fix is `aria-live="polite"` on the visible score. Two things stand i
 - Rejected: `aria-live` straight on the visible score (no debounce possible), a
   throttle that speaks during a burst, `assertive`, a live region on the high score,
   a gold or blue ring, a `box-shadow` ring.
+- Refined by `2026-10-10-new-record-badge.md`: the one announcement that follows the move
+  that beats the high score reads `New record! <score>`; every other announcement is still
+  the bare number.

@@ -23,6 +23,9 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
   confirmation (the current game is not affected)
 - A short `+N` floats up from the score after a move that merges tiles, one at a time
   and hidden from screen readers; with reduced motion it fades in place without moving
+- A gold `New record!` badge on the High Score box when a game beats an existing record,
+  once per game and for about 4 seconds (static with reduced motion); a screen reader hears
+  it once, inside the score announcement
 - The game in progress is saved in the browser and restored after a reload
 - Win dialog: keep playing or start a new game (`Escape` keeps playing)
 - Game-over dialog when no moves remain; if the same move reaches 2048, it says so

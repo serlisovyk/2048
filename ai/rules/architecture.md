@@ -15,8 +15,9 @@ conventions. `ai/map.md` lists every file.
   elements, creates and wires the objects, starts the game.
 - `src/scripts/constants.js` holds every shared number and key.
 - `src/scripts/GameController.js` owns the use cases and flow state: the single
-  movement guard, the move cooldown, the pause after a win, the high score, and
-  saving and restoring the current game.
+  movement guard, the move cooldown, the pause after a win, the high score (and whether
+  the current game can still beat it, for the New record badge), and saving and
+  restoring the current game.
 - `src/scripts/game/` is the model (`Board`, `Game`): rules and game state, no DOM,
   no storage, no timers.
 - `src/scripts/ui/` holds the views (`GridView`, `ScoreView`, `OverlayView`,

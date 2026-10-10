@@ -104,6 +104,13 @@ reads or writes persisted data.
    `aria-live="polite" aria-atomic="true"` element, the visible value `aria-hidden`,
    and the text updated after a debounce from `constants.js`, only when it differs
    from the last announcement (`ScoreView`). Rules: `ai/rules/style.md`.
+   Something that must be heard but is not the value itself (the `New record!` badge)
+   rides on that announcement instead of getting a second live region: the view keeps a
+   pending flag that the next `#announce` consumes, so the player hears
+   `New record! <score>` once (`ai/decisions/2026-10-10-new-record-badge.md`). A fact about
+   the current game that depends on the high score (whether it can still beat it) is
+   controller state, not model or view state, and a restored game derives it from what is
+   saved instead of storing it.
 7. Animation: respect `prefers-reduced-motion`; never let an animation swallow or
    reorder player input. The global reduced-motion rule makes every animation instant;
    one the player must still see (the score pop, `+N`) gets its own override in
@@ -112,7 +119,12 @@ reads or writes persisted data.
    floats out of the layout (`position: absolute`, `pointer-events: none`) so it never
    shifts what is around it; a newer one replaces the one still in the air, so a burst
    of fast moves never draws numbers over one another
-   (`ai/decisions/2026-10-10-score-pop.md`).
+   (`ai/decisions/2026-10-10-score-pop.md`). A decoration that is a moment (the record badge, 4 s)
+   is a `hidden`, `aria-hidden` element in the markup that the view shows by clearing
+   `hidden` and hides again on `animationend`; under reduced motion it is
+   static (an override with keyframes that change nothing and the duration restored), and
+   it floats out of the layout so it never shifts the header or covers a button
+   (`ai/decisions/2026-10-10-new-record-badge.md`).
 8. Verify per `ai/workflow.md`: format, build, and play the feature on desktop and at
    mobile width.
 
@@ -133,6 +145,9 @@ reads or writes persisted data.
   regions, or a live region on the high score.
 - A decorative `+N` inside the live region or inside the visible score, one without
   `aria-hidden`, or a pop that moves the header.
+- A second live region for the record, a badge that is not `aria-hidden`, a badge that
+  stays for the whole game, or a "has beaten the record" flag in the model or in the saved
+  game.
 - A `:not()` chain that lists every value with a rule to build a fallback, or tile
   colours written as literals inside the per-value rules.
 - A `font-family` or `font-variant-numeric` on an element, or a font loaded from a

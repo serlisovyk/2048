@@ -12,7 +12,9 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
 ## Checklist
 
 - **Gameplay**: moves, merges (no double merge in one move), scoring, spawning, win
-  at the target tile, `Continue`, game over, high score — still correct?
+  at the target tile, `Continue`, game over, high score — still correct? The New record
+  badge shows once per game, only when the record was above 0, and starts over after
+  `New Game`, `Restart Game`, and the high score reset.
 - **Input**: keyboard and swipe both still go through the single movement guard;
   nothing moves while a dialog is open or after game over.
 - **OOP** (`ai/rules/oop.md`): one class per file in the right layer; state in
@@ -34,7 +36,9 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   a changing value is announced once through a polite live region, not on every
   update. A decoration that repeats that value (the score `+N` pop) is `aria-hidden`,
   outside the live region, and still visible under reduced motion (without movement),
-  never gone at once.
+  never gone at once. The `New record!` badge is `aria-hidden` and static under reduced
+  motion, never covers a button or shifts the header, and the record is spoken once
+  inside the score announcement, not by a second live region.
 - **Dialogs**: native `<dialog>` opened with `showModal()`, never two open at once,
   `Escape` does what the dialog's purpose says, the page behind is dimmed and inert.
 - **Responsive**: 320px wide to desktop, no horizontal scroll, swipes work on touch.

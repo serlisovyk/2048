@@ -19,6 +19,10 @@ export class Game {
     return this.#board.toArray()
   }
 
+  get tiles() {
+    return this.#board.toTiles()
+  }
+
   get score() {
     return this.#score
   }
@@ -79,12 +83,14 @@ export class Game {
   }
 
   move(direction) {
-    const { moved, scoreGained } = this.#board.move(direction)
+    const { moved, scoreGained, slides, merges } = this.#board.move(direction)
 
     if (!moved) {
       return {
         moved,
         scoreGained,
+        slides,
+        merges,
         spawnedTiles: [],
         justWon: false,
         isOver: this.#isOver,
@@ -104,6 +110,8 @@ export class Game {
     return {
       moved,
       scoreGained,
+      slides,
+      merges,
       spawnedTiles: spawnedTile ? [spawnedTile] : [],
       justWon,
       isOver: this.#isOver,

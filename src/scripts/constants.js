@@ -28,4 +28,7 @@ export const KEY_CODE_DIRECTIONS = Object.freeze({
 
 export const STORAGE_KEYS = Object.freeze({
   HIGH_SCORE: 'highScore',
+  SAVED_GAME: 'savedGame',
 })
+
+export const SAVED_GAME_VERSION = 1

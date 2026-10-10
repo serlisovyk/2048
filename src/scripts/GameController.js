@@ -1,4 +1,4 @@
-import { MOVE_COOLDOWN_MS, STORAGE_KEYS } from './constants.js'
+import { MOVE_COOLDOWN_MS, SAVED_GAME_VERSION, STORAGE_KEYS } from './constants.js'
 
 export class GameController {
   #game
@@ -21,7 +21,8 @@ export class GameController {
   start() {
     this.#highScore = this.#storage.getNumber(STORAGE_KEYS.HIGH_SCORE)
     this.#scoreView.renderHighScore(this.#highScore)
-    this.#startNewGame()
+
+    if (!this.#restoreSavedGame()) this.#startNewGame()
   }
 
   restart() {
@@ -59,13 +60,47 @@ export class GameController {
     if (result.isOver) {
       this.#overlayView.showGameOver()
     }
+
+    this.#persistGame()
   }
 
   #startNewGame() {
+    this.#clearSavedGame()
+
     const { spawnedTiles } = this.#game.start()
 
     this.#renderScore()
     this.#gridView.render(this.#game.cells, spawnedTiles)
+  }
+
+  #restoreSavedGame() {
+    const saved = this.#storage.getJson(STORAGE_KEYS.SAVED_GAME)
+
+    if (saved?.version !== SAVED_GAME_VERSION || !this.#game.restore(saved)) {
+      return false
+    }
+
+    this.#renderScore()
+    this.#gridView.render(this.#game.cells)
+
+    return true
+  }
+
+  #persistGame() {
+    if (this.#game.isOver) {
+      this.#clearSavedGame()
+
+      return
+    }
+
+    this.#storage.setJson(STORAGE_KEYS.SAVED_GAME, {
+      version: SAVED_GAME_VERSION,
+      ...this.#game.toState(),
+    })
+  }
+
+  #clearSavedGame() {
+    this.#storage.remove(STORAGE_KEYS.SAVED_GAME)
   }
 
   #renderScore() {

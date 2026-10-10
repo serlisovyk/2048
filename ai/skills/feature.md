@@ -35,7 +35,9 @@ reads or writes persisted data.
      motion overrides in `motion.css`. A new tile value or colour is a token on
      `:root` plus one rule after the base `.grid-cell[data-value]` rule in
      `tiles.css`, with 3:1 text contrast on both ends of the gradient
-     (`ai/rules/style.md`).
+     (`ai/rules/style.md`). Text inherits the font from `body`: a new number or label
+     needs no `font-family` and no `tabular-nums` of its own (`base.css` sets both), and
+     a number that changes during play stays put because of it.
 3. Wire new objects in `main.js` only — it is the one place that queries the DOM and
    calls `new` for the object graph.
 4. Put every new shared value (sizes, thresholds, timings, storage keys, targets) in
@@ -133,6 +135,8 @@ reads or writes persisted data.
   `aria-hidden`, or a pop that moves the header.
 - A `:not()` chain that lists every value with a rule to build a fallback, or tile
   colours written as literals inside the per-value rules.
+- A `font-family` or `font-variant-numeric` on an element, or a font loaded from a
+  CDN or any third-party host (the font is self-hosted in `src/fonts/`).
 - Base classes, factories, or other abstractions for a single implementation.
 - Reading `localStorage` directly instead of through `SafeStorage`.
 - Features listed in `ai/decisions/2026-10-10-rejected-features.md`.

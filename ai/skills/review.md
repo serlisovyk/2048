@@ -42,6 +42,12 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   the base `.grid-cell[data-value]` rule first and no `:not()` chain, text at least
   3:1 on both ends of the gradient for every value, the widest number (six digits)
   fits its tile at 320px.
+- **Typography**: one family set on `body` only, no `font-family` or per-element
+  `tabular-nums` elsewhere, weights 400 and 700 only; the font is the self-hosted woff2
+  (no third-party request in the Network tab, one font request from the game's own
+  origin); the layout does not move when it swaps in (`line-height` pinned, the
+  `Rubik Fallback` face), digits do not change the width of the score; the font stays
+  inside its own `size-limit` entry.
 - **Scope**: nothing from `ai/rules/scope.md` or
   `ai/decisions/2026-10-10-rejected-features.md` slipped in; no unrelated rewrites.
 - **Dead code**: removed behavior left no unused functions, classes, styles, or

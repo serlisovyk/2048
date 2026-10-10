@@ -37,11 +37,14 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - SVG favicon based on a compact 2x2 2048 board
 - Basic metadata and Open Graph title/description
 - Reduced-motion support for users who prefer less animation
+- Rubik as the game font, self-hosted (one Latin woff2 from the game's own origin, no
+  font CDN), with tabular digits so the score and the tiles keep their width and a
+  fallback face that keeps the layout still while the font loads
 - Screen reader support: the score is announced after a move (once for a burst of
   fast moves), and every button shows the same clear focus ring for keyboard users
 - Vite production build with HTML, CSS, and JavaScript minification
 - Autoprefixer for CSS vendor prefixes
-- Bundle size budget checked with size-limit
+- Bundle size budget checked with size-limit (the font has its own budget)
 - CI on GitHub Actions
 
 ## 🧰 Tech Stack
@@ -67,6 +70,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 src/
   index.html             Main page markup and Vite entry
   favicon.svg            Source favicon
+  fonts/                 Self-hosted Rubik (Latin woff2) and its OFL license text
   scripts/
     main.js              Composition root: finds DOM elements, wires the objects
     constants.js         Board size, win tile, timings, storage keys
@@ -77,7 +81,7 @@ src/
     storage/             Safe localStorage wrapper (numbers and JSON)
   styles/
     main.css             CSS entry imported by main.js
-    base.css             Reset, base element styles, the shared button focus ring
+    base.css             Font face, reset, base element styles, the shared button focus ring
     layout.css           Page and responsive layout
     header.css           Header: logo, score boxes, and the icon toolbar
     board.css            Board, cells, and tile animations
@@ -93,7 +97,7 @@ postcss.config.js    PostCSS and Autoprefixer configuration
 eslint.config.js     ESLint flat config, including OOP rules
 .lintstagedrc.json   Pre-commit checks for staged files
 .husky/              Git hooks installed by yarn install
-.size-limit.json     Bundle size budget for dist/
+.size-limit.json     Bundle and font size budgets for dist/
 .github/             CI workflow
 dist/                Generated production output
 ```

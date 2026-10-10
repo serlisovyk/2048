@@ -8,6 +8,13 @@
   file appears.
 - Keep the favicon visually readable at small sizes. Prefer simple tile shapes
   over tiny text.
+- Fonts are self-hosted: a Latin-subset woff2 in `src/fonts/` with its license text
+  (`OFL.txt`) next to it, referenced by a relative URL in `@font-face` so Vite hashes it
+  and serves it from the game's own origin. Never a font CDN (Google Fonts or any other
+  third-party host). Only the main file gets
+  `<link rel="preload" as="font" type="font/woff2" crossorigin>` in `index.html`;
+  `crossorigin` is required or the file is fetched twice. Use `font-display: swap`. Why:
+  `ai/decisions/2026-10-10-self-hosted-font.md`.
 - Let Vite hash and copy assets into `dist/` during `yarn build`.
 - Do not manually edit generated assets in `dist/`.
 
@@ -34,6 +41,8 @@
 - Build for Vite's default `baseline-widely-available` target. No legacy chunks or
   polyfills — see `ai/decisions/2026-10-10-no-legacy-plugin.md`.
 - Keep the gzipped bundle within the `size-limit` budget (`.size-limit.json`); raise
-  the budget only on purpose, in the change that needs it.
+  the budget only on purpose, in the change that needs it. The font has its own `Font`
+  entry on the raw woff2 (it is already compressed) and never counts against the JS or
+  CSS budgets.
 - Keep source maps disabled for the production build unless debugging requires
   them.

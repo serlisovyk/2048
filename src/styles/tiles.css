@@ -1,91 +1,119 @@
+:root {
+  --tile-sheen: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0)
+  );
+  --tile-text-dark: #2e2620;
+  --tile-text-light: #f9f6f2;
+  --tile-2048-glow: rgba(255, 196, 60, 0.6);
+
+  --tile-2: #f1ebdb;
+  --tile-4: #ecdeb1;
+  --tile-8: #eec96c;
+  --tile-16: #f2ab35;
+  --tile-32: #f48815;
+  --tile-64: #f0621d;
+  --tile-128: #db392d;
+  --tile-256: #cf2848;
+  --tile-512: #bd1359;
+  --tile-1024: #ad0468;
+  --tile-2048: #99007a;
+  --tile-4096: #c0a1e4;
+  --tile-8192: #9575e2;
+  --tile-16384: #6359d2;
+  --tile-fallback: #3049a4;
+}
+
 /* Fallback: every value without a rule of its own below (32768 and up). */
 .grid-cell[data-value] {
-  background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
-  color: #f9f6f2;
-  font-size: clamp(7px, 1.2vw, 12px);
+  background-color: var(--tile-fallback);
+  background-image: var(--tile-sheen);
+  color: var(--tile-text-light);
+  font-size: clamp(12px, 2vw, 20px);
 }
 
 .grid-cell[data-value='2'] {
-  background: linear-gradient(135deg, #eee4da 0%, #ede0c8 100%);
-  color: #776e65;
+  background-color: var(--tile-2);
+  color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
 .grid-cell[data-value='4'] {
-  background: linear-gradient(135deg, #ede0c8 0%, #f2b179 100%);
-  color: #f9f6f2;
+  background-color: var(--tile-4);
+  color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
 .grid-cell[data-value='8'] {
-  background: linear-gradient(135deg, #f2b179 0%, #f59563 100%);
-  color: #f9f6f2;
+  background-color: var(--tile-8);
+  color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
 .grid-cell[data-value='16'] {
-  background: linear-gradient(135deg, #f59563 0%, #f67c5f 100%);
-  color: #f9f6f2;
+  background-color: var(--tile-16);
+  color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
 .grid-cell[data-value='32'] {
-  background: linear-gradient(135deg, #f67c5f 0%, #f65e3b 100%);
-  color: #f9f6f2;
+  background-color: var(--tile-32);
+  color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
 .grid-cell[data-value='64'] {
-  background: linear-gradient(135deg, #f65e3b 0%, #edcf72 100%);
-  color: #f9f6f2;
+  background-color: var(--tile-64);
+  color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
 .grid-cell[data-value='128'] {
-  background: linear-gradient(135deg, #edcf72 0%, #edcc61 100%);
-  color: #f9f6f2;
+  background-color: var(--tile-128);
+  color: var(--tile-text-light);
   font-size: clamp(18px, 3.5vw, 35px);
 }
 
 .grid-cell[data-value='256'] {
-  background: linear-gradient(135deg, #edcc61 0%, #edc850 100%);
-  color: #f9f6f2;
+  background-color: var(--tile-256);
+  color: var(--tile-text-light);
   font-size: clamp(18px, 3.5vw, 35px);
 }
 
 .grid-cell[data-value='512'] {
-  background: linear-gradient(135deg, #edc850 0%, #edc53f 100%);
-  color: #f9f6f2;
+  background-color: var(--tile-512);
+  color: var(--tile-text-light);
   font-size: clamp(18px, 3.5vw, 35px);
 }
 
 .grid-cell[data-value='1024'] {
-  background: linear-gradient(135deg, #edc22e 0%, #3c3c0c 100%);
-  color: #f9f6f2;
+  background-color: var(--tile-1024);
+  color: var(--tile-text-light);
   font-size: clamp(16px, 3vw, 30px);
 }
 
 .grid-cell[data-value='2048'] {
-  background: linear-gradient(135deg, #3d2817 0%, #000000 100%);
-  color: #f9f6f2;
+  background-color: var(--tile-2048);
+  color: var(--tile-text-light);
   font-size: clamp(16px, 3vw, 30px);
-  box-shadow: 0 0 20px rgba(237, 194, 46, 0.5);
+  box-shadow: 0 0 20px var(--tile-2048-glow);
 }
 
 .grid-cell[data-value='4096'] {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #f9f6f2;
-  font-size: clamp(14px, 2.5vw, 25px);
+  background-color: var(--tile-4096);
+  color: var(--tile-text-dark);
+  font-size: clamp(16px, 3vw, 30px);
 }
 
 .grid-cell[data-value='8192'] {
-  background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
-  color: #f9f6f2;
-  font-size: clamp(14px, 2.5vw, 25px);
+  background-color: var(--tile-8192);
+  color: var(--tile-text-dark);
+  font-size: clamp(16px, 3vw, 30px);
 }
 
 .grid-cell[data-value='16384'] {
-  background: linear-gradient(135deg, #f093fb 0%, #4facfe 100%);
-  color: #f9f6f2;
-  font-size: clamp(12px, 2vw, 20px);
+  background-color: var(--tile-16384);
+  color: var(--tile-text-light);
+  font-size: clamp(14px, 2.5vw, 25px);
 }

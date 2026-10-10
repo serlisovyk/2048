@@ -7,6 +7,7 @@ export class Game {
   #score = 0
   #hasWon = false
   #isOver = false
+  #hasMoved = false
 
   constructor({ size, winTile }) {
     this.#size = size
@@ -24,6 +25,10 @@ export class Game {
 
   get isOver() {
     return this.#isOver
+  }
+
+  get isInProgress() {
+    return this.#hasMoved && !this.#isOver
   }
 
   toState() {
@@ -52,6 +57,8 @@ export class Game {
     this.#score = score
     this.#hasWon = hasWon
     this.#isOver = false
+    // A game is only saved after its first successful move.
+    this.#hasMoved = true
 
     return true
   }
@@ -61,6 +68,7 @@ export class Game {
     this.#score = 0
     this.#hasWon = false
     this.#isOver = false
+    this.#hasMoved = false
 
     const spawnedTiles = [
       this.#board.spawnRandomTile(),
@@ -83,6 +91,7 @@ export class Game {
       }
     }
 
+    this.#hasMoved = true
     this.#score += scoreGained
 
     const spawnedTile = this.#board.spawnRandomTile()

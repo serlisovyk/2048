@@ -21,6 +21,8 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
   persisted high score in two boxes, and a toolbar of icon buttons (inline SVG, each
   with a label and a tooltip). A small icon in the high score box resets it after a
   confirmation (the current game is not affected)
+- A short `+N` floats up from the score after a move that merges tiles, one at a time
+  and hidden from screen readers; with reduced motion it fades in place without moving
 - The game in progress is saved in the browser and restored after a reload
 - Win dialog: keep playing or start a new game (`Escape` keeps playing)
 - Game-over dialog when no moves remain; if the same move reaches 2048, it says so

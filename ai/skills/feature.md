@@ -103,7 +103,14 @@ reads or writes persisted data.
    and the text updated after a debounce from `constants.js`, only when it differs
    from the last announcement (`ScoreView`). Rules: `ai/rules/style.md`.
 7. Animation: respect `prefers-reduced-motion`; never let an animation swallow or
-   reorder player input.
+   reorder player input. The global reduced-motion rule makes every animation instant;
+   one the player must still see (the score pop, `+N`) gets its own override in
+   `motion.css` — no movement, duration restored — as the pop does. A transient element
+   a view creates (the pop) is `aria-hidden`, removes itself on `animationend`, and
+   floats out of the layout (`position: absolute`, `pointer-events: none`) so it never
+   shifts what is around it; a newer one replaces the one still in the air, so a burst
+   of fast moves never draws numbers over one another
+   (`ai/decisions/2026-10-10-score-pop.md`).
 8. Verify per `ai/workflow.md`: format, build, and play the feature on desktop and at
    mobile width.
 
@@ -122,6 +129,8 @@ reads or writes persisted data.
   `title`.
 - `aria-live` on text that changes with every move with no debounce, `assertive` live
   regions, or a live region on the high score.
+- A decorative `+N` inside the live region or inside the visible score, one without
+  `aria-hidden`, or a pop that moves the header.
 - A `:not()` chain that lists every value with a rule to build a fallback, or tile
   colours written as literals inside the per-value rules.
 - Base classes, factories, or other abstractions for a single implementation.

@@ -24,6 +24,9 @@
   `src/scripts/constants.js`). The visible number next to it is `aria-hidden="true"`,
   so browse mode reads the value once. Always `polite`, never `assertive`; no live
   region on a value that is not worth announcing (the high score).
+- A decoration that repeats a value the live region already announces (the score pop,
+  `+N`) sits in its own container with `aria-hidden="true"`, outside the live region and
+  outside the visible value, so it is never read and never changes the value's text.
 - Text that is only for assistive technology uses the `.visually-hidden` class, not
   `display: none` or `hidden`, which also hide it from screen readers.
 - Keep metadata concise and aligned with the visible game.
@@ -37,6 +40,13 @@
   `src/styles/main.css`.
 - Keep responsive rules near the layout or component they affect.
 - Keep reduced-motion rules in `src/styles/motion.css`.
+- The reduced-motion rule there sets every `animation-duration` to 0.01ms with
+  `!important`. An animation that the player must still see (the score pop) would be
+  gone at once, so it gets its own override in `motion.css`: no movement (the rise is a
+  custom property, `--score-pop-rise: 0px`) and its duration restored with `!important`;
+  the more specific selector beats `*`. Every other animation stays instant.
+- A transient element that JS creates (the score pop) removes itself on `animationend`
+  and takes its duration from a CSS custom property, so JS holds no timer for it.
 - Use CSS custom properties for values that are shared inside a component.
 - When CSS needs a number defined in `src/scripts/constants.js` (board size,
   durations), the owning view sets it as a custom property and the CSS reads it with

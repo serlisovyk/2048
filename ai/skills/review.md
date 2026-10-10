@@ -32,7 +32,9 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   `::backdrop`). Every button shows the one shared focus ring on keyboard focus and
   none on a mouse click (no per-button `outline` override), the board shows none, and
   a changing value is announced once through a polite live region, not on every
-  update.
+  update. A decoration that repeats that value (the score `+N` pop) is `aria-hidden`,
+  outside the live region, and still visible under reduced motion (without movement),
+  never gone at once.
 - **Dialogs**: native `<dialog>` opened with `showModal()`, never two open at once,
   `Escape` does what the dialog's purpose says, the page behind is dimmed and inert.
 - **Responsive**: 320px wide to desktop, no horizontal scroll, swipes work on touch.

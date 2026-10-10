@@ -83,7 +83,16 @@ reads or writes persisted data.
      `::backdrop` listed in the reduced-motion selector in `motion.css`, since `*`
      does not match it.
 6. Controls: real `<button>`s with an accessible name; icon-only buttons get
-   `aria-label` and `title`.
+   `aria-label` and `title`. Do not style focus: the generic `button:focus-visible`
+   rule in `base.css` gives every button the same ring, so keep hover and active
+   styles off `outline` and never set `outline: none` on a button. Something that is
+   not a button but is focused from script (`tabindex="-1"`) gets
+   `:focus-visible { outline: none }`.
+   A value that changes during play and that a screen-reader user needs (like the
+   score) gets a live region owned by its view: a visually hidden
+   `aria-live="polite" aria-atomic="true"` element, the visible value `aria-hidden`,
+   and the text updated after a debounce from `constants.js`, only when it differs
+   from the last announcement (`ScoreView`). Rules: `ai/rules/style.md`.
 7. Animation: respect `prefers-reduced-motion`; never let an animation swallow or
    reorder player input.
 8. Verify per `ai/workflow.md`: format, build, and play the feature on desktop and at
@@ -97,6 +106,10 @@ reads or writes persisted data.
 - Hand-made overlays, focus traps, or `style.display` toggling for a dialog.
 - A second confirmation dialog, or a copy of the confirmation markup, for a new
   "are you sure?" — use `ConfirmDialogView.ask`.
+- Per-button focus styles, `outline: none` on a button, or a focus ring built from
+  `box-shadow`.
+- `aria-live` on text that changes with every move with no debounce, `assertive` live
+  regions, or a live region on the high score.
 - Base classes, factories, or other abstractions for a single implementation.
 - Reading `localStorage` directly instead of through `SafeStorage`.
 - Features listed in `ai/decisions/2026-10-10-rejected-features.md`.

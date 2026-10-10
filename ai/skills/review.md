@@ -28,7 +28,10 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   is safely discarded.
 - **Accessibility**: buttons have names, focus is visible and returns to the board
   after dialogs, `prefers-reduced-motion` respected for new animation (including
-  `::backdrop`).
+  `::backdrop`). Every button shows the one shared focus ring on keyboard focus and
+  none on a mouse click (no per-button `outline` override), the board shows none, and
+  a changing value is announced once through a polite live region, not on every
+  update.
 - **Dialogs**: native `<dialog>` opened with `showModal()`, never two open at once,
   `Escape` does what the dialog's purpose says, the page behind is dimmed and inert.
 - **Responsive**: 320px wide to desktop, no horizontal scroll, swipes work on touch.

@@ -58,22 +58,26 @@ a second, visually hidden `<span>` whose text `ScoreView` updates after a pause.
 - The board gets `.game-grid:focus-visible { outline: none }`. It is only ever focused
   from script, and its `aria-label` and the arrow keys are what the user relies on, so
   a ring around the whole grid would be noise.
-- Reduced motion does not apply: the ring is not an animation. If the buttons'
-  `transition: all` animates the outline in, that is checked in the browser and fixed
-  in the rule (see section 4).
+- Reduced motion does not apply: the ring is not an animation. But the buttons use
+  `transition: all`, and checked in the browser the ring did animate in: the gap grew
+  from 0 to 3px and the colour faded from the button's text colour to white over
+  0.3 s. Fix, kept in `base.css` so that every future button is covered: the ring's
+  width, gap, and colour are set on the base `button` rule with `outline-style: none`,
+  and `button:focus-visible` only flips `outline-style` to `solid` (a style change is
+  not interpolated, so nothing transitions). `controls.css` stays untouched.
 
 ## 2. Where each part lives (`ai/rules/oop.md`)
 
-| Layer / file                   | Change                                                                                                                                                                                                                                        |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/index.html`               | Only the `Score:` div: `aria-hidden="true"` on the visible number, and a hidden `<span class="score-announcement visually-hidden" aria-live="polite" aria-atomic="true">` after it. The high-score line and everything else stay as they are. |
-| `src/scripts/constants.js`     | `SCORE_ANNOUNCEMENT_DELAY_MS = 500`.                                                                                                                                                                                                          |
-| `ui/ScoreView.js`              | Takes `announcementElement`. `renderScore` updates the visible number at once and schedules the announcement (one timer, the last value wins, same value is skipped, the first render fills the text without a delay).                        |
-| `src/scripts/main.js`          | Passes `announcementElement: document.querySelector('.score-announcement')`. DOM lookup stays here.                                                                                                                                           |
-| `GameController.js`            | No change: it already calls `renderScore` after every move and on a new game.                                                                                                                                                                 |
-| `src/styles/base.css`          | `:root { --focus-ring-color }`, `button:focus-visible`, `.visually-hidden` (the standard clip pattern; a utility for text that is for assistive technology only).                                                                             |
-| `src/styles/board.css`         | `.game-grid:focus-visible { outline: none }` next to the grid rule.                                                                                                                                                                           |
-| `controls.css`, `overlays.css` | No change unless the hover `transform` or `transition: all` turns out to hide or animate the ring (section 4).                                                                                                                                |
+| Layer / file                   | Change                                                                                                                                                                                                                                                   |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/index.html`               | Only the `Score:` div: `aria-hidden="true"` on the visible number, and a hidden `<span class="score-announcement visually-hidden" aria-live="polite" aria-atomic="true">` after it. The high-score line and everything else stay as they are.            |
+| `src/scripts/constants.js`     | `SCORE_ANNOUNCEMENT_DELAY_MS = 500`.                                                                                                                                                                                                                     |
+| `ui/ScoreView.js`              | Takes `announcementElement`. `renderScore` updates the visible number at once and schedules the announcement (one timer, the last value wins, same value is skipped, the first render fills the text without a delay).                                   |
+| `src/scripts/main.js`          | Passes `announcementElement: document.querySelector('.score-announcement')`. DOM lookup stays here.                                                                                                                                                      |
+| `GameController.js`            | No change: it already calls `renderScore` after every move and on a new game.                                                                                                                                                                            |
+| `src/styles/base.css`          | `:root { --focus-ring-color }`, the ring's width, gap, and colour on `button` (style `none`), `button:focus-visible { outline-style: solid }`, `.visually-hidden` (the standard clip pattern; a utility for text that is for assistive technology only). |
+| `src/styles/board.css`         | `.game-grid:focus-visible { outline: none }` next to the grid rule.                                                                                                                                                                                      |
+| `controls.css`, `overlays.css` | No change: the hover `transform` only translates by 2px and does not hide or distort the ring; `transition: all` is handled in `base.css` (section 1).                                                                                                   |
 
 MY-115 and MY-117 are built in parallel and add buttons and markup next to the score
 header. To keep the merges clean, the `index.html` edit stays inside the `Score:` div,
@@ -99,17 +103,20 @@ the JS budget 8 kB), then play it in `yarn dev --port 5189 --strictPort`:
   often the hidden text changes while a burst of moves is simulated (keydown events
   `MOVE_COOLDOWN_MS` apart): the visible score changes on every move, the live text
   once, 500 ms after the last one. A slide without a merge and `New Game` at 0 change
-  nothing; `New Game` at a positive score announces `0`; the load does not announce.
-  The browser pane may be hidden, where timers are throttled, so the scripts wait with
-  generous timeouts.
+  nothing; `New Game` at a positive score announces `0`; the starting value is written
+  without a delay. The shared browser pane is hidden (no frames, no trusted input), so
+  the DOM-level checks run in it with timeouts, and the keyboard, mouse, accessibility
+  tree, and screenshot checks run in a separate headless Chrome driven over the DevTools
+  protocol (real `Tab`, `Enter`, `Escape`, and mouse events).
 - **Focus ring**: `Tab` through the page, then through the win dialog and the game-over
   dialog; the computed `outline` on every focused button is the same
   (`3px solid rgb(255, 255, 255)`, offset 3px), a mouse click shows none, and the board
   (focused after a dialog closes) shows none. The outline is sampled right after the
-  focus lands, because the buttons have `transition: all` and could animate it in.
+  focus lands, because the buttons have `transition: all` and animated it in (section 1).
 - **Hover**: focus a button and hover it; the ring moves with the 2px `translateY` and
   is not clipped or doubled.
-- Mobile width (375px): the ring is not clipped by the dialog or the page.
+- Mobile width (320px, the narrowest supported, where the dialog buttons stack): the
+  ring is not clipped by the dialog or the page.
 
 What cannot be checked here: how NVDA and VoiceOver actually speak the announcement
 (timing, queue, whether the load announcement is really suppressed). It goes into the

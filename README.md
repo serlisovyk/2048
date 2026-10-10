@@ -33,6 +33,8 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - SVG favicon based on a compact 2x2 2048 board
 - Basic metadata and Open Graph title/description
 - Reduced-motion support for users who prefer less animation
+- Screen reader support: the score is announced after a move (once for a burst of
+  fast moves), and every button shows the same clear focus ring for keyboard users
 - Vite production build with HTML, CSS, and JavaScript minification
 - Autoprefixer for CSS vendor prefixes
 - Bundle size budget checked with size-limit
@@ -71,7 +73,7 @@ src/
     storage/             Safe localStorage wrapper (numbers and JSON)
   styles/
     main.css             CSS entry imported by main.js
-    base.css             Reset and base element styles
+    base.css             Reset, base element styles, the shared button focus ring
     layout.css           Page, score, and responsive layout
     board.css            Board, cells, and tile animations
     tiles.css            Tile value colors and text sizing

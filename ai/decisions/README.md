@@ -45,3 +45,4 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-10 — modal dialogs are native `<dialog>` elements](2026-10-10-native-dialog.md)
 - [2026-10-10 — a move that wins and ends the game shows only the game-over dialog](2026-10-10-win-and-game-over-same-move.md)
 - [2026-10-10 — one reusable confirmation dialog, answered with a Promise](2026-10-10-confirm-dialog.md)
+- [2026-10-10 — the score is announced through a hidden, debounced live region; one focus ring for every button](2026-10-10-score-live-region-and-focus-ring.md)

@@ -20,6 +20,8 @@ clean, practical, accessible, and proportional to the project size.
   project deliberately does **not** have. Read it before exploring the code from
   scratch.
 - `ai/rules/architecture.md` — file responsibilities and boundaries.
+- `ai/rules/oop.md` — the project is object-oriented: classes, encapsulation,
+  layers, constructor-injected dependencies.
 - `ai/rules/style.md` — HTML, CSS, JavaScript, and formatting conventions.
 - `ai/rules/scope.md` — what not to add without an explicit request.
 - `ai/rules/assets-performance.md` — assets, metadata, build output.
@@ -62,7 +64,8 @@ run a single task, use `ai/task-prompt-template.md`. Linear issues follow
 Skill playbooks live in `ai/skills/` (tool-agnostic Markdown, index in
 `ai/skills/README.md`):
 
-- `feature` — how a game feature flows through state, rendering, input, and storage.
+- `feature` — which class in which layer owns a game feature's state, rendering,
+  input, and storage.
 - `review` — self-review for regressions, scope creep, and docs drift.
 
 If a change materially reshapes a pattern, update the matching skill in the same
@@ -71,6 +74,8 @@ change.
 ## Working Principles
 
 - Prefer small, focused changes.
+- Write object-oriented code per `ai/rules/oop.md` — a feature lands as a class or a
+  method in the layer that owns it, never as loose functions or module-level state.
 - Follow the existing HTML, CSS, and JavaScript structure.
 - Do not add new abstractions unless they remove real duplication or clarify a
   boundary.
@@ -85,7 +90,7 @@ change.
 - Package manager: `yarn` (v1)
 - Runtime: Browser + Node.js build tooling
 - Build tool: Vite
-- Languages: HTML, CSS, and JavaScript ESM
+- Languages: HTML, CSS, and JavaScript ESM (ES classes, OOP)
 - Styling: modular plain CSS imported from `styles/main.css`
 - Compatibility: Vite legacy plugin for non-modern browsers, excluding IE 11
 - Formatting: Prettier; line endings are LF (`.gitattributes`)

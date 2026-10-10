@@ -33,3 +33,4 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-10 — deployed on Vercel through its Git integration](2026-10-10-vercel-deploy.md)
 - [2026-10-10 — merge locally into `main`, no pull requests](2026-10-10-local-merge-without-pr.md)
 - [2026-10-10 — features the author rejected](2026-10-10-rejected-features.md)
+- [2026-10-10 — object-oriented architecture](2026-10-10-oop-architecture.md)

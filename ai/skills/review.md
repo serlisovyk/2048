@@ -15,8 +15,13 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   at the target tile, `Continue`, game over, high score — still correct?
 - **Input**: keyboard and swipe both still go through the single movement guard;
   nothing moves while a dialog is open or after game over.
-- **Boundaries**: rule logic free of DOM access; no inline styles or handlers; no
-  game state on `window`.
+- **OOP** (`ai/rules/oop.md`): one class per file in the right layer; state in
+  private fields, no internal arrays handed out; dependencies through the
+  constructor; no `document.querySelector` outside `main.js`; no speculative base
+  classes or factories.
+- **Boundaries**: model (`game/`) free of DOM, storage, and timers; views free of
+  game rules; no inline styles (custom properties for numbers excepted) or
+  handlers; no game state on `window`.
 - **Single sources**: no duplicated literals for size, thresholds, timings, storage
   keys, or the target tile; JS timings match CSS durations.
 - **Storage**: every read/write wrapped and validated; old saved data still loads or

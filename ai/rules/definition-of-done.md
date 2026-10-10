@@ -5,13 +5,16 @@ change over for approval.
 
 ## Code
 
+- New code follows `ai/rules/oop.md`: classes with private state in the right layer,
+  dependencies through constructors, DOM queries and wiring only in `main.js`.
 - Keyboard and pointer input still go through one movement guard, so moving, paused,
   and game-over states stay consistent.
 - Movement rules stay deterministic except for new tile placement.
 - Shared values (board size, thresholds, timings, storage keys, the win tile) come
   from their single source — no duplicated literals, and JS timings match the CSS
   durations they mirror.
-- No inline styles, no inline event handlers in HTML, no game state on `window`.
+- No inline styles (except CSS custom properties that pass numbers from JS to CSS),
+  no inline event handlers in HTML, no game state on `window`.
 - Every `localStorage` read and write tolerates failure (blocked or full storage,
   corrupted JSON) — the game still starts.
 - New animation respects `prefers-reduced-motion`.

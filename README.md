@@ -17,6 +17,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Keyboard controls for desktop: arrow keys or WASD, on any keyboard layout
 - Swipe controls for touch screens
 - Current score and persisted high score
+- The game in progress is saved in the browser and restored after a reload
 - Win dialog with continue-playing flow
 - Game-over dialog when no moves remain
 - Responsive layout for desktop, tablet, and small mobile screens
@@ -55,11 +56,11 @@ src/
   scripts/
     main.js              Composition root: finds DOM elements, wires the objects
     constants.js         Board size, win tile, timings, storage keys
-    GameController.js    Movement guard, win pause, high score
+    GameController.js    Movement guard, win pause, high score, saved game
     game/                Model: Board and Game (rules, no DOM)
     ui/                  Views: grid, score, overlays
     input/               Keyboard and swipe input
-    storage/             Safe localStorage wrapper
+    storage/             Safe localStorage wrapper (numbers and JSON)
   styles/
     main.css             CSS entry imported by main.js
     base.css             Reset and base element styles

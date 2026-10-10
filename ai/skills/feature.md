@@ -28,7 +28,9 @@ reads or writes persisted data.
      `GameController.requestMove`, whatever the source.
    - **Storage** (`src/scripts/storage/`) — persisted data goes through
      `SafeStorage`, tolerates failures (blocked storage, corrupted JSON), and carries
-     a `version` when its shape can evolve.
+     a `version` when its shape can evolve. Game state is exported and validated by
+     the model (`Game.toState` / `Game.restore`); the controller owns the `version`
+     envelope and when to save or delete (`ai/decisions/2026-10-10-saved-game-format.md`).
    - **Styles** — the CSS file that owns that responsibility (see `ai/map.md`);
      motion overrides in `motion.css`.
 3. Wire new objects in `main.js` only — it is the one place that queries the DOM and

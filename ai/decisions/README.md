@@ -40,3 +40,4 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-10 — no `@vitejs/plugin-legacy`, Vite's default browser target](2026-10-10-no-legacy-plugin.md)
 - [2026-10-10 — no Dependabot, dependencies are updated by hand](2026-10-10-no-dependabot.md)
 - [2026-10-10 — keyboard input is matched by `event.code`](2026-10-10-keyboard-by-event-code.md)
+- [2026-10-10 — saved-game format, and a finished game is not stored](2026-10-10-saved-game-format.md)

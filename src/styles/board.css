@@ -1,4 +1,5 @@
 .game-grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(var(--board-size, 4), var(--cell-size));
   grid-template-rows: repeat(var(--board-size, 4), var(--cell-size));
@@ -12,51 +13,92 @@
   outline: none;
 }
 
+/* The grid cells are only the background; the tiles are their own elements over them. */
 .grid-cell {
   background-color: var(--cell-bg);
   border-radius: 6px;
+}
+
+/* A tile sits in the cell given by --row and --col (set by GridView). The cell size and
+   gap are inherited, so a resize moves the tiles with no JS. `translate` and `scale` are
+   separate properties, so a pop never replaces the position. */
+.tile {
+  position: absolute;
+  top: var(--cell-gap);
+  left: var(--cell-gap);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-}
-
-.grid-cell[data-value] {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border-radius: 6px;
   font-weight: bold;
-  transition: all 0.1s ease-out;
   box-shadow: 0 4px 8px var(--tile-shadow);
+  translate: calc(var(--col) * (var(--cell-size) + var(--cell-gap)))
+    calc(var(--row) * (var(--cell-size) + var(--cell-gap)));
 }
 
-.new-cell {
-  animation: pop-in var(--tile-animation-duration, 200ms) ease-out;
+/* Only while a move animates: with a standing transition the tiles would trail the
+   cells while the window is resized. */
+.is-sliding .tile {
+  transition: translate var(--tile-slide-duration, 110ms) ease-out;
 }
 
-.merged-cell {
-  animation: merge-scale var(--tile-animation-duration, 200ms) ease-out;
+/* The merged tile waits hidden until the slide is over and then pops over the two
+   tiles that slid under it, which vanish at that moment. */
+.merged-tile {
+  visibility: hidden;
+  animation: merge-pop var(--tile-pop-duration, 100ms) ease-out
+    var(--tile-slide-duration, 110ms) forwards;
+}
+
+.retired-tile {
+  animation: tile-retire 0s var(--tile-slide-duration, 110ms) forwards;
+}
+
+/* A new tile waits for the slide, or for the slide and the merge pop; a new game's
+   tiles (no modifier) pop in at once. */
+.new-tile {
+  animation: pop-in var(--tile-pop-duration, 100ms) ease-out backwards;
+}
+
+.new-tile.after-slide {
+  animation-delay: var(--tile-slide-duration, 110ms);
+}
+
+.new-tile.after-merge {
+  animation-delay: calc(
+    var(--tile-slide-duration, 110ms) + var(--tile-pop-duration, 100ms)
+  );
 }
 
 @keyframes pop-in {
   0% {
     opacity: 0;
-    transform: scale(0.5);
+    scale: 0.5;
   }
 
   100% {
     opacity: 1;
-    transform: scale(1);
+    scale: 1;
   }
 }
 
-@keyframes merge-scale {
-  0% {
-    transform: scale(0.95);
+@keyframes merge-pop {
+  0%,
+  100% {
+    scale: 1;
+    visibility: visible;
   }
 
   50% {
-    transform: scale(1.1);
+    scale: 1.1;
+    visibility: visible;
   }
+}
 
-  100% {
-    transform: scale(1);
+@keyframes tile-retire {
+  to {
+    visibility: hidden;
   }
 }

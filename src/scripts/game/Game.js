@@ -15,10 +15,6 @@ export class Game {
     this.#board = new Board(size)
   }
 
-  get cells() {
-    return this.#board.toArray()
-  }
-
   get tiles() {
     return this.#board.toTiles()
   }

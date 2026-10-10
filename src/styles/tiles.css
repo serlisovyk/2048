@@ -33,93 +33,93 @@
 }
 
 /* Fallback: every value without a rule of its own below (32768 and up). */
-.grid-cell[data-value] {
+.tile[data-value] {
   background-color: var(--tile-fallback);
   background-image: var(--tile-sheen);
   color: var(--tile-text-light);
   font-size: clamp(12px, 2vw, 20px);
 }
 
-.grid-cell[data-value='2'] {
+.tile[data-value='2'] {
   background-color: var(--tile-2);
   color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
-.grid-cell[data-value='4'] {
+.tile[data-value='4'] {
   background-color: var(--tile-4);
   color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
-.grid-cell[data-value='8'] {
+.tile[data-value='8'] {
   background-color: var(--tile-8);
   color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
-.grid-cell[data-value='16'] {
+.tile[data-value='16'] {
   background-color: var(--tile-16);
   color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
-.grid-cell[data-value='32'] {
+.tile[data-value='32'] {
   background-color: var(--tile-32);
   color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
-.grid-cell[data-value='64'] {
+.tile[data-value='64'] {
   background-color: var(--tile-64);
   color: var(--tile-text-dark);
   font-size: clamp(20px, 4vw, 40px);
 }
 
-.grid-cell[data-value='128'] {
+.tile[data-value='128'] {
   background-color: var(--tile-128);
   color: var(--tile-text-light);
   font-size: clamp(18px, 3.5vw, 35px);
 }
 
-.grid-cell[data-value='256'] {
+.tile[data-value='256'] {
   background-color: var(--tile-256);
   color: var(--tile-text-light);
   font-size: clamp(18px, 3.5vw, 35px);
 }
 
-.grid-cell[data-value='512'] {
+.tile[data-value='512'] {
   background-color: var(--tile-512);
   color: var(--tile-text-light);
   font-size: clamp(18px, 3.5vw, 35px);
 }
 
-.grid-cell[data-value='1024'] {
+.tile[data-value='1024'] {
   background-color: var(--tile-1024);
   color: var(--tile-text-light);
   font-size: clamp(16px, 3vw, 30px);
 }
 
-.grid-cell[data-value='2048'] {
+.tile[data-value='2048'] {
   background-color: var(--tile-2048);
   color: var(--tile-text-light);
   font-size: clamp(16px, 3vw, 30px);
   box-shadow: 0 0 20px var(--tile-2048-glow);
 }
 
-.grid-cell[data-value='4096'] {
+.tile[data-value='4096'] {
   background-color: var(--tile-4096);
   color: var(--tile-text-dark);
   font-size: clamp(16px, 3vw, 30px);
 }
 
-.grid-cell[data-value='8192'] {
+.tile[data-value='8192'] {
   background-color: var(--tile-8192);
   color: var(--tile-text-dark);
   font-size: clamp(16px, 3vw, 30px);
 }
 
-.grid-cell[data-value='16384'] {
+.tile[data-value='16384'] {
   background-color: var(--tile-16384);
   color: var(--tile-text-light);
   font-size: clamp(14px, 2.5vw, 25px);

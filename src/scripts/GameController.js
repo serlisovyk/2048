@@ -1,4 +1,4 @@
-import { MOVE_COOLDOWN_MS, SAVED_GAME_VERSION, STORAGE_KEYS } from './constants.js'
+import { SAVED_GAME_VERSION, STORAGE_KEYS } from './constants.js'
 
 export class GameController {
   static #NEW_GAME_PROMPT = Object.freeze({
@@ -21,7 +21,6 @@ export class GameController {
   #storage
   #highScore = 0
   #hasRecordToBeat = false
-  #isMoving = false
   #isPausedAfterWin = false
 
   constructor({
@@ -85,12 +84,7 @@ export class GameController {
   }
 
   requestMove(direction) {
-    if (this.#isMoving || this.#isPausedAfterWin || this.#game.isOver) return
-
-    this.#isMoving = true
-    setTimeout(() => {
-      this.#isMoving = false
-    }, MOVE_COOLDOWN_MS)
+    if (this.#isPausedAfterWin || this.#game.isOver) return
 
     const result = this.#game.move(direction)
 
@@ -98,7 +92,7 @@ export class GameController {
 
     this.#renderScore()
     this.#scoreView.showScoreGain(result.scoreGained)
-    this.#gridView.render(this.#game.cells, result.spawnedTiles)
+    this.#gridView.animateMove(result)
 
     if (result.isOver) {
       this.#overlayView.showGameOver({ justWon: result.justWon })
@@ -130,7 +124,7 @@ export class GameController {
     this.#hasRecordToBeat = this.#highScore > 0
     this.#scoreView.hideNewRecord()
     this.#renderScore()
-    this.#gridView.render(this.#game.cells, spawnedTiles)
+    this.#gridView.render(this.#game.tiles, spawnedTiles)
   }
 
   #restoreSavedGame() {
@@ -142,7 +136,7 @@ export class GameController {
 
     this.#hasRecordToBeat = this.#game.score < this.#highScore
     this.#renderScore()
-    this.#gridView.render(this.#game.cells)
+    this.#gridView.render(this.#game.tiles)
 
     return true
   }

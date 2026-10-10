@@ -225,15 +225,27 @@ the diff.
 ## Author's answers (2026-10-10)
 
 1. The font is **Rubik**: the variable Latin woff2 copied into the repo as
-   `src/fonts/rubik-latin-wght-normal.woff2` with `src/fonts/OFL.txt` next to it, loaded
-   through `@font-face` with `font-display: swap` and a preload link, exactly as in
-   section 4.
+   `src/fonts/rubik-latin-wght-normal.woff2` with `src/fonts/OFL.txt` next to it (the
+   `OFL.txt` was dropped later, see 4), loaded through `@font-face` with
+   `font-display: swap` and a preload link, exactly as in section 4.
 2. The defaults of section 6 are accepted: `OFL.txt` only in the repo next to the woff2,
    `tabular-nums` once on `body`, `line-height` pinned on `body` only if the measurement
    shows it helps, the `size-adjust` fallback only if the throttled run shows a jump of
-   more than 2px, a separate `Font` entry in `size-limit` at 40 kB raw.
+   more than 2px (it was added, then dropped, see 5), a separate `Font` entry in
+   `size-limit` at 40 kB raw.
 3. If the tile weight of 700 looks too heavy on the screenshots, it is reported to the
    author and not changed without them.
+4. Second round, after the implementation was reported: **remove `src/fonts/OFL.txt`.**
+   The woff2 carries the copyright notice (`name` table ID 0, "Copyright 2015 The Rubik
+   Project Authors (https://github.com/googlefonts/rubik)") and the license reference (ID
+   14, `https://scripts.sil.org/OFL`) in its own metadata, the way Google Fonts and Fontsource
+   serve it, and OFL 1.1 section 2 allows that in place of a separate file. This replaces
+   the "license text next to the woff2" of section 2. The file must stay as downloaded.
+5. Second round: **remove the `Rubik Fallback` faces** (Arial with `size-adjust: 119%`) and
+   go back to the stack `'Rubik', Arial, sans-serif`; the author finds them unclear and
+   extra and accepts a small horizontal change for a moment on the first, uncached load.
+   `line-height: 1.15` stays on `body`, because it still removes the vertical shift (see
+   the last measurement below). This replaces step 7 of section 4.
 
 ## What was measured, and how the result differs from the sketch (2026-10-10)
 
@@ -249,7 +261,7 @@ the cache off and the network throttled (Slow 4G: 150ms, 1.6 Mbps; Slow 3G: 400m
 - **`line-height: 1.15` on `body`** removes the vertical shift. The page is 0.64px
   taller than the old Arial page at 320px (11px labels: 12.65px against Arial's rounded
   12px) and identical at 1000px.
-- **`Rubik Fallback`** is two faces, not one: the regular `local('Arial')` and the real
+- **`Rubik Fallback`** (built, then removed by answer 5) was two faces, not one: the regular `local('Arial')` and the real
   bold `local('Arial Bold'), local('Arial-BoldMT')` (the page uses 400 and 700), both
   with `size-adjust: 119%`, the ratio of Rubik's bold tabular digit (0.662 em) to Arial's
   (0.556 em). There is no `ascent-override` / `descent-override`: with the pinned
@@ -257,13 +269,24 @@ the cache off and the network throttled (Slow 4G: 150ms, 1.6 Mbps; Slow 3G: 400m
   fallback state was forced with `font-family: 'NoSuchFont', 'Rubik Fallback', …` and
   confirmed to use `Arial-BoldMT` (`CSS.getPlatformFontsForNode`): the logo is 116.44px
   wide against Rubik's 116.45px at 1000px, 90.75 against 90.78 at 320px.
-- **After:** the throttled runs show no element moving at the swap; only glyph shapes
-  change inside the same boxes. (Blocking the woff2 request cannot reproduce the fallback
-  here: the machine has Rubik installed, and Chrome then falls back to the system copy.)
+- **With the face:** the throttled runs showed no element moving at the swap; only glyph
+  shapes changed inside the same boxes. (Blocking the woff2 request cannot reproduce the
+  fallback here: the machine has Rubik installed, and Chrome then falls back to the system
+  copy.)
+- **Without the face, as shipped** (stack `'Rubik', Arial, sans-serif`, `line-height: 1.15`),
+  throttled `yarn preview`, cache off: the font ends 40 to 60ms (Slow 4G) and about 600ms
+  (Slow 3G) after the first paint. At that frame the logo widens by **15.2px at 1000px and
+  11.0px at 320px**; the score text grows by 17.8px and the high score text by 20.8px at
+  1000px (12.7px and 14.8px at 320px) inside their fixed boxes; at 320px the high score
+  element also grows by 5.7px (its own grid track). Nothing moves vertically: no
+  `y` or height of any element changes, the board does not move. Without the pinned
+  `line-height` the same swap at 320px also makes the header 1px taller and moves the
+  board by 0.5px, so the pin is kept.
 - Other numbers, `yarn preview`: one font request, `/assets/rubik-latin-wght-normal-<hash>.woff2`,
   200, 35,348 bytes, from the page's own origin, started by the preload link; no request
   to any other origin; no `http(s)://` string anywhere in `dist/`. The widest tile of
   all widths from 320px to 1280px is 0.83 of its cell (16384 at 1000px); at 320px
   131072 is 0.79. A 7-digit score and high score with the reset button fit the boxes at
   every width from 320px.
-- `yarn size`: JS 4.25 kB, CSS 2.52 kB (both gzip), Font 35.35 kB raw.
+- `yarn size`: JS 4.25 kB, CSS 2.52 kB (both gzip), Font 35.35 kB raw; CSS 2.47 kB after the
+  fallback faces were removed.

@@ -1,13 +1,15 @@
 # 2048 Game
 
+[![CI](https://github.com/serlisovyk/2048/actions/workflows/ci.yml/badge.svg)](https://github.com/serlisovyk/2048/actions/workflows/ci.yml)
+
 🎮 Responsive 2048 browser game built with HTML, modular CSS, vanilla
 JavaScript, and Vite.
 
 This project implements the classic 2048 puzzle as a compact static web game.
 The source stays intentionally small and framework-free, but keeps production
 habits from larger projects: a Vite build pipeline, modular CSS, hashed assets,
-HTML/CSS/JavaScript minification, autoprefixing, legacy browser chunks, and a
-clear AI-agent rule set for future maintenance.
+HTML/CSS/JavaScript minification, autoprefixing, linting, a bundle size budget,
+CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 
 ## ✨ Features
 
@@ -18,12 +20,14 @@ clear AI-agent rule set for future maintenance.
 - Win dialog with continue-playing flow
 - Game-over dialog when no moves remain
 - Responsive layout for desktop, tablet, and small mobile screens
-- Generated board cells controlled by one `SIZE` constant
+- Generated board cells controlled by one `BOARD_SIZE` constant
 - SVG favicon based on a compact 2x2 2048 board
 - Basic metadata and Open Graph title/description
 - Reduced-motion support for users who prefer less animation
 - Vite production build with HTML, CSS, and JavaScript minification
-- Autoprefixer and legacy browser chunks through the Vite legacy plugin
+- Autoprefixer for CSS vendor prefixes
+- Bundle size budget checked with size-limit
+- CI on GitHub Actions
 
 ## 🧰 Tech Stack
 
@@ -38,6 +42,8 @@ clear AI-agent rule set for future maintenance.
 - Prettier
 - Husky
 - lint-staged
+- size-limit
+- GitHub Actions
 - Yarn
 
 ## 📁 Project Structure
@@ -71,6 +77,8 @@ postcss.config.js    PostCSS and Autoprefixer configuration
 eslint.config.js     ESLint flat config, including OOP rules
 .lintstagedrc.json   Pre-commit checks for staged files
 .husky/              Git hooks installed by yarn install
+.size-limit.json     Bundle size budget for dist/
+.github/             CI workflow
 dist/                Generated production output
 ```
 
@@ -125,6 +133,14 @@ Check formatting:
 yarn format:check
 ```
 
+Check the bundle size against its budget (run after `yarn build`):
+
+```bash
+yarn size
+```
+
+CI runs `lint`, `format:check`, `build`, and `size` on every push.
+
 ## 🧱 Architecture Notes
 
 - All sources live in `src/`; Vite builds with `root: 'src'` into `dist/`.
@@ -142,7 +158,8 @@ yarn format:check
 - Motion preferences live in `src/styles/motion.css` so accessibility-related
   animation rules stay visible and easy to adjust.
 - Vite owns production optimization: hashed assets, minified HTML, minified CSS,
-  minified JavaScript, and legacy chunks.
+  and minified JavaScript for its default `baseline-widely-available` browser
+  target — no legacy chunks.
 - The project is kept proportional to its size: improvements should favor
   clarity, accessibility, responsive gameplay, and build quality over framework
   complexity.

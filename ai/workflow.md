@@ -80,6 +80,7 @@ Do not explore the code from scratch when the map answers the question.
 - `yarn lint`
 - `yarn format:check`
 - `yarn build`
+- `yarn size` (after the build)
 - Play the change in `yarn dev`: desktop (keyboard, mouse) and mobile width (swipes).
   Check `prefers-reduced-motion` for anything animated. A green build does not prove
   a UI change works.
@@ -128,11 +129,13 @@ git switch my-<n>-<slug>
 git rebase main            # re-run the checks if the rebase brought in new commits
 git switch main
 git merge --ff-only my-<n>-<slug>
-yarn lint && yarn format:check && yarn build
+yarn lint && yarn format:check && yarn build && yarn size
 git push origin main
 git branch -d my-<n>-<slug>
 ```
 
+- After pushing, check that CI on `main` is green (GitHub Actions). A red `main`
+  is fixed right away with a follow-up commit.
 - History stays linear: rebase onto `main`, then fast-forward. Never force-push
   `main`.
 - If the branch was pushed for a preview, delete it on the remote too

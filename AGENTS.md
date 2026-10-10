@@ -94,7 +94,9 @@ change.
 - Sources: everything in `src/` (`index.html`, `scripts/`, `styles/`), Vite
   `root: 'src'`, output in `dist/`
 - Styling: modular plain CSS imported from `src/styles/main.css`
-- Compatibility: Vite legacy plugin for non-modern browsers, excluding IE 11
+- Browsers: Vite's default `baseline-widely-available` target, no legacy chunks
+- CI: GitHub Actions runs lint, format check, build, and size check on every push —
+  a post-push signal; a red `main` is fixed right away
 - Formatting: Prettier; line endings are LF (`.gitattributes`)
 - Linting: ESLint 10 flat config (`eslint.config.js`), including rules that enforce
   `ai/rules/oop.md`
@@ -114,6 +116,7 @@ Run before handing over any change:
 yarn lint
 yarn format:check
 yarn build
+yarn size
 ```
 
 Then exercise the change in the browser (`yarn dev`) on desktop and at mobile width —

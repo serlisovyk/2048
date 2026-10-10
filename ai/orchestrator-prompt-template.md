@@ -55,7 +55,7 @@ Follow `ai/workflow.md` step 13 for each approved branch, **one at a time**:
 
 1. Rebase the branch onto the latest `main` (resolve trivial conflicts; send anything
    non-trivial back to the subagent).
-2. Fast-forward merge into `main` locally, run `yarn lint`, `yarn format:check` and `yarn build`
+2. Fast-forward merge into `main` locally, run `yarn lint`, `yarn format:check`, `yarn build` and `yarn size`
    on `main`, push `main`.
 3. Move the issue to `Done` and comment with the merged commit SHAs.
 4. Remove the worktree and delete the branch.

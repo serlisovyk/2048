@@ -68,10 +68,9 @@ Copy into the issue as-is:
 
 - [ ] `yarn lint`
 - [ ] `yarn format:check`
-- [ ] `yarn build`
+- [ ] `yarn build` + `yarn size`
 - [ ] Прогнано руками в `yarn dev`: десктоп (клавиатура, мышь) и мобильная ширина
       (свайпы)
 
 The project has no automated tests — verification is lint, formatting, the build,
-and playing the game in the browser. Once `yarn size` (MY-112) exists, add it to this
-list.
+the bundle size check, and playing the game in the browser.

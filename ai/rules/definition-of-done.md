@@ -36,6 +36,7 @@ change over for approval.
 - `yarn lint` is clean.
 - `yarn format:check` is clean.
 - `yarn build` is clean.
+- `yarn size` is within budget.
 - The change was played in the browser on desktop and at mobile width, not just
   built.
 - No automated test suite exists — do not add one unless explicitly asked, and do not

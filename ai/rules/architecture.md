@@ -23,8 +23,8 @@ conventions. `ai/map.md` lists every file.
 - `src/scripts/storage/SafeStorage.js` wraps `localStorage` and never throws.
 - `src/styles/main.css` is the single CSS entry, imported by `main.js`; the other
   files in `src/styles/` are split by responsibility (see `ai/map.md`).
-- `vite.config.js` owns production build behavior: `root`, output, minification,
-  legacy output, and HTML optimization.
+- `vite.config.js` owns production build behavior: `root`, output, minification
+  (terser, `drop_console`), and HTML optimization.
 - `dist/` is generated output. Do not edit it manually.
 
 ## Game Structure

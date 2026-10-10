@@ -8,6 +8,7 @@ After HTML, CSS, JavaScript, config, package, or documentation changes, run:
 yarn lint
 yarn format:check
 yarn build
+yarn size
 ```
 
 If formatting was intentionally changed, run:

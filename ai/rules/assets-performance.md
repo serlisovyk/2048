@@ -31,7 +31,9 @@
 
 - Keep HTML, CSS, and JavaScript minified in production.
 - Keep CSS autoprefixing tied to `browserslist`.
-- Keep legacy chunks enabled for non-modern browsers unless bundle size becomes
-  a real problem.
+- Build for Vite's default `baseline-widely-available` target. No legacy chunks or
+  polyfills — see `ai/decisions/2026-10-10-no-legacy-plugin.md`.
+- Keep the gzipped bundle within the `size-limit` budget (`.size-limit.json`); raise
+  the budget only on purpose, in the change that needs it.
 - Keep source maps disabled for the production build unless debugging requires
   them.

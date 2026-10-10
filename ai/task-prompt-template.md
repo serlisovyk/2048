@@ -33,7 +33,7 @@ Then follow `ai/workflow.md` end to end for this issue:
 - Implement in logical commits (Conventional Commits, English).
 - Update docs in the same change (`README.md`, `ai/map.md`, `ai/rules/*`,
   `ai/skills/*`, `ai/decisions/` — whichever applies).
-- Verify: `yarn lint`, `yarn format:check`, `yarn build`, and actually play the change in
+- Verify: `yarn lint`, `yarn format:check`, `yarn build`, `yarn size`, and actually play the change in
   `yarn dev` on desktop and at mobile width.
 - Walk `ai/rules/definition-of-done.md` point by point.
 - Self-review with the `review` skill.

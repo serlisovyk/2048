@@ -15,7 +15,7 @@ export const DIRECTIONS = Object.freeze({
   RIGHT: 'right',
 })
 
-export const ARROW_KEY_DIRECTIONS = Object.freeze({
+export const KEY_CODE_DIRECTIONS = Object.freeze({
   ArrowUp: DIRECTIONS.UP,
   ArrowDown: DIRECTIONS.DOWN,
   ArrowLeft: DIRECTIONS.LEFT,

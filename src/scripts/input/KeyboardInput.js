@@ -1,4 +1,4 @@
-import { ARROW_KEY_DIRECTIONS } from '../constants.js'
+import { KEY_CODE_DIRECTIONS } from '../constants.js'
 
 export class KeyboardInput {
   #target
@@ -14,9 +14,9 @@ export class KeyboardInput {
   }
 
   #handleKeydown = (event) => {
-    if (!Object.hasOwn(ARROW_KEY_DIRECTIONS, event.key)) return
+    if (!Object.hasOwn(KEY_CODE_DIRECTIONS, event.code)) return
 
     event.preventDefault()
-    this.#onDirection(ARROW_KEY_DIRECTIONS[event.key])
+    this.#onDirection(KEY_CODE_DIRECTIONS[event.code])
   }
 }

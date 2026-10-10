@@ -13,8 +13,13 @@ larger application template.
 - Analytics scripts
 - Authentication
 - Server state libraries
-- Test frameworks
-- CI/CD configuration
+- Test frameworks or automated tests
+
+Tooling that **is** in scope (planned in Linear): ESLint, a Husky + lint-staged
+pre-commit hook, and GitHub Actions CI with a bundle size check.
+
+Features the author already rejected are listed in
+`ai/decisions/2026-10-10-rejected-features.md` — do not propose them again.
 
 ## Prefer
 

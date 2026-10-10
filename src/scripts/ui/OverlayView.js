@@ -39,6 +39,11 @@ export class OverlayView {
     this.#restartButton.addEventListener('click', handler)
   }
 
+  onClose(handler) {
+    this.#winDialog.addEventListener('close', handler)
+    this.#gameOverDialog.addEventListener('close', handler)
+  }
+
   showWin() {
     this.#gameOverDialog.close()
     this.#winDialog.showModal()

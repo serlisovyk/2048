@@ -34,6 +34,9 @@ export class GameController {
   continueAfterWin() {
     this.#isPausedAfterWin = false
     this.#overlayView.hideWin()
+  }
+
+  returnFocusToBoard() {
     this.#gridView.focus()
   }
 

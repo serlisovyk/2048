@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   overlayView.onContinue(() => controller.continueAfterWin())
   overlayView.onRestart(restart)
+  overlayView.onClose(() => controller.returnFocusToBoard())
   newGameButton.addEventListener('click', restart)
 
   controller.start()

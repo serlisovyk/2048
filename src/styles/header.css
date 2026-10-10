@@ -6,13 +6,15 @@
   gap: var(--header-gap);
 }
 
-/* The header takes the board's width and never widens the page. */
+/* Only its minimum width counts toward the wrapper's size, so the header is as wide
+   as the board and never narrower than its own content. */
 .game-header {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: var(--header-gap);
-  contain: inline-size;
+  width: min-content;
+  min-width: 100%;
 }
 
 .logo {

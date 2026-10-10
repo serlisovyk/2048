@@ -70,3 +70,7 @@ The obvious fix is `aria-live="polite"` on the visible score. Two things stand i
 - Refined by `2026-10-10-new-record-badge.md`: the one announcement that follows the move
   that beats the high score reads `New record! <score>`; every other announcement is still
   the bare number.
+- Refined by `2026-10-10-input-during-tile-animation.md` (MY-126): the 100 ms move cooldown,
+  which capped a held key at ten moves a second, is gone, so a held key changes the score up
+  to the keyboard's repeat rate (about thirty a second). The debounce is what keeps that to
+  one announcement, and it is unchanged.

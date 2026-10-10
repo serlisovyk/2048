@@ -16,7 +16,13 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   badge shows once per game, only when the record was above 0, and starts over after
   `New Game`, `Restart Game`, and the high score reset.
 - **Input**: keyboard and swipe both still go through the single movement guard;
-  nothing moves while a dialog is open or after game over.
+  nothing moves while a dialog is open or after game over; a press during an animation
+  is applied at once (no lock, no queue, no dropped move).
+- **Tile animation**: the merge pop only on real merges (none after a plain slide or
+  after a reload), slide then merge pop then new tile, a tile element never changes its
+  value, no tile trails its cell while the window is resized, no stray or hidden tile
+  element after a burst of presses, reduced motion changes the board at once, and the
+  tiles stay in row-major order in the DOM once a move settles.
 - **OOP** (`ai/rules/oop.md`): one class per file in the right layer; state in
   private fields, no internal arrays handed out; dependencies through the
   constructor; no `document.querySelector` outside `main.js`; no speculative base
@@ -43,7 +49,7 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   `Escape` does what the dialog's purpose says, the page behind is dimmed and inert.
 - **Responsive**: 320px wide to desktop, no horizontal scroll, swipes work on touch.
 - **Tile colours**: only tokens in `tiles.css` (no literals in the per-value rules),
-  the base `.grid-cell[data-value]` rule first and no `:not()` chain, text at least
+  the base `.tile[data-value]` rule first and no `:not()` chain, text at least
   3:1 on both ends of the gradient for every value, the widest number (six digits)
   fits its tile at 320px.
 - **Colours and theme**: no colour literal in `src/styles/` outside `theme.css` and

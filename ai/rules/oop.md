@@ -35,8 +35,9 @@ Each class has one reason to change:
 | Composition root (`main.js`) | Finding DOM elements, creating and wiring objects | Hold game logic                    |
 
 - The model reports results instead of reaching into other objects: `Game.move()`
-  returns `{ moved, scoreGained, spawnedTiles, justWon, isOver }`, and the controller
-  decides what to render.
+  returns `{ moved, scoreGained, slides, merges, spawnedTiles, justWon, isOver }` (every
+  tile has an id, so a view can animate what moved), and the controller decides what to
+  render.
 - Randomness lives only in tile spawning.
 - All reading and writing of `localStorage` goes through `SafeStorage`. The one exception is
   the inline script in the `<head>` of `index.html` that applies the saved theme before the

@@ -59,3 +59,6 @@ specificity of (0,16,0) and beat the own rule of any new value.
   113+, Safari 16.2+, newer than Vite's default `baseline-widely-available` target, and
   it cannot be lowered when the colour is a `var()`); flat colours (valid, one
   declaration away: drop `background-image` from the base rule).
+- Refined by `2026-10-10-tiles-over-the-grid.md` (MY-126): the tiles are `.tile` elements,
+  so the base rule is `.tile[data-value]` and the per-value rules are `.tile[data-value='N']`.
+  The base-first scheme, the tokens, and every declaration are unchanged.

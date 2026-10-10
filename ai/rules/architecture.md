@@ -20,13 +20,14 @@ conventions. `ai/map.md` lists every file.
   The inline script in the `<head>` of `index.html` applies the theme before the first paint;
   it is the one code that is not a class (it runs before any module).
 - `src/scripts/GameController.js` owns the use cases and flow state: the single
-  movement guard, the move cooldown, the pause after a win, the high score (and whether
+  movement guard, the pause after a win, the high score (and whether
   the current game can still beat it, for the New record badge), and saving and
   restoring the current game.
 - `src/scripts/game/` is the model (`Board`, `Game`): rules and game state, no DOM,
   no storage, no timers.
 - `src/scripts/ui/` holds the views (`GridView`, `ScoreView`, `OverlayView`,
-  `ConfirmDialogView`): they own their elements and render what they are given.
+  `ConfirmDialogView`): they own their elements and render what they are given;
+  `GridView` draws the tiles and animates the model's move result.
 - `src/scripts/input/` turns keyboard and pointer events into directions
   (`KeyboardInput`, `SwipeInput`).
 - `src/scripts/storage/SafeStorage.js` wraps `localStorage` and never throws.
@@ -40,14 +41,21 @@ conventions. `ai/map.md` lists every file.
 
 - Keep the board size controlled by `BOARD_SIZE`; CSS gets it as `--board-size`.
 - Generate grid cells from JavaScript instead of duplicating board structure in
-  HTML.
+  HTML. The cells are only the background; a tile is its own element over them
+  (`ai/decisions/2026-10-10-tiles-over-the-grid.md`).
+- Logic, then the move result, then the animation: the model reports a move as
+  `slides`, `merges` and `spawnedTiles` (with tile ids, no DOM), the controller hands
+  it to `GridView.animateMove`, and the view animates it. A press during an animation
+  is never queued or dropped: the view finishes the running one
+  (`ai/decisions/2026-10-10-input-during-tile-animation.md`).
 - Keep keyboard and pointer input routed through `GameController.requestMove` so
-  paused, moving, and game-over states stay consistent.
+  paused and game-over states stay consistent.
 
 ## Boundaries
 
 - Do not move styles into inline attributes. The one exception: a view may set CSS
-  custom properties that pass numbers from `constants.js` to CSS.
+  custom properties that pass numbers to CSS: from `constants.js` (the board size, the
+  tile durations) and the cell a tile sits in (`--row`, `--col`).
 - Do not move interaction logic into HTML event handlers.
 - Do not build modals by hand: dialogs are native `<dialog>` elements opened with
   `showModal()`, with no custom overlay, focus trap, or `style.display` toggling

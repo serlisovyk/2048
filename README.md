@@ -21,6 +21,10 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
   persisted high score in two boxes, and a toolbar of icon buttons (inline SVG, each
   with a label and a tooltip). A small icon in the high score box resets it after a
   confirmation (the current game is not affected)
+- Tiles slide to their new cell, a merged tile pops, then the new tile pops in (about
+  0.3 s in all). Only a real merge pops. A press during an animation finishes it at
+  once, so fast presses are never lost; a restored game appears with no animation, and
+  with reduced motion the board changes at once
 - A short `+N` floats up from the score after a move that merges tiles, one at a time
   and hidden from screen readers; with reduced motion it fades in place without moving
 - A gold `New record!` badge on the High Score box when a game beats an existing record,
@@ -41,7 +45,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
   stays inside, and focus returns to the board when the win and game-over dialogs close
 - Responsive layout for desktop, tablet, and small mobile screens, clear of notches
   and home indicators
-- Generated board cells controlled by one `BOARD_SIZE` constant
+- Generated board cells and tiles controlled by one `BOARD_SIZE` constant
 - SVG favicon based on a compact 2x2 2048 board
 - Basic metadata and Open Graph title/description
 - Reduced-motion support for users who prefer less animation
@@ -93,7 +97,7 @@ src/
     base.css             Font face, reset, base element styles, the shared button focus ring
     layout.css           Page and responsive layout
     header.css           Header: logo, score boxes, and the icon toolbar
-    board.css            Board, cells, and tile animations
+    board.css            Board, background cells, tiles, and tile animations
     tiles.css            Tile colour tokens (both themes) and text sizing
     overlays.css         Win, game-over, and confirmation dialogs
     controls.css         Button styles
@@ -180,6 +184,9 @@ CI runs `lint`, `format:check`, `build`, and `size` on every push.
   directions, and `GameController` connects them. `main.js` wires everything.
 - Grid cells and the CSS grid are generated from `BOARD_SIZE`, so the board
   structure is not duplicated in HTML or CSS.
+- Tiles are their own elements over the grid, placed by `--row` and `--col` through
+  CSS, so a resize needs no JavaScript. The model reports each move as slides, merges
+  and the new tile, and `GridView` animates exactly that: slide, merge pop, new tile.
 - The win, game-over, and confirmation dialogs are native `<dialog>` elements opened
   with `showModal()`, so the browser provides the backdrop, the inert page, and the
   focus trap; there is no hand-made overlay code. The confirmation is one shared view
@@ -192,8 +199,8 @@ CI runs `lint`, `format:check`, `build`, and `size` on every push.
   stylesheets only read tokens. `<html data-theme>` is set by a small inline script in
   `<head>` before the first paint, then owned by `ThemeController` and `ThemeView`. The
   circle reveal is a View Transition, a progressive enhancement over an instant switch.
-- Keyboard and pointer input share the same movement guard to keep moving,
-  paused, and game-over states consistent.
+- Keyboard and pointer input share the same movement guard to keep the paused and
+  game-over states consistent.
 - CSS is split by responsibility rather than by page because the project has
   one screen.
 - Motion preferences live in `src/styles/motion.css` so accessibility-related

@@ -18,7 +18,10 @@ reads or writes persisted data.
    - **Model** (`src/scripts/game/`) — what changes in the game state and the rule
      that changes it: a method on `Game` or `Board`, or a new model class. Pure and
      deterministic (only tile spawning is random); no DOM, storage, or timers.
-     Return a result object; do not call views.
+     Return a result object; do not call views. A move reports what changed, with
+     tile ids: `slides` (`{ id, from, to }`), `merges` (a new tile and the two it
+     replaces) and `spawnedTiles`, so a view can animate it without guessing from a
+     diff of values.
    - **Controller** (`GameController`) — the use case: when to call the model, which
      views to update, what to persist, guards and pauses.
    - **Views** (`src/scripts/ui/`) — how it looks: a method on an existing view or a
@@ -36,7 +39,7 @@ reads or writes persisted data.
      in `theme.css` for the UI, in `tiles.css` for tiles, with a dark value on `:root` and a
      light override under `:root[data-theme='light']` (or a deliberate "same in both"), and
      contrast checked in both themes. A new tile value is a token plus one rule after the
-     base `.grid-cell[data-value]` rule in `tiles.css`, with 3:1 text contrast on both ends of
+     base `.tile[data-value]` rule in `tiles.css`, with 3:1 text contrast on both ends of
      the gradient (`ai/rules/style.md`). Text inherits the font from `body`: a new number or label
      needs no `font-family` and no `tabular-nums` of its own (`base.css` sets both), and
      a number that changes during play stays put because of it.
@@ -135,6 +138,18 @@ reads or writes persisted data.
    feature-detect it in the view, skip it under reduced motion in JS, keep the instant path
    as the base behaviour, and keep its coordinates as custom properties
    (`ai/decisions/2026-10-10-view-transitions-progressive-enhancement.md`).
+   A tile animation follows the move result, not a diff of the board:
+   `GridView.animateMove({ slides, merges, spawnedTiles })` moves each tile by its id
+   (`--row` / `--col`, a `translate` transition only under `.is-sliding`), retires the two
+   sources of a merge, creates the merged tile and the new tile, and the order (slide,
+   merge pop, new tile) is CSS delays, not JS timers. A tile element never changes its
+   value. The view finishes the running move at once (`getAnimations().finish()`) before
+   it starts the next, so there is no input lock and no queue; `GameController` calls
+   `animateMove` right after the move and shows a dialog at once, not after the
+   animation (`ai/decisions/2026-10-10-tiles-over-the-grid.md`,
+   `ai/decisions/2026-10-10-input-during-tile-animation.md`). A whole board is drawn with
+   `render(tiles, spawnedTiles)`: a new game pops its tiles in, a restored game draws
+   with no animation.
 8. Verify per `ai/workflow.md`: format, build, and play the feature on desktop and at
    mobile width.
 
@@ -170,4 +185,8 @@ reads or writes persisted data.
 - Reading `localStorage` directly instead of through `SafeStorage`. The one exception is the
   inline theme script in the `<head>` of `index.html` (it runs before any module); do not
   copy it for anything else.
+- A tile animation that diffs the old and new board values, a tile element whose
+  `data-value` changes, a `transform` for a tile's position, a standing `transition` on
+  `.tile`, a pixel position written by JS, or JS timers that order the steps of a move.
+- An input lock, a cooldown, or a queue of moves for the sake of an animation.
 - Features listed in `ai/decisions/2026-10-10-rejected-features.md`.

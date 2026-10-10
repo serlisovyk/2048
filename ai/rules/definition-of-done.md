@@ -7,7 +7,7 @@ change over for approval.
 
 - New code follows `ai/rules/oop.md`: classes with private state in the right layer,
   dependencies through constructors, DOM queries and wiring only in `main.js`.
-- Keyboard and pointer input still go through one movement guard, so moving, paused,
+- Keyboard and pointer input still go through one movement guard, so paused
   and game-over states stay consistent.
 - Movement rules stay deterministic except for new tile placement.
 - Shared values (board size, thresholds, timings, storage keys, the win tile) come

@@ -24,3 +24,6 @@ the other. The rules forbid inline styles.
   pattern instead of being duplicated.
 - Custom properties are set on the element that owns them, not on `:root`, unless the
   value is truly page-wide (e.g. a theme).
+- Refined by `2026-10-10-tiles-over-the-grid.md` (MY-126): the numbers JS passes to CSS also
+  include the cell a tile sits in (`--row`, `--col`, written on each tile element), and
+  `--tile-animation-duration` became `--tile-slide-duration` and `--tile-pop-duration`.

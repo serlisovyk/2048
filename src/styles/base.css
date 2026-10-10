@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+:root {
+  --focus-ring-color: #ffffff;
+}
+
 html,
 body {
   overscroll-behavior-y: none;
@@ -18,6 +22,12 @@ body {
 
 button {
   font: inherit;
+  outline: 3px none var(--focus-ring-color);
+  outline-offset: 3px;
+}
+
+button:focus-visible {
+  outline-style: solid;
 }
 
 .visually-hidden {

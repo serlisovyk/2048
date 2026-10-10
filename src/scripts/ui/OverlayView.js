@@ -4,6 +4,7 @@ export class OverlayView {
   #continueButton
   #winRestartButton
   #restartButton
+  #winNote
 
   constructor({
     winDialog,
@@ -11,12 +12,14 @@ export class OverlayView {
     continueButton,
     winRestartButton,
     restartButton,
+    winNote,
   }) {
     this.#winDialog = winDialog
     this.#gameOverDialog = gameOverDialog
     this.#continueButton = continueButton
     this.#winRestartButton = winRestartButton
     this.#restartButton = restartButton
+    this.#winNote = winNote
 
     this.#gameOverDialog.addEventListener('cancel', (event) =>
       event.preventDefault(),
@@ -41,7 +44,8 @@ export class OverlayView {
     this.#winDialog.showModal()
   }
 
-  showGameOver() {
+  showGameOver({ justWon = false } = {}) {
+    this.#winNote.hidden = !justWon
     this.#winDialog.close()
     this.#gameOverDialog.showModal()
   }

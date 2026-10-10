@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     continueButton: document.querySelector('.continue-button'),
     winRestartButton: document.querySelector('.win-restart-button'),
     restartButton: document.querySelector('.restart-game-button'),
+    winNote: document.querySelector('.game-over-win-note'),
   })
 
   const controller = new GameController({

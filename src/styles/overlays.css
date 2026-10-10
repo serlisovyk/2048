@@ -46,6 +46,10 @@ dialog::backdrop {
   opacity: 0.95;
 }
 
+.game-over .game-over-win-note {
+  margin-bottom: 10px;
+}
+
 @keyframes modal-pop {
   0% {
     opacity: 0;

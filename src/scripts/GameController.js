@@ -52,13 +52,11 @@ export class GameController {
     this.#renderScore()
     this.#gridView.render(this.#game.cells, result.spawnedTiles)
 
-    if (result.justWon) {
+    if (result.isOver) {
+      this.#overlayView.showGameOver({ justWon: result.justWon })
+    } else if (result.justWon) {
       this.#isPausedAfterWin = true
       this.#overlayView.showWin()
-    }
-
-    if (result.isOver) {
-      this.#overlayView.showGameOver()
     }
 
     this.#persistGame()

@@ -52,8 +52,9 @@ styles/
   overlays.css       Win and game-over dialogs
   controls.css       Button styles
   motion.css         Reduced-motion preferences
-rules/               AI-agent project rules
+ai/                  AI-agent docs: repo map, workflow, rules, decisions, skills, templates
 AGENTS.md            AI-agent entry instructions
+CLAUDE.md            Claude Code entrypoint, points to AGENTS.md
 vite.config.js       Vite production build configuration
 postcss.config.js    PostCSS and Autoprefixer configuration
 dist/                Generated production output

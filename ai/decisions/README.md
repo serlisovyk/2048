@@ -49,3 +49,4 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-10 — one header with an icon toolbar; icons are inline SVG](2026-10-10-header-toolbar.md)
 - [2026-10-10 — one tile palette in two ramps, a shared sheen, and a base-rule fallback](2026-10-10-tile-palette.md)
 - [2026-10-10 — the score pop is a separate `aria-hidden` element, one at a time, and fades in place under reduced motion](2026-10-10-score-pop.md)
+- [2026-10-10 — Rubik, self-hosted, Latin only, with tabular digits](2026-10-10-self-hosted-font.md)

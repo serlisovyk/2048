@@ -3,9 +3,8 @@
 Issue: MY-126 · Branch: `my-126-tile-slides` · Plan: `ai/superpowers/plans/2026-10-10-tile-slides.md`
 
 The issue left two questions to the plan: what a game restored from the save does on screen,
-and what happens to input during an animation. They are marked **Open** below with the
-recommended behavior; the author's answers (plan, section 1) settle them and this text is
-updated with them.
+and what happens to input during an animation. The author answered them on 2026-10-10 (plan,
+section 6) and approved the recommended behavior in both; this text is that behavior.
 
 ## Goal
 
@@ -46,29 +45,26 @@ not change.
 
 - **New Game / Restart Game:** the old tiles disappear at once and the two starting tiles pop
   in, as today.
-- **Reload with a saved game — Open (plan, Q1).** Recommended: the board appears at once,
-  exactly as it was left, with no animation of any kind. The alternative is a pop-in of every
-  tile. Neither shows a merge pop.
+- **Reload with a saved game:** the board appears at once, exactly as it was left, with no
+  animation of any kind: no merge pop and no pop-in.
 
 ### Fast input
 
-- **Open (plan, Q2).** Recommended: a press during an animation finishes it at once (every
-  tile jumps to where it was going, merges are applied, the new tile is shown) and the new
-  move starts from that board. Nothing is queued, nothing is dropped, there is no delay
-  between a press and its move. The alternative is a queue of one or two moves that wait for
-  the running animation.
-- In both cases a move is never applied to a board that is not yet in its final state, and
-  the board after any series of presses is the board the rules give for those moves.
-- The 100 ms input lock (`isMoving`, `MOVE_COOLDOWN_MS`) goes away with the recommended
-  option. A held key repeats at the keyboard's own rate.
+- A press during an animation finishes it at once (every tile jumps to where it was going,
+  merges are applied, the new tile is shown) and the new move starts from that board. Nothing
+  is queued, nothing is dropped, there is no delay between a press and its move.
+- A move is never applied to a board that is not yet in its final state, and the board after
+  any series of presses is the board the rules give for those moves.
+- The 100 ms input lock (`isMoving`, `MOVE_COOLDOWN_MS`) is gone. A held key repeats at the
+  keyboard's own rate and each repeat event is a move; ignoring `event.repeat` is not part of
+  this issue.
 - Keyboard and swipe behave the same, and both still go through `requestMove`.
 
 ### Dialogs
 
 - The win and game-over dialogs open at once after the move that causes them, as today, and
   the move animates behind the dimmed backdrop. `Game over` still wins over `win` on the
-  same move (`ai/decisions/2026-10-10-win-and-game-over-same-move.md`). The alternative, a
-  dialog after the animation, is plan Q3.
+  same move (`ai/decisions/2026-10-10-win-and-game-over-same-move.md`).
 - `New Game` and the buttons in the dialogs clear the board and cut any animation in flight.
 
 ### Reduced motion
@@ -92,7 +88,8 @@ not change.
   the score's live region, keyboard and swipe mapping, the confirmation, focus on the board
   after a dialog, the saved game and its format (`SAVED_GAME_VERSION` stays 1).
 - The board is still one focusable element (`.game-grid`, no outline). The numbers on the
-  tiles stay readable text in the page, in row-major order (plan, Q4).
+  tiles stay readable text in the page, in row-major order: after a move settles the tiles are
+  re-ordered row by row in the DOM.
 
 ## How it will be checked
 

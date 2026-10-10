@@ -371,6 +371,25 @@ used for this.
   accessibility tree).
 - Screenshots and a frame sequence of a slide and a merge go to the scratchpad.
 
-## 6. Author's answers
+## 6. Author's answers (2026-10-10)
 
-Pending (Q1 to Q4 in section 1).
+The author approved the plan with every recommendation in it.
+
+1. **Q1. A restored game.** Option A: it renders without any animation (`render(tiles)`), so
+   there is no merge pulse and no pop-in after a reload.
+2. **Q2. Input during an animation.** Option B: the view finishes the running animation at once
+   (`getAnimations({ subtree: true }).forEach((animation) => animation.finish())`) and the next
+   move is applied right away. `#isMoving`, its timer and `MOVE_COOLDOWN_MS` are removed. Key
+   auto-repeat stays as it is, each repeat event is a move; ignoring `event.repeat` is out of
+   scope.
+3. **Q3. Dialogs.** The win and game-over dialogs open immediately, as today; the animation
+   runs under the backdrop.
+4. **Q4. Reading order.** After a move settles, `GridView` re-orders the tile elements row by
+   row, so the reading order of the numbers stays as it is today.
+5. **Also accepted:** the `translate` and `scale` properties instead of
+   `transform: translate(...)` (the deviation from the issue text, and why, is in section 2.2
+   and goes into the decision record); the transition only on `.game-grid.is-sliding .tile`
+   (section 2.2); a merge creates a new tile with a new id (section 2.1).
+6. **MY-123 and the rebase.** The `tiles.css` change stays a pure selector rename, so it can be
+   redone on top of MY-123's tokens if that task lands later. `main` had not moved when the work
+   started (still `5179db6`), so the rebase before coding was a no-op.

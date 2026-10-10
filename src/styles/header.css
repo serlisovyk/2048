@@ -66,3 +66,9 @@
   font-weight: bold;
   line-height: 1.2;
 }
+
+@media (max-height: 600px) {
+  .game-layout {
+    --header-gap: 10px;
+  }
+}

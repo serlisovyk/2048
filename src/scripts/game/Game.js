@@ -26,6 +26,36 @@ export class Game {
     return this.#isOver
   }
 
+  toState() {
+    return {
+      board: this.#board.toArray(),
+      score: this.#score,
+      hasWon: this.#hasWon,
+    }
+  }
+
+  restore(state) {
+    const { board, score, hasWon } = state ?? {}
+    const restoredBoard = new Board(this.#size)
+
+    if (
+      !restoredBoard.restore(board) ||
+      !Number.isSafeInteger(score) ||
+      score < 0 ||
+      typeof hasWon !== 'boolean' ||
+      !restoredBoard.hasAvailableMoves()
+    ) {
+      return false
+    }
+
+    this.#board = restoredBoard
+    this.#score = score
+    this.#hasWon = hasWon
+    this.#isOver = false
+
+    return true
+  }
+
   start() {
     this.#board = new Board(this.#size)
     this.#score = 0

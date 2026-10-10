@@ -13,6 +13,14 @@ export class Board {
     return this.#cells.map((row) => [...row])
   }
 
+  restore(cells) {
+    if (!Board.#isValidCells(cells, this.#size)) return false
+
+    this.#cells = cells.map((row) => [...row])
+
+    return true
+  }
+
   spawnRandomTile() {
     const emptyCells = this.#getEmptyCells()
 
@@ -104,6 +112,30 @@ export class Board {
     line.forEach((value, row) => {
       this.#cells[row][col] = value
     })
+  }
+
+  static #isValidCells(cells, size) {
+    return (
+      Array.isArray(cells) &&
+      cells.length === size &&
+      cells.every(
+        (row) =>
+          Array.isArray(row) &&
+          row.length === size &&
+          row.every((value) => Board.#isTileValue(value)),
+      )
+    )
+  }
+
+  static #isTileValue(value) {
+    if (value === 0) return true
+    if (!Number.isSafeInteger(value) || value < 2) return false
+
+    let remainder = value
+
+    while (remainder % 2 === 0) remainder /= 2
+
+    return remainder === 1
   }
 
   static #slideLine(line, isTowardsStart) {

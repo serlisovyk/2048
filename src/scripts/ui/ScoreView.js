@@ -1,10 +1,16 @@
 export class ScoreView {
   #scoreElement
   #highScoreElement
+  #resetHighScoreButton
 
-  constructor({ scoreElement, highScoreElement }) {
+  constructor({ scoreElement, highScoreElement, resetHighScoreButton }) {
     this.#scoreElement = scoreElement
     this.#highScoreElement = highScoreElement
+    this.#resetHighScoreButton = resetHighScoreButton
+  }
+
+  onResetHighScore(handler) {
+    this.#resetHighScoreButton.addEventListener('click', handler)
   }
 
   renderScore(score) {
@@ -13,5 +19,6 @@ export class ScoreView {
 
   renderHighScore(highScore) {
     this.#highScoreElement.textContent = highScore
+    this.#resetHighScoreButton.hidden = highScore === 0
   }
 }

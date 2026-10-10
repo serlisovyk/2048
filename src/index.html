@@ -25,7 +25,31 @@
     <h1>2048 Game</h1>
     <header class="score-container">
       <div>Score: <span class="current-score">0</span></div>
-      <div>High Score: <span class="high-score">0</span></div>
+      <div>
+        High Score: <span class="high-score">0</span>
+        <button
+          class="reset-high-score-button"
+          aria-label="Reset high score"
+          title="Reset high score"
+          hidden
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="16"
+            height="16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M20 12a8 8 0 1 1-2.34-5.66L20 8.7" />
+            <path d="M20 4v4.7h-4.7" />
+          </svg>
+        </button>
+      </div>
     </header>
     <main class="game-container">
       <div class="game-grid" aria-label="2048 board"></div>

@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreView: new ScoreView({
       scoreElement: document.querySelector('.current-score'),
       highScoreElement: document.querySelector('.high-score'),
+      resetHighScoreButton: document.querySelector('.reset-high-score-button'),
     }),
     overlayView,
     confirmDialogView,

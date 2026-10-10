@@ -104,7 +104,8 @@ async requestResetHighScore() {
 `controls.css`, one block (the icon button):
 
 - `.reset-high-score-button`: `padding: 8px` around a 16px icon (32px target),
-  `margin: -6px 0 -6px 6px` and `vertical-align: middle` (the box does not grow),
+  `margin: -10px -6px -10px 0` and `vertical-align: middle` (the box does not grow and the
+  icon sits close to the number),
   `background: transparent`, `border: none`, `border-radius: 50%`, `color: #b0b0b0`,
   `cursor: pointer`, `transition` on colour and background (`motion.css` already
   zeroes transitions under `prefers-reduced-motion`).

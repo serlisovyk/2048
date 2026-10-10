@@ -53,6 +53,29 @@
   background-color: rgba(255, 255, 255, 0.15);
 }
 
+.reset-high-score-button {
+  margin: -10px -6px -10px 0;
+  padding: 8px;
+  vertical-align: middle;
+  background-color: transparent;
+  color: #b0b0b0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.reset-high-score-button:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.reset-high-score-button svg {
+  display: block;
+}
+
 .new-game-button {
   margin-top: 24px;
   padding: 12px 28px;

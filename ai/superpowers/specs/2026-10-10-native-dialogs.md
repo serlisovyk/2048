@@ -36,8 +36,9 @@ and settings dialogs that follow (MY-115, MY-117, MY-127).
   buttons (and by `Escape` on the win dialog).
 - Appearing keeps the short pop-in animation (dialog scales and fades in, the
   backdrop fades in); `prefers-reduced-motion` turns both off.
-- When a dialog closes, focus goes to the game board, and the arrows and WASD work
-  immediately, without a click.
+- When a dialog closes, however it was closed (a button, `Escape`, or the browser),
+  focus goes to the game board, and the arrows and WASD work immediately, without a
+  click. The page `New Game` button, which opens no dialog, leaves focus alone.
 - Never two dialogs at once: showing one closes the other first.
 
 ### Win dialog
@@ -61,20 +62,24 @@ Shown when a move leaves no moves.
 | `Restart Game` | Closes the dialog, starts a new game                          |
 | `Escape`       | Nothing: the dialog stays open (there is nothing to continue) |
 
-`Escape` is ignored however often it is pressed. Browsers may close a dialog on a
-repeated `Escape` or a repeated "back" gesture even when `cancel` is prevented; the
-dialog is then shown again.
+`Escape` is cancelled by the page, so the first press does nothing. A browser may
+still close the dialog on a repeated `Escape` or a repeated "back" gesture without any
+other interaction in between (Chromium's protection against pages that trap the
+user); that is accepted and the dialog is **not** reopened. The game stays over: the
+board does not move, nothing is paused, no other dialog appears, focus goes to the
+board, and the page `New Game` button starts a new game. The next game over shows the
+dialog again.
 
 ### A move that wins and ends the game at once
 
-One dialog only: the **game-over** dialog, with an extra line saying the player
-reached 2048, and the single button `Restart Game`. The win dialog is not shown.
-_Recommended in the plan; to be confirmed by the author before implementation — the
-plan lists the alternatives._
+One dialog only: the **game-over** dialog, with an extra line `You've reached 2048!`
+between the title `Game Over!` and `No more moves available`, and the single button
+`Restart Game`. The win dialog is not shown. Approved by the author.
 
 Why: there is nothing to continue, so `Continue Playing` would lead to a dead board;
 a finished game is what the player has to act on; the original 2048 also lets "game
-over" take precedence over "won".
+over" take precedence over "won". The line shows only for this case — a game over
+that comes later, after `Continue Playing`, has the usual text.
 
 ### Unchanged
 

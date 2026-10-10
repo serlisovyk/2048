@@ -15,4 +15,17 @@
 
     animation-duration: var(--score-pop-duration) !important;
   }
+
+  /* The record badge is static: full size and opacity for its whole time, then gone. */
+  .record-badge {
+    animation-name: record-badge-static;
+    animation-duration: var(--record-badge-duration) !important;
+  }
+
+  @keyframes record-badge-static {
+    from,
+    to {
+      opacity: 1;
+    }
+  }
 }

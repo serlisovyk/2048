@@ -90,6 +90,55 @@
   }
 }
 
+/* Floats over the top edge of the High Score box, out of the layout, so it never moves
+   the header and stays clear of the reset button in the box's second row. It runs once
+   and ScoreView hides it on animationend. */
+.record-badge {
+  --record-badge-duration: 4000ms;
+
+  position: absolute;
+  top: 0;
+  right: 8px;
+  translate: 0 -50%;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: #ffd700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  color: #3b3226;
+  font-size: clamp(11px, 2.8vw, 12px);
+  font-weight: bold;
+  line-height: 1.15;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: record-badge var(--record-badge-duration) ease-out forwards;
+}
+
+@keyframes record-badge {
+  0% {
+    opacity: 0;
+    scale: 0.6;
+  }
+
+  8% {
+    opacity: 1;
+    scale: 1.08;
+  }
+
+  14% {
+    scale: 1;
+  }
+
+  90% {
+    opacity: 1;
+    scale: 1;
+  }
+
+  100% {
+    opacity: 0;
+    scale: 1;
+  }
+}
+
 .score-label {
   grid-column: 1 / -1;
   color: #c4c4c4;

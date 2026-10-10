@@ -32,14 +32,16 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmButton: document.querySelector('.confirm-accept-button'),
   })
 
+  const scoreView = new ScoreView({
+    scoreElement: document.querySelector('.current-score'),
+    highScoreElement: document.querySelector('.high-score'),
+    resetHighScoreButton: document.querySelector('.reset-high-score-button'),
+  })
+
   const controller = new GameController({
     game: new Game({ size: BOARD_SIZE, winTile: WIN_TILE }),
     gridView: new GridView(gridElement, BOARD_SIZE),
-    scoreView: new ScoreView({
-      scoreElement: document.querySelector('.current-score'),
-      highScoreElement: document.querySelector('.high-score'),
-      resetHighScoreButton: document.querySelector('.reset-high-score-button'),
-    }),
+    scoreView,
     overlayView,
     confirmDialogView,
     storage: new SafeStorage(),
@@ -54,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   overlayView.onContinue(() => controller.continueAfterWin())
   overlayView.onRestart(restart)
   overlayView.onClose(() => controller.returnFocusToBoard())
+  scoreView.onResetHighScore(() => controller.requestResetHighScore())
   newGameButton.addEventListener('click', () => controller.requestNewGame())
 
   controller.start()

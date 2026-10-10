@@ -7,6 +7,12 @@ export class GameController {
     confirmLabel: 'New Game',
   })
 
+  static #RESET_HIGH_SCORE_PROMPT = Object.freeze({
+    title: 'Reset the high score?',
+    message: 'It will be set back to 0. Your current game is not affected.',
+    confirmLabel: 'Reset',
+  })
+
   #game
   #gridView
   #scoreView
@@ -50,6 +56,15 @@ export class GameController {
     if (!(await this.#confirm(GameController.#NEW_GAME_PROMPT))) return
 
     this.restart()
+    this.returnFocusToBoard()
+  }
+
+  async requestResetHighScore() {
+    if (this.#highScore === 0) return
+
+    if (!(await this.#confirm(GameController.#RESET_HIGH_SCORE_PROMPT))) return
+
+    this.#resetHighScore()
     this.returnFocusToBoard()
   }
 
@@ -142,6 +157,12 @@ export class GameController {
 
   #clearSavedGame() {
     this.#storage.remove(STORAGE_KEYS.SAVED_GAME)
+  }
+
+  #resetHighScore() {
+    this.#highScore = 0
+    this.#scoreView.renderHighScore(0)
+    this.#storage.setValue(STORAGE_KEYS.HIGH_SCORE, 0)
   }
 
   #renderScore() {

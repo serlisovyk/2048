@@ -2,8 +2,12 @@
   "name": "2048-vanilla-js",
   "version": "1.0.0",
   "author": "Serhii Lisovyk",
+  "license": "MIT",
   "description": "2048 browser game built with HTML, CSS, vanilla JavaScript, and Vite.",
   "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -6,14 +6,17 @@ import { Game } from './game/Game.js'
 import { KeyboardInput } from './input/KeyboardInput.js'
 import { SwipeInput } from './input/SwipeInput.js'
 import { SafeStorage } from './storage/SafeStorage.js'
+import { ThemeController } from './ThemeController.js'
 import { ConfirmDialogView } from './ui/ConfirmDialogView.js'
 import { GridView } from './ui/GridView.js'
 import { OverlayView } from './ui/OverlayView.js'
 import { ScoreView } from './ui/ScoreView.js'
+import { ThemeView } from './ui/ThemeView.js'
 
 document.addEventListener('DOMContentLoaded', () => {
   const gridElement = document.querySelector('.game-grid')
   const newGameButton = document.querySelector('.new-game-button')
+  const storage = new SafeStorage()
 
   const overlayView = new OverlayView({
     winDialog: document.querySelector('.win-overlay'),
@@ -47,7 +50,19 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreView,
     overlayView,
     confirmDialogView,
-    storage: new SafeStorage(),
+    storage,
+  })
+
+  const themeView = new ThemeView({
+    root: document.documentElement,
+    button: document.querySelector('.theme-toggle'),
+    themeColorMetas: document.querySelectorAll('meta[name="theme-color"]'),
+  })
+
+  const themeController = new ThemeController({
+    view: themeView,
+    storage,
+    systemQuery: matchMedia('(prefers-color-scheme: light)'),
   })
 
   const requestMove = (direction) => controller.requestMove(direction)
@@ -61,6 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
   overlayView.onClose(() => controller.returnFocusToBoard())
   scoreView.onResetHighScore(() => controller.requestResetHighScore())
   newGameButton.addEventListener('click', () => controller.requestNewGame())
+  themeView.onToggle(() => themeController.toggle())
 
+  themeController.start()
   controller.start()
 })

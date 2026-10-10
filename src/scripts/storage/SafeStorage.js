@@ -16,6 +16,14 @@ export class SafeStorage {
     }
   }
 
+  getString(key) {
+    try {
+      return this.#storage?.getItem(key) ?? null
+    } catch {
+      return null
+    }
+  }
+
   getJson(key) {
     try {
       const rawValue = this.#storage?.getItem(key)

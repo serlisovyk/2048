@@ -90,3 +90,17 @@
 .toolbar-button svg {
   display: block;
 }
+
+/* The toggle shows the theme it switches to: the sun on the dark page, the moon on the
+   light one. Dark is also what a page without data-theme looks like. */
+.theme-toggle .theme-icon-moon {
+  display: none;
+}
+
+:root[data-theme='light'] .theme-toggle .theme-icon-sun {
+  display: none;
+}
+
+:root[data-theme='light'] .theme-toggle .theme-icon-moon {
+  display: block;
+}

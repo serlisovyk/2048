@@ -10,7 +10,16 @@
       name="description"
       content="Responsive 2048 browser game built with HTML, CSS, vanilla JavaScript, and Vite."
     />
-    <meta name="theme-color" content="#333333" />
+    <meta
+      name="theme-color"
+      content="#f4efe6"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#333333"
+      media="(prefers-color-scheme: dark)"
+    />
     <meta property="og:title" content="2048 Game" />
     <meta
       property="og:description"
@@ -25,6 +34,28 @@
       type="font/woff2"
       crossorigin
     />
+    <script>
+      ;(() => {
+        let stored = null
+
+        try {
+          // The same key as STORAGE_KEYS.THEME in src/scripts/constants.js. This is the one
+          // read of storage that skips SafeStorage: it has to run before any module.
+          stored = localStorage.getItem('theme')
+        } catch {
+          // Storage is blocked: the system setting decides.
+        }
+
+        const theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light'
+              : 'dark'
+
+        document.documentElement.dataset.theme = theme
+      })()
+    </script>
     <script type="module" src="./scripts/main.js"></script>
     <title>2048</title>
   </head>
@@ -51,6 +82,45 @@
               focusable="false"
             >
               <path d="M12 5v14M5 12h14" />
+            </svg>
+          </button>
+          <button
+            class="toolbar-button theme-toggle"
+            aria-label="Switch to light theme"
+            title="Switch to light theme"
+          >
+            <svg
+              class="theme-icon-sun"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+              />
+            </svg>
+            <svg
+              class="theme-icon-moon"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.8 6.8 0 0 0 10.7 10.7z" />
             </svg>
           </button>
         </div>

@@ -30,6 +30,13 @@ export const KEY_CODE_DIRECTIONS = Object.freeze({
 export const STORAGE_KEYS = Object.freeze({
   HIGH_SCORE: 'highScore',
   SAVED_GAME: 'savedGame',
+  // The inline script in index.html reads this key by its literal, before any module runs.
+  THEME: 'theme',
+})
+
+export const THEMES = Object.freeze({
+  LIGHT: 'light',
+  DARK: 'dark',
 })
 
 export const SAVED_GAME_VERSION = 1

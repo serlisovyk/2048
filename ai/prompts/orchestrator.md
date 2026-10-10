@@ -33,7 +33,7 @@ Before anything else, read `AGENTS.md`, `ai/workflow.md`, and `ai/map.md`.
 - Subagents run on **Sonnet 5.5** (Agent tool: `model: "sonnet"`); the orchestrator
   itself stays on the session's model. Their commits end with
   `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`.
-- The subagent's prompt is `ai/task-prompt-template.md` with `{ISSUE}` filled in,
+- The subagent's prompt is `ai/prompts/task.md` with `{ISSUE}` filled in,
   plus: "You are already in a dedicated worktree — create branch
   `my-<n>-<slug>` off `main` there and run `yarn install`."
 

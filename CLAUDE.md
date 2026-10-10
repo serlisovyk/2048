@@ -15,7 +15,8 @@ here.
   something lives.
 - Task flow: `ai/workflow.md` — branch → plan → implement → docs → verify → DoD →
   self-review → report → author approval → local merge into `main`.
-- Several tasks from one session: `ai/orchestrator-prompt-template.md`.
+- Session prompts: `ai/prompts/` — `orchestrator.md` for several tasks from one
+  session, `task.md` for one task.
 - Rules of record: `ai/rules/`. Decision records: `ai/decisions/` — including the
   list of features the author rejected; do not propose them again.
 - No automated test suite. Verify with `yarn lint`, `yarn format:check`, `yarn build`, `yarn size`, and by

@@ -55,9 +55,9 @@ The parts that never bend:
 - Merges happen locally into `main`, then `main` is pushed. No pull requests.
 - No automated tests — do not add them unless explicitly asked.
 
-To run several tasks from one session, use `ai/orchestrator-prompt-template.md`. To
-run a single task, use `ai/task-prompt-template.md`. Linear issues follow
-`ai/linear-task-template.md`.
+Prompts to start agent sessions live in `ai/prompts/` (index in
+`ai/prompts/README.md`): `orchestrator.md` runs several tasks from one session,
+`task.md` runs a single task. Linear issues follow `ai/linear-task-template.md`.
 
 ## Skills
 

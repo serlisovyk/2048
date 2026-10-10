@@ -1,8 +1,8 @@
 # Task session prompt template
 
 Fill in `{ISSUE}` and send it as the session's first message. The orchestrator
-(`ai/orchestrator-prompt-template.md`) sends the same prompt to each subagent, with
-the worktree already chosen.
+(`ai/prompts/orchestrator.md`) sends the same prompt to each subagent, with the
+worktree already chosen.
 
 ---
 

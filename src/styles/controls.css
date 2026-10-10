@@ -71,30 +71,21 @@
   color: #ffffff;
 }
 
-.reset-high-score-button svg {
-  display: block;
-}
-
-.new-game-button {
-  margin-top: 24px;
-  padding: 12px 28px;
-  background-color: #555555;
+.toolbar-button {
+  padding: 9px;
+  background-color: #444444;
   color: #f0f0f0;
-  border: 2px solid #666666;
+  border: 1px solid #555555;
   border-radius: 8px;
   cursor: pointer;
-  font-size: clamp(14px, 2.5vw, 16px);
-  font-weight: bold;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease;
 }
 
-.new-game-button:hover {
-  background-color: #666666;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+.toolbar-button:hover {
+  background-color: #555555;
 }
 
-.new-game-button:active {
-  transform: translateY(0);
+.reset-high-score-button svg,
+.toolbar-button svg {
+  display: block;
 }

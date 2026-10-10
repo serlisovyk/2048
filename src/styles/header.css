@@ -27,6 +27,11 @@
   line-height: 1.1;
 }
 
+.toolbar {
+  display: flex;
+  gap: 8px;
+}
+
 .score-container {
   display: grid;
   grid-column: 1 / -1;

@@ -20,6 +20,10 @@ export const KEY_CODE_DIRECTIONS = Object.freeze({
   ArrowDown: DIRECTIONS.DOWN,
   ArrowLeft: DIRECTIONS.LEFT,
   ArrowRight: DIRECTIONS.RIGHT,
+  KeyW: DIRECTIONS.UP,
+  KeyS: DIRECTIONS.DOWN,
+  KeyA: DIRECTIONS.LEFT,
+  KeyD: DIRECTIONS.RIGHT,
 })
 
 export const STORAGE_KEYS = Object.freeze({

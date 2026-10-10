@@ -2,6 +2,7 @@
    theme is the default on :root; the other stylesheets only read var(--...). */
 :root {
   color-scheme: dark;
+  --theme-reveal-duration: 500ms;
 
   --page-bg: #333333;
   --text: #f0f0f0;
@@ -83,4 +84,29 @@
   --button-hover-bg: #4a3f36;
   --button-outline: rgba(46, 38, 32, 0.85);
   --button-outline-hover-bg: rgba(46, 38, 32, 0.08);
+}
+
+/* The switch reveals the new theme as a circle that grows from the toggle button; ThemeView
+   sets the centre and the radius. Only where the View Transitions API exists and motion is
+   not reduced: everywhere else the theme just changes. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: theme-reveal var(--theme-reveal-duration) ease-in-out;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-reveal-x) var(--theme-reveal-y));
+  }
+
+  to {
+    clip-path: circle(
+      var(--theme-reveal-radius) at var(--theme-reveal-x) var(--theme-reveal-y)
+    );
+  }
 }

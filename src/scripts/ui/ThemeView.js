@@ -4,11 +4,13 @@ export class ThemeView {
   #root
   #button
   #themeColorMetas
+  #reducedMotionQuery
 
-  constructor({ root, button, themeColorMetas }) {
+  constructor({ root, button, themeColorMetas, reducedMotionQuery }) {
     this.#root = root
     this.#button = button
     this.#themeColorMetas = themeColorMetas
+    this.#reducedMotionQuery = reducedMotionQuery
   }
 
   onToggle(handler) {
@@ -19,6 +21,40 @@ export class ThemeView {
     this.#root.dataset.theme = theme
     this.#renderButton(theme)
     this.#renderThemeColor()
+  }
+
+  // Progressive enhancement: where the View Transitions API exists and motion is not
+  // reduced, the new theme spreads from the button as a circle (the CSS is in theme.css);
+  // everywhere else it is the same instant render.
+  transitionTo(theme) {
+    if (!document.startViewTransition || this.#reducedMotionQuery.matches) {
+      this.render(theme)
+
+      return
+    }
+
+    this.#placeReveal()
+
+    const transition = document.startViewTransition(() => this.render(theme))
+
+    // A transition replaced by a newer one rejects `ready`; there is nothing to undo.
+    transition.ready.catch(() => {})
+  }
+
+  // The circle starts at the button's centre (not the pointer, so a key press works too)
+  // and ends past the farthest corner of the window.
+  #placeReveal() {
+    const { left, top, width, height } = this.#button.getBoundingClientRect()
+    const x = left + width / 2
+    const y = top + height / 2
+    const radius = Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y),
+    )
+
+    this.#root.style.setProperty('--theme-reveal-x', `${x}px`)
+    this.#root.style.setProperty('--theme-reveal-y', `${y}px`)
+    this.#root.style.setProperty('--theme-reveal-radius', `${radius}px`)
   }
 
   // The button names the action: the theme it switches to, not the one that is shown.

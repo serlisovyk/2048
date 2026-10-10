@@ -26,7 +26,7 @@ export class ThemeController {
     this.#theme = this.#theme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT
     this.#isChosen = true
     this.#storage.setValue(STORAGE_KEYS.THEME, this.#theme)
-    this.#view.render(this.#theme)
+    this.#view.transitionTo(this.#theme)
   }
 
   // The system setting only counts while the player has not chosen a theme.

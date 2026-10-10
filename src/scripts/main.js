@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     root: document.documentElement,
     button: document.querySelector('.theme-toggle'),
     themeColorMetas: document.querySelectorAll('meta[name="theme-color"]'),
+    reducedMotionQuery: matchMedia('(prefers-reduced-motion: reduce)'),
   })
 
   const themeController = new ThemeController({

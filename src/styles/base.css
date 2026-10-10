@@ -6,6 +6,22 @@
   src: url('../fonts/rubik-latin-wght-normal.woff2') format('woff2');
 }
 
+/* Arial scaled to the width of Rubik's digits, used until Rubik arrives, so the logo
+   does not change width when the font swaps in. */
+@font-face {
+  font-family: 'Rubik Fallback';
+  font-weight: 400;
+  src: local('Arial');
+  size-adjust: 119%;
+}
+
+@font-face {
+  font-family: 'Rubik Fallback';
+  font-weight: 700;
+  src: local('Arial Bold'), local('Arial-BoldMT');
+  size-adjust: 119%;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -23,8 +39,9 @@ body {
 }
 
 body {
-  font-family: 'Rubik', Arial, sans-serif;
+  font-family: 'Rubik', 'Rubik Fallback', Arial, sans-serif;
   font-variant-numeric: tabular-nums;
+  line-height: 1.15;
   background-color: #333333;
   color: #f0f0f0;
 }

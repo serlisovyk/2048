@@ -48,13 +48,34 @@ reads or writes persisted data.
      `show…()` calls `showModal()`, `hide…()` calls `close()`, user actions are
      `on<Action>(handler)`; no `style.display`, no manual focus. Showing a dialog
      closes the other game-end dialog first, so two are never open at once. Give a
-     dialog its own view class once it has state of its own (a settings form).
+     dialog its own view class once it has state of its own (`ConfirmDialogView`, a
+     settings form).
    - **`Escape`** is the `cancel` event: cancel it and run the action that fits
      (`Continue Playing`, `Cancel`), or only `preventDefault()` when there is nothing
      to dismiss into. A browser may still close a dialog by force on a repeated
      `Escape`; leave it closed and keep the controller's state valid.
-   - **Focus**: `OverlayView.onClose` (fires for every close) is wired in `main.js` to
-     `GameController.returnFocusToBoard()`.
+   - **Focus**: the win and game-over dialogs return focus to the board on every
+     close: `OverlayView.onClose` (it fires for every close) is wired in `main.js` to
+     `GameController.returnFocusToBoard()`. A dialog a button opens and the player can
+     dismiss (the confirmation) gives focus back to that button instead — see below.
+   - **Confirmation** ("are you sure?" before something hard to undo — a new game, a
+     reset, a settings change): do not write another dialog, ask the shared one.
+     `ConfirmDialogView.ask({ title, message, confirmLabel, cancelLabel })` returns a
+     `Promise<boolean>`, so the use case reads
+     `if (!(await this.#confirm(GameController.#NEW_GAME_PROMPT))) return`, where
+     `#confirm` wraps `ask()` and the focus rule.
+     The wording is a private static frozen prompt next to the use case; the view only
+     defaults `cancelLabel` to `Cancel`. `Cancel` has the initial focus, and `Escape`
+     or a close forced by the browser answer `false` (nothing is lost). Ask only when
+     there is something to lose (`game.isInProgress`), and keep an unconditional path
+     (`restart()`) for buttons whose intent is already explicit (the win and game-over
+     dialogs). Focus: `ask()` remembers the focused element; after a "no" the
+     controller calls `restoreFocus()` (back to that element) and falls back to
+     `returnFocusToBoard()` when it returns `false`; after a "yes" the use case acts and
+     then calls `returnFocusToBoard()` itself. There is no `onClose` hook for it. One
+     question at a time; a confirmation stacked over another dialog is
+     for the issue that needs it to decide
+     (`ai/decisions/2026-10-10-confirm-dialog.md`).
    - **Controller**: decides when to show which dialog and whether a pause flag is
      needed; the model only reports (`justWon`, `isOver`).
    - **CSS** (`overlays.css`): `display` only on `dialog[open]`; `margin: auto`
@@ -74,6 +95,8 @@ reads or writes persisted data.
 - Module-level state or loose functions where a class method belongs.
 - A second input path that bypasses `requestMove`.
 - Hand-made overlays, focus traps, or `style.display` toggling for a dialog.
+- A second confirmation dialog, or a copy of the confirmation markup, for a new
+  "are you sure?" — use `ConfirmDialogView.ask`.
 - Base classes, factories, or other abstractions for a single implementation.
 - Reading `localStorage` directly instead of through `SafeStorage`.
 - Features listed in `ai/decisions/2026-10-10-rejected-features.md`.

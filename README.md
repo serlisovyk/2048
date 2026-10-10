@@ -21,8 +21,11 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - The game in progress is saved in the browser and restored after a reload
 - Win dialog: keep playing or start a new game (`Escape` keeps playing)
 - Game-over dialog when no moves remain; if the same move reaches 2048, it says so
+- `New Game` in the middle of a game asks for confirmation first (`Cancel` is focused,
+  `Escape` cancels and focus returns to the button); a fresh or finished game starts
+  over at once
 - Dialogs are native `<dialog>` modals: the page behind is dimmed and inert, `Tab`
-  stays inside, and focus returns to the board when they close
+  stays inside, and focus returns to the board when the win and game-over dialogs close
 - Responsive layout for desktop, tablet, and small mobile screens, clear of notches
   and home indicators
 - Generated board cells controlled by one `BOARD_SIZE` constant
@@ -71,7 +74,7 @@ src/
     layout.css           Page, score, and responsive layout
     board.css            Board, cells, and tile animations
     tiles.css            Tile value colors and text sizing
-    overlays.css         Win and game-over dialogs
+    overlays.css         Win, game-over, and confirmation dialogs
     controls.css         Button styles
     motion.css           Reduced-motion preferences
 ai/                  AI-agent docs: repo map, workflow, rules, decisions, skills, templates
@@ -156,9 +159,10 @@ CI runs `lint`, `format:check`, `build`, and `size` on every push.
   directions, and `GameController` connects them. `main.js` wires everything.
 - Grid cells and the CSS grid are generated from `BOARD_SIZE`, so the board
   structure is not duplicated in HTML or CSS.
-- The win and game-over dialogs are native `<dialog>` elements opened with
-  `showModal()`, so the browser provides the backdrop, the inert page, and the focus
-  trap; there is no hand-made overlay code.
+- The win, game-over, and confirmation dialogs are native `<dialog>` elements opened
+  with `showModal()`, so the browser provides the backdrop, the inert page, and the
+  focus trap; there is no hand-made overlay code. The confirmation is one shared view
+  that answers a Promise, so every "are you sure?" reuses it.
 - Keyboard and pointer input share the same movement guard to keep moving,
   paused, and game-over states consistent.
 - CSS is split by responsibility rather than by page because the project has

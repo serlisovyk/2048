@@ -17,8 +17,8 @@ conventions. `ai/map.md` lists every file.
   saving and restoring the current game.
 - `src/scripts/game/` is the model (`Board`, `Game`): rules and game state, no DOM,
   no storage, no timers.
-- `src/scripts/ui/` holds the views (`GridView`, `ScoreView`, `OverlayView`): they
-  own their elements and render what they are given.
+- `src/scripts/ui/` holds the views (`GridView`, `ScoreView`, `OverlayView`,
+  `ConfirmDialogView`): they own their elements and render what they are given.
 - `src/scripts/input/` turns keyboard and pointer events into directions
   (`KeyboardInput`, `SwipeInput`).
 - `src/scripts/storage/SafeStorage.js` wraps `localStorage` and never throws.

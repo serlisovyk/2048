@@ -44,3 +44,4 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-10 — double-tap zoom is stopped with `touch-action`, not a viewport zoom lock](2026-10-10-no-viewport-zoom-lock.md)
 - [2026-10-10 — modal dialogs are native `<dialog>` elements](2026-10-10-native-dialog.md)
 - [2026-10-10 — a move that wins and ends the game shows only the game-over dialog](2026-10-10-win-and-game-over-same-move.md)
+- [2026-10-10 — one reusable confirmation dialog, answered with a Promise](2026-10-10-confirm-dialog.md)

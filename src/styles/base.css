@@ -4,6 +4,12 @@
   padding: 0;
 }
 
+html,
+body {
+  overscroll-behavior-y: none;
+  touch-action: manipulation;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #333333;

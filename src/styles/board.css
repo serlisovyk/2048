@@ -6,8 +6,6 @@
   background-color: rgba(0, 0, 0, 0.1);
   padding: var(--cell-gap);
   border-radius: 8px;
-  touch-action: none;
-  user-select: none;
 }
 
 .grid-cell {

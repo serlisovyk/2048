@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const restart = () => controller.restart()
 
   new KeyboardInput(document, requestMove).bind()
-  new SwipeInput(gridElement, requestMove).bind()
+  new SwipeInput(document.querySelector('.game-container'), requestMove).bind()
 
   overlayView.onContinue(() => controller.continueAfterWin())
   overlayView.onRestart(restart)

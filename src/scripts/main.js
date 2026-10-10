@@ -1,4 +1,4 @@
-import './styles/main.css'
+import '../styles/main.css'
 
 const SIZE = 4
 const SWIPE_THRESHOLD = 30

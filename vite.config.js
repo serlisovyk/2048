@@ -36,6 +36,8 @@ function minifyHtml() {
 }
 
 export default defineConfig({
+  root: 'src',
+  publicDir: '../public',
   plugins: [
     legacy({
       targets: ['defaults', 'not IE 11', 'not dead'],
@@ -44,6 +46,7 @@ export default defineConfig({
     minifyHtml(),
   ],
   build: {
+    outDir: '../dist',
     assetsDir: 'assets',
     cssCodeSplit: false,
     cssMinify: true,

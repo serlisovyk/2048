@@ -96,6 +96,7 @@ export class GameController {
     if (!result.moved) return
 
     this.#renderScore()
+    this.#scoreView.showScoreGain(result.scoreGained)
     this.#gridView.render(this.#game.cells, result.spawnedTiles)
 
     if (result.isOver) {

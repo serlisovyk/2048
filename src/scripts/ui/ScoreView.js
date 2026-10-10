@@ -5,6 +5,7 @@ export class ScoreView {
   #highScoreElement
   #resetHighScoreButton
   #announcementElement
+  #popsElement
   #announcedScore = null
   #announcementTimeoutId = null
 
@@ -13,11 +14,13 @@ export class ScoreView {
     highScoreElement,
     resetHighScoreButton,
     announcementElement,
+    popsElement,
   }) {
     this.#scoreElement = scoreElement
     this.#highScoreElement = highScoreElement
     this.#resetHighScoreButton = resetHighScoreButton
     this.#announcementElement = announcementElement
+    this.#popsElement = popsElement
   }
 
   onResetHighScore(handler) {
@@ -34,6 +37,20 @@ export class ScoreView {
     }
 
     this.#scheduleAnnouncement(score)
+  }
+
+  // Decoration only: the container is aria-hidden and sits outside the live region.
+  // One pop at a time, so a burst of moves never draws numbers over one another.
+  showScoreGain(points) {
+    if (points <= 0) return
+
+    const pop = document.createElement('span')
+
+    pop.className = 'score-pop'
+    pop.textContent = `+${points}`
+    pop.addEventListener('animationend', () => pop.remove(), { once: true })
+
+    this.#popsElement.replaceChildren(pop)
   }
 
   renderHighScore(highScore) {

@@ -7,7 +7,9 @@
 
 .restart-game-button,
 .continue-button,
-.win-restart-button {
+.win-restart-button,
+.confirm-cancel-button,
+.confirm-accept-button {
   padding: 12px 24px;
   cursor: pointer;
   background-color: #ffffff;
@@ -22,7 +24,9 @@
 
 .restart-game-button:hover,
 .continue-button:hover,
-.win-restart-button:hover {
+.win-restart-button:hover,
+.confirm-cancel-button:hover,
+.confirm-accept-button:hover {
   background-color: #f0f0f0;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
@@ -30,18 +34,22 @@
 
 .restart-game-button:active,
 .continue-button:active,
-.win-restart-button:active {
+.win-restart-button:active,
+.confirm-cancel-button:active,
+.confirm-accept-button:active {
   transform: translateY(0);
 }
 
-.win-restart-button {
+.win-restart-button,
+.confirm-accept-button {
   padding: 10px 22px;
   background-color: transparent;
   color: #ffffff;
   border: 2px solid rgba(255, 255, 255, 0.8);
 }
 
-.win-restart-button:hover {
+.win-restart-button:hover,
+.confirm-accept-button:hover {
   background-color: rgba(255, 255, 255, 0.15);
 }
 

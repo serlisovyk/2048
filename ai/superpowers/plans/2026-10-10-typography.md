@@ -221,3 +221,16 @@ the diff.
    (webfont practice, nothing in the OFL requires serving it), tabular digits as one
    declaration on `body`, pinned `line-height`, no fallback-metric face unless the
    measurement asks for it.
+
+## Author's answers (2026-10-10)
+
+1. The font is **Rubik**: the variable Latin woff2 copied into the repo as
+   `src/fonts/rubik-latin-wght-normal.woff2` with `src/fonts/OFL.txt` next to it, loaded
+   through `@font-face` with `font-display: swap` and a preload link, exactly as in
+   section 4.
+2. The defaults of section 6 are accepted: `OFL.txt` only in the repo next to the woff2,
+   `tabular-nums` once on `body`, `line-height` pinned on `body` only if the measurement
+   shows it helps, the `size-adjust` fallback only if the throttled run shows a jump of
+   more than 2px, a separate `Font` entry in `size-limit` at 40 kB raw.
+3. If the tile weight of 700 looks too heavy on the screenshots, it is reported to the
+   author and not changed without them.

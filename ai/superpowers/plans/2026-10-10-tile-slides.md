@@ -199,7 +199,8 @@ Private state: `#tiles` (`Map` of id to element), the retired elements, the sett
 `#settle()` is idempotent: cancel the timer; jump every running animation and transition to its
 end (`this.#element.getAnimations({ subtree: true }).forEach((animation) => animation.finish())`);
 remove the retired elements; drop the `new-tile`, `merged-tile` and modifier classes; clear
-`is-sliding`; re-append the tiles in row-major order (Q4).
+`is-sliding`; re-append the tiles in row-major order (Q4). _Built differently: the re-append is not
+part of the settle that starts a move, see section 7._
 
 ### 2.3 The sequence: slide, merge pop, new tile
 
@@ -393,3 +394,46 @@ The author approved the plan with every recommendation in it.
 6. **MY-123 and the rebase.** The `tiles.css` change stays a pure selector rename, so it can be
    redone on top of MY-123's tokens if that task lands later. `main` had not moved when the work
    started (still `5179db6`), so the rebase before coding was a no-op.
+
+## 7. What building it found
+
+- **Re-ordering the DOM cannot run at the start of a move.** The first version called one
+  `#settle()` (finish, tidy, re-append row by row) at the start of `animateMove`. Sampled
+  frames showed the tiles jumping instead of sliding: a node that is re-inserted has no
+  before-change style, so its transition does not run. It is two methods now: `#finish()`
+  (finish the running animations, remove the retired tiles, drop the animation classes,
+  clear `is-sliding`) starts every move and `render()`, and `#settle()` (`#finish()` and then
+  the row-by-row re-append) only runs from the timer, when nothing is about to slide. During a
+  rapid series the DOM order is therefore the creation order until the series stops.
+- **The merge pop starts at scale 1, not 0.95.** The old keyframes began at 0.95; the merged
+  tile has to cover the two tiles that slid under it from its first frame, so it is 1, 1.1, 1.
+- **Measured, with real key events in headless Chrome** (dev server and the production build):
+  - A slide of 16 from column 3 to 1: 618 px to 394 px in about 110 ms (ease-out); the two
+    merge sources are hidden and the merged tile is visible in the same frame, at about 113 ms;
+    the merged tile peaks at 110 px on 100 px at about 158 ms; the new tile starts at about
+    213 ms and is opaque at about 312 ms; the timer settles at about 360 ms.
+  - Reduced motion: in the next frame the tile is at its cell, the merged and new tiles are
+    visible at full size and opacity, `getAnimations()` is empty.
+  - Fast input, 8 runs of 48 to 80 presses (10, 30, 60, 100, 300 ms apart, back to back, and
+    auto-repeat at 33 ms): the DOM board, the saved board and a replay of the same moves on the
+    model (with the page's own random numbers) are equal in every run, exactly two random
+    draws per applied move, no retired or stray tile, no running animation, tiles in row-major
+    order, no console error.
+  - Merge pop only on real merges: over 40 presses (23 moves with merges, 15 plain slides) the
+    `merge-pop`, `tile-retire` and `pop-in` starts match the model's merges and spawns move by
+    move; none after a reload; two `pop-in` for a new game.
+  - Resize: tiles sit on their cells (offset 0 px) after every width change (1000, 768, 600,
+    375, 320, 500), during a drag from 1000 to 320 (worst offset 0.08 px) and after a resize in
+    the middle of a move.
+  - Swipes at 320 and 375 px (400 and 60 ms apart): board equal to the replay, no horizontal
+    overflow, the page never scrolled. Frame intervals during a slide at 4x CPU throttling:
+    median 4.2 ms, worst 16.7 ms (headless runs the frame loop uncapped).
+  - 3x3 and 5x5 with a temporary `BOARD_SIZE` (not committed): the replay matches and tiles sit
+    on their cells at 1000 and 320 px. 5x5 at 320 px is 22 px wider than the screen because of
+    the existing 60 px minimum cell size (`layout.css`, the game-modes issue's to fit).
+  - Win, game over, win and game over on one move, `Continue`, `New Game` and `Restart Game`
+    in the middle of an animation, `+N` and the New record badge (and its one announcement) all
+    behave as before; the dialogs open before the animation ends.
+- **Size:** JS 4.99 kB (was 4.49, +0.50) and CSS 2.90 kB (was 2.73, +0.17), font unchanged:
+  inside the estimates of section 2.9.
+- **Not verified:** a real phone and a real screen reader.

@@ -25,7 +25,8 @@ added, removed, renamed, or moved.
 
 ## `src/index.html`
 
-Page shell: metadata, favicon (`favicon.svg`, hashed by Vite), entry
+Page shell: metadata (the viewport meta has `viewport-fit=cover`), favicon
+(`favicon.svg`, hashed by Vite), entry
 `<script type="module" src="./scripts/main.js">`, score header (`.current-score`,
 `.high-score`), empty `.game-grid`, win overlay (`.win-overlay`, `.continue-button`),
 game-over overlay (`.game-over`, `.restart-game-button`), `.new-game-button`. Board
@@ -37,7 +38,7 @@ Object-oriented, one class per file — conventions in `ai/rules/oop.md`.
 
 | File                     | Layer            | What it does                                                                                                                                                                                                                                                                                                           |
 | ------------------------ | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `main.js`                | Composition root | Imports `../styles/main.css`; on `DOMContentLoaded` queries the DOM, creates every object, wires `KeyboardInput` / `SwipeInput` to `requestMove` and the buttons to `restart` / `continueAfterWin`, calls `start()`.                                                                                                   |
+| `main.js`                | Composition root | Imports `../styles/main.css`; on `DOMContentLoaded` queries the DOM, creates every object, wires `KeyboardInput` / `SwipeInput` (on the game area, `.game-container`) to `requestMove` and the buttons to `restart` / `continueAfterWin`, calls `start()`.                                                             |
 | `constants.js`           | —                | `BOARD_SIZE`, `WIN_TILE`, `SWIPE_THRESHOLD_PX`, `FOUR_TILE_PROBABILITY`, `MOVE_COOLDOWN_MS`, `TILE_ANIMATION_MS`, `ANIMATION_CLEANUP_MS`, `DIRECTIONS`, `KEY_CODE_DIRECTIONS`, `STORAGE_KEYS`, `SAVED_GAME_VERSION`.                                                                                                   |
 | `GameController.js`      | Controller       | `start()`, `restart()`, `continueAfterWin()`, `requestMove(direction)` — the single movement guard (cooldown, pause after win, game over). Keeps the high score and persists it; saves the game after every move that does not end it, restores it in `start()`, deletes it on game over and in `#startNewGame()`.     |
 | `game/Board.js`          | Model            | Private grid. `spawnRandomTile()`, `move(direction)` → `{ moved, scoreGained }`, `hasTile(value)`, `hasAvailableMoves()`, `toArray()`, `restore(cells)` (validates size and tile values, `true`/`false`). Line sliding in `static #slideLine`.                                                                         |
@@ -46,7 +47,7 @@ Object-oriented, one class per file — conventions in `ai/rules/oop.md`.
 | `ui/ScoreView.js`        | View             | `renderScore`, `renderHighScore`.                                                                                                                                                                                                                                                                                      |
 | `ui/OverlayView.js`      | View             | `showWin`, `hideWin`, `showGameOver`, `hideAll` (still via `style.display`), `onContinue`, `onRestart`.                                                                                                                                                                                                                |
 | `input/KeyboardInput.js` | Input            | Arrows and WASD by `event.code` (`KEY_CODE_DIRECTIONS`, any layout) → direction callback; skips Ctrl / Meta / Alt combos and keys from form fields or dialogs.                                                                                                                                                         |
-| `input/SwipeInput.js`    | Input            | Pointer swipe on `.game-grid` above `SWIPE_THRESHOLD_PX` → direction callback.                                                                                                                                                                                                                                         |
+| `input/SwipeInput.js`    | Input            | Pointer swipe on the game area (`.game-container`: the grid and its padding) above `SWIPE_THRESHOLD_PX` → direction callback; never `preventDefault`s, so taps on buttons still click.                                                                                                                                 |
 | `storage/SafeStorage.js` | Storage          | `getNumber(key, fallback)`, `getJson(key)` (`null` when missing or corrupted), `setValue(key, value)`, `setJson(key, value)`, `remove(key)`; returns the fallback / ignores writes when `localStorage` is blocked or throws.                                                                                           |
 
 Known couplings left for later issues: overlays toggle `style.display` and both can
@@ -59,13 +60,21 @@ show at once (MY-114); `merged-cell` also fires on a plain slide into an empty c
 
 | File           | What it holds                                                                                                                  |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `base.css`     | Reset, body font and colors                                                                                                    |
-| `layout.css`   | Page layout, score header, `--cell-size` / `--cell-gap`, breakpoints                                                           |
+| `base.css`     | Reset, body font and colors, `overscroll-behavior-y`, page `touch-action`                                                      |
+| `layout.css`   | Page layout, safe-area body padding, score header, `--cell-size` / `--cell-gap`, game area `touch-action`, breakpoints         |
 | `board.css`    | Grid (`repeat(var(--board-size, 4), …)`), cells, `pop-in` / `merge-scale` animations (`var(--tile-animation-duration, 200ms)`) |
 | `tiles.css`    | Per-value tile colors and font sizes, fallback for larger values                                                               |
 | `overlays.css` | Win and game-over overlays                                                                                                     |
 | `controls.css` | Buttons                                                                                                                        |
 | `motion.css`   | `prefers-reduced-motion` overrides                                                                                             |
+
+Touch and safe areas: `html` and `body` have `overscroll-behavior-y: none` and
+`touch-action: manipulation`; `.game-container` (the swipe surface) has
+`touch-action: none` and `user-select: none`; the body padding on each side is
+`max(var(--page-padding), env(safe-area-inset-<side>, 0px))`. Why page zoom stays
+available: `ai/decisions/2026-10-10-no-viewport-zoom-lock.md`. `main.js` hands `SwipeInput`
+the same `.game-container`: if the swipe surface ever changes, move `touch-action` with
+it, or swipes that start outside the `none` region die in a scroll.
 
 ## Storage
 

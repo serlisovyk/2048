@@ -15,12 +15,14 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 
 - Classic 4x4 2048 gameplay
 - Keyboard controls for desktop: arrow keys or WASD, on any keyboard layout
-- Swipe controls for touch screens
+- Swipe controls for touch screens: a swipe works anywhere on the board area, with
+  no pull-to-refresh and no double-tap zoom
 - Current score and persisted high score
 - The game in progress is saved in the browser and restored after a reload
 - Win dialog with continue-playing flow
 - Game-over dialog when no moves remain
-- Responsive layout for desktop, tablet, and small mobile screens
+- Responsive layout for desktop, tablet, and small mobile screens, clear of notches
+  and home indicators
 - Generated board cells controlled by one `BOARD_SIZE` constant
 - SVG favicon based on a compact 2x2 2048 board
 - Basic metadata and Open Graph title/description

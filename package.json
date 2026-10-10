@@ -6,18 +6,24 @@
   "description": "2048 browser game built with HTML, CSS, vanilla JavaScript, and Vite.",
   "type": "module",
   "engines": {
-    "node": "^20.19.0 || >=22.12.0"
+    "node": "^20.19.0 || ^22.13.0 || >=24"
   },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format:check": "prettier --check .",
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@vitejs/plugin-legacy": "^7.0.0",
     "autoprefixer": "^10.4.20",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
     "html-minifier-terser": "^7.2.0",
     "postcss": "^8.5.25",
     "prettier": "^3.9.6",

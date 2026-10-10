@@ -57,12 +57,38 @@
   is a `hidden` element in the markup (the record badge) is shown by clearing `hidden`,
   which starts its animation afresh each time, and hidden again on `animationend`; it sets
   no `display`, so `hidden` keeps working, and it floats out of the layout like the pop.
+- **Colours only through tokens.** Every colour (a hex value, `rgb()` / `hsl()`, a named colour,
+  the colours inside a gradient or a shadow) is a custom property defined in
+  `src/styles/theme.css` (all of the UI) or `src/styles/tiles.css` (the tiles) and read as
+  `var(--name)` everywhere else; `transparent` and `currentColor` stay as keywords. A token has
+  its dark value on `:root` and, where the light theme differs, an override under
+  `:root[data-theme='light']` in the same file; a value that is the same in both themes is
+  written once. A new colour is a token in the right file with both values, its text contrast
+  checked in **both** themes (4.5:1 for normal text; 3:1 for large bold text, icons and other
+  UI parts), and no literal anywhere else. A search for `#`, `rgb(`, `hsl(` in `src/styles/`
+  outside those two files must find nothing. JS never writes a colour either: when it needs
+  one it reads the token (`ThemeView` reads `--page-bg` for `theme-color`).
+- A component that has to look different in one theme only (the confirmation card, a light
+  card in the light theme) re-points tokens in a scoped block in `theme.css`
+  (`:root[data-theme='light'] .confirm-dialog { … }`); it does not get a colour literal of its
+  own. The two dialog cards that keep their colours in both themes (win, game over) are tokens
+  with the same value in both.
+- The theme is the `data-theme` attribute on `<html>`, always set (the inline script in
+  `index.html` before the first paint, then `ThemeController`). The stylesheets have no
+  `prefers-color-scheme` block: that would be a second place deciding the theme
+  (`ai/decisions/2026-10-10-theme-tokens-and-head-script.md`).
+- The theme switch's circle is a View Transition: a progressive enhancement over an instant
+  switch, feature-detected in `ThemeView`, which does not start one when motion is reduced, so
+  `motion.css` has nothing for it. Its pseudo-element rules live in `theme.css`
+  (`ai/decisions/2026-10-10-view-transitions-progressive-enhancement.md`).
 - Use CSS custom properties for values that are shared inside a component.
 - When CSS needs a number defined in `src/scripts/constants.js` (board size,
   durations), the owning view sets it as a custom property and the CSS reads it with
   a fallback: `var(--board-size, 4)`.
 - Focus: one generic `button:focus-visible` rule in `base.css` draws the ring for
-  every button, in the colour of `--focus-ring-color`. Do not add per-button focus
+  every button, in the colour of `--focus-ring-color` (a token: white in the dark theme, ink in
+  the light one; the dialogs keep their own backgrounds and re-point it with `--dialog-ring`).
+  Do not add per-button focus
   styles or `outline: none` / `outline: 0` on a button; a new button gets the ring
   without any CSS. The ring is an `outline`, not a `box-shadow`: the buttons' hover
   rules set their own `box-shadow` and would hide it.
@@ -73,9 +99,11 @@
   `:focus-visible { outline: none }` instead of a ring.
 - Tile colours live in `src/styles/tiles.css` and nowhere else. Every colour is a
   custom property on `:root` (`--tile-<value>`, `--tile-fallback`, `--tile-text-dark`,
-  `--tile-text-light`, `--tile-sheen`, `--tile-2048-glow`) and the rules only read
-  tokens, so a theme overrides the tokens and touches no selector. `board.css` keeps
-  only the structure of a tile (weight, shadow, `transition`).
+  `--tile-text-light`, `--tile-sheen`, `--tile-2048-glow`, `--tile-shadow`) and the rules only
+  read tokens, so a theme overrides the tokens and touches no selector: the light theme's
+  overrides (today the shadow and the glow, the palette itself is shared) sit under
+  `:root[data-theme='light']` in the same file. `board.css` keeps only the structure of a
+  tile (weight, `transition`).
 - The base rule `.grid-cell[data-value]` is the first rule in `tiles.css` and is the
   fallback for every value that has no rule of its own (32768 and up). The per-value
   rules `[data-value='N']` come after it: same specificity, so they win by order. Never
@@ -91,7 +119,9 @@
 - The tile text must reach 3:1 against **both** ends of the gradient: the base colour
   and the base colour blended 14% with white (the light end of `--tile-sheen`). Use dark
   text where the tile is light, light text where it is dark, and compute the ratio with
-  the WCAG formula, because axe does not check gradients.
+  the WCAG formula, because axe does not check gradients. The tile colours, the text colours
+  and the sheen are the same in both themes, so one check covers both; a theme override of any
+  of them has to redo it.
 - Typography lives in `src/styles/base.css`: one family, set once on `body`
   (`'Rubik', Arial, sans-serif`) and inherited by everything else
   (buttons through `font: inherit`). Do not set `font-family` on other elements. The UI

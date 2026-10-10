@@ -26,6 +26,11 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - A gold `New record!` badge on the High Score box when a game beats an existing record,
   once per game and for about 4 seconds (static with reduced motion); a screen reader hears
   it once, inside the score announcement
+- Light and dark themes: the page follows the system setting until the sun/moon button in
+  the header is used, then the choice is saved; the theme is applied before the first paint
+  (no flash), the address bar takes the page colour, and where the browser supports View
+  Transitions the new theme spreads from the button as a circle (instant otherwise and with
+  reduced motion)
 - The game in progress is saved in the browser and restored after a reload
 - Win dialog: keep playing or start a new game (`Escape` keeps playing)
 - Game-over dialog when no moves remain; if the same move reaches 2048, it says so
@@ -77,17 +82,19 @@ src/
     main.js              Composition root: finds DOM elements, wires the objects
     constants.js         Board size, win tile, timings, storage keys
     GameController.js    Movement guard, win pause, high score, saved game
+    ThemeController.js   Current theme, its saved choice, following the system
     game/                Model: Board and Game (rules, no DOM)
-    ui/                  Views: grid, score, dialogs
+    ui/                  Views: grid, score, dialogs, theme switch
     input/               Keyboard and swipe input
-    storage/             Safe localStorage wrapper (numbers and JSON)
+    storage/             Safe localStorage wrapper (numbers, strings, and JSON)
   styles/
     main.css             CSS entry imported by main.js
+    theme.css            Every UI colour as a token for both themes, and the theme reveal
     base.css             Font face, reset, base element styles, the shared button focus ring
     layout.css           Page and responsive layout
     header.css           Header: logo, score boxes, and the icon toolbar
     board.css            Board, cells, and tile animations
-    tiles.css            Tile value colors and text sizing
+    tiles.css            Tile colour tokens (both themes) and text sizing
     overlays.css         Win, game-over, and confirmation dialogs
     controls.css         Button styles
     motion.css           Reduced-motion preferences
@@ -180,6 +187,11 @@ CI runs `lint`, `format:check`, `build`, and `size` on every push.
 - The header and the board share one wrapper that is as wide as the board, so the
   header never widens the page. Icons are inline SVG (no icon font or library), and an
   icon-only button always has an `aria-label` and a `title`.
+- Every colour is a CSS custom property in `theme.css` (UI) or `tiles.css` (tiles), with
+  the dark values on `:root` and the light ones under `[data-theme='light']`; the other
+  stylesheets only read tokens. `<html data-theme>` is set by a small inline script in
+  `<head>` before the first paint, then owned by `ThemeController` and `ThemeView`. The
+  circle reveal is a View Transition, a progressive enhancement over an instant switch.
 - Keyboard and pointer input share the same movement guard to keep moving,
   paused, and game-over states consistent.
 - CSS is split by responsibility rather than by page because the project has

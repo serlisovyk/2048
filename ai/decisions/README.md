@@ -51,3 +51,5 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-10 — the score pop is a separate `aria-hidden` element, one at a time, and fades in place under reduced motion](2026-10-10-score-pop.md)
 - [2026-10-10 — Rubik, self-hosted, Latin only, with tabular digits](2026-10-10-self-hosted-font.md)
 - [2026-10-10 — the New record badge is a transient `aria-hidden` flag; the record is spoken once, inside the score announcement](2026-10-10-new-record-badge.md)
+- [2026-10-10 — the theme is a `data-theme` attribute set by a head script, with colour tokens in two files; the head script is the one direct `localStorage` read](2026-10-10-theme-tokens-and-head-script.md)
+- [2026-10-10 — the theme reveal is a View Transition, a progressive enhancement over an instant switch](2026-10-10-view-transitions-progressive-enhancement.md)

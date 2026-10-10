@@ -23,14 +23,18 @@
 ## Metadata
 
 - Keep the page title, description, theme color, favicon, and Open Graph
-  title/description in `index.html`.
+  title/description in `index.html`. The theme colour is two `theme-color` metas, one per
+  `prefers-color-scheme`, and each must equal the `--page-bg` of its theme in
+  `src/styles/theme.css` (HTML cannot read CSS, so this is the one duplicated colour);
+  `ThemeView` rewrites both with the token value of the theme in force.
 - Keep metadata truthful to the visible game and current tech stack.
 - Do not add larger SEO infrastructure such as `robots.txt`, `sitemap.xml`, or
   web app manifests unless the user asks for it.
 
 ## Performance
 
-- Avoid third-party runtime scripts.
+- Avoid third-party runtime scripts. The one inline script (the theme, in `<head>`) is ours,
+  about 200 bytes minified, and has to stay tiny: it blocks parsing.
 - Keep the game playable without network requests after the initial page load.
 - Prefer build-time optimization over runtime JavaScript for static content.
 - Compare production output from `yarn build` instead of judging only source

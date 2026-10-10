@@ -46,6 +46,16 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   the base `.grid-cell[data-value]` rule first and no `:not()` chain, text at least
   3:1 on both ends of the gradient for every value, the widest number (six digits)
   fits its tile at 320px.
+- **Colours and theme**: no colour literal in `src/styles/` outside `theme.css` and
+  `tiles.css` and none in JS (grep `#`, `rgb(`, `hsl(`); every new token has a dark value
+  and a light value (or a deliberate "same in both"); text contrast checked in both themes
+  (4.5:1 normal text, 3:1 large bold text and UI parts); both themes looked at at desktop
+  and 320px, including the dialogs, the badge and the `+N` pop; the two `theme-color`
+  metas still equal each theme's `--page-bg`; no `prefers-color-scheme` block in the
+  stylesheets; the inline head script still only reads, in `try/catch`, with a key equal to
+  `STORAGE_KEYS.THEME` (and no other direct `localStorage` use); the switch works with the
+  View Transitions API absent and under reduced motion, and shows no wrong-theme frame on
+  load.
 - **Typography**: one family set on `body` only, no `font-family` or per-element
   `tabular-nums` elsewhere, weights 400 and 700 only; the font is the self-hosted woff2
   (no third-party request in the Network tab, one font request from the game's own

@@ -32,10 +32,12 @@ reads or writes persisted data.
      the model (`Game.toState` / `Game.restore`); the controller owns the `version`
      envelope and when to save or delete (`ai/decisions/2026-10-10-saved-game-format.md`).
    - **Styles** — the CSS file that owns that responsibility (see `ai/map.md`);
-     motion overrides in `motion.css`. A new tile value or colour is a token on
-     `:root` plus one rule after the base `.grid-cell[data-value]` rule in
-     `tiles.css`, with 3:1 text contrast on both ends of the gradient
-     (`ai/rules/style.md`). Text inherits the font from `body`: a new number or label
+     motion overrides in `motion.css`. **Any new colour is a token**, never a literal:
+     in `theme.css` for the UI, in `tiles.css` for tiles, with a dark value on `:root` and a
+     light override under `:root[data-theme='light']` (or a deliberate "same in both"), and
+     contrast checked in both themes. A new tile value is a token plus one rule after the
+     base `.grid-cell[data-value]` rule in `tiles.css`, with 3:1 text contrast on both ends of
+     the gradient (`ai/rules/style.md`). Text inherits the font from `body`: a new number or label
      needs no `font-family` and no `tabular-nums` of its own (`base.css` sets both), and
      a number that changes during play stays put because of it.
 3. Wire new objects in `main.js` only — it is the one place that queries the DOM and
@@ -93,12 +95,16 @@ reads or writes persisted data.
    styles off `outline` and never set `outline: none` on a button. Something that is
    not a button but is focused from script (`tabindex="-1"`) gets
    `:focus-visible { outline: none }`.
-   An action that belongs in the header (a theme switch, the settings) is a
-   `.toolbar-button` in the header's `.toolbar`: copy the `New Game` button, give it an
-   inline SVG icon (24px, `currentColor`, `aria-hidden="true"`, `focusable="false"`),
-   an `aria-label` and a `title` with the same text, and its own hook class for
-   `main.js`. No CSS: at 320px the row holds up to four buttons. Icons are inline
-   SVG, never an icon font or library (`ai/rules/style.md`).
+   An action that belongs in the header (the settings; the theme toggle is the worked
+   example) is a `.toolbar-button` in the header's `.toolbar`: copy the `New Game` button,
+   give it an inline SVG icon (24px, `currentColor`, `aria-hidden="true"`,
+   `focusable="false"`), an `aria-label` and a `title` with the same text, and its own hook
+   class for `main.js`. No CSS, unless the icon depends on a state: the theme toggle holds a
+   sun and a moon and `controls.css` shows one by `data-theme`, so the right icon is there
+   at the first paint without JS. At 320px the row holds up to four buttons (two are used).
+   Icons are inline SVG, never an icon font or library (`ai/rules/style.md`). A toggle's
+   label names the action (`Switch to light theme`), not the state, and it has no
+   `aria-pressed`.
    A value that changes during play and that a screen-reader user needs (like the
    score) gets a live region owned by its view: a visually hidden
    `aria-live="polite" aria-atomic="true"` element, the visible value `aria-hidden`,
@@ -124,7 +130,11 @@ reads or writes persisted data.
    `hidden` and hides again on `animationend`; under reduced motion it is
    static (an override with keyframes that change nothing and the duration restored), and
    it floats out of the layout so it never shifts the header or covers a button
-   (`ai/decisions/2026-10-10-new-record-badge.md`).
+   (`ai/decisions/2026-10-10-new-record-badge.md`). A flourish that depends on a newer
+   browser API (the theme reveal, a View Transition) is a progressive enhancement:
+   feature-detect it in the view, skip it under reduced motion in JS, keep the instant path
+   as the base behaviour, and keep its coordinates as custom properties
+   (`ai/decisions/2026-10-10-view-transitions-progressive-enhancement.md`).
 8. Verify per `ai/workflow.md`: format, build, and play the feature on desktop and at
    mobile width.
 
@@ -148,10 +158,16 @@ reads or writes persisted data.
 - A second live region for the record, a badge that is not `aria-hidden`, a badge that
   stays for the whole game, or a "has beaten the record" flag in the model or in the saved
   game.
+- A colour literal (hex, `rgb()`, a named colour) anywhere in `src/styles/` outside
+  `theme.css` and `tiles.css`, or in JS; a second place that decides the theme (a
+  `prefers-color-scheme` block in the stylesheets); a state-only toggle label such as
+  `Dark theme`.
 - A `:not()` chain that lists every value with a rule to build a fallback, or tile
   colours written as literals inside the per-value rules.
 - A `font-family` or `font-variant-numeric` on an element, or a font loaded from a
   CDN or any third-party host (the font is self-hosted in `src/fonts/`).
 - Base classes, factories, or other abstractions for a single implementation.
-- Reading `localStorage` directly instead of through `SafeStorage`.
+- Reading `localStorage` directly instead of through `SafeStorage`. The one exception is the
+  inline theme script in the `<head>` of `index.html` (it runs before any module); do not
+  copy it for anything else.
 - Features listed in `ai/decisions/2026-10-10-rejected-features.md`.

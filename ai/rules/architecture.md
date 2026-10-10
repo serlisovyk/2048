@@ -14,6 +14,11 @@ conventions. `ai/map.md` lists every file.
 - `src/scripts/main.js` is the composition root: imports the styles, finds the DOM
   elements, creates and wires the objects, starts the game.
 - `src/scripts/constants.js` holds every shared number and key.
+- `src/scripts/ThemeController.js` owns the theme: the current theme, its saved choice and
+  following the system. `ui/ThemeView.js` owns `<html data-theme>`, the toggle button and
+  the `theme-color` metas. `src/styles/theme.css` holds every UI colour for both themes.
+  The inline script in the `<head>` of `index.html` applies the theme before the first paint;
+  it is the one code that is not a class (it runs before any module).
 - `src/scripts/GameController.js` owns the use cases and flow state: the single
   movement guard, the move cooldown, the pause after a win, the high score (and whether
   the current game can still beat it, for the New record badge), and saving and

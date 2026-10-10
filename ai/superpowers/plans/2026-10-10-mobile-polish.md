@@ -126,8 +126,9 @@ would be scroll on exactly these screens.
 - `README.md` — the swipe line in Features (anywhere on the board area; no
   pull-to-refresh or double-tap zoom; respects notches).
 - `ai/map.md` — the `index.html` paragraph (viewport meta), the `main.js` and
-  `input/SwipeInput.js` rows (game area instead of `.game-grid`), and the styles
-  table (`base.css`, `layout.css`).
+  `input/SwipeInput.js` rows (game area instead of `.game-grid`), the styles table
+  (`base.css`, `layout.css`), and a short "Touch and safe areas" paragraph under it
+  that holds the actual values and links the decision record.
 - `ai/decisions/` — a new record, `2026-10-10-no-viewport-zoom-lock.md` (and its line
   in the index): double-tap zoom is stopped with `touch-action`, not with
   `user-scalable=no` / `maximum-scale`, so page zoom stays available. A convention
@@ -144,8 +145,9 @@ would be scroll on exactly these screens.
 3. `feat: stop pull-to-refresh and double-tap zoom on touch screens` — `base.css`.
 4. `feat: keep the page clear of notches and home indicators` — viewport meta and the
    body padding.
-5. `docs: document the mobile touch handling in README and the repo map`.
-6. `docs: record the decision not to lock the viewport zoom` — the decision record.
+5. `docs: record the decision not to lock the viewport zoom` — the decision record
+   and its index line (before the map, which links to it).
+6. `docs: document the mobile touch handling in README and the repo map`.
 
 ## Verification
 

@@ -41,3 +41,4 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-10 — no Dependabot, dependencies are updated by hand](2026-10-10-no-dependabot.md)
 - [2026-10-10 — keyboard input is matched by `event.code`](2026-10-10-keyboard-by-event-code.md)
 - [2026-10-10 — saved-game format, and a finished game is not stored](2026-10-10-saved-game-format.md)
+- [2026-10-10 — double-tap zoom is stopped with `touch-action`, not a viewport zoom lock](2026-10-10-no-viewport-zoom-lock.md)

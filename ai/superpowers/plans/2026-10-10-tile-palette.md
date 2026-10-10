@@ -270,3 +270,14 @@ for option B the base rule has no `background-image`.)
 - Before / after comparison images of the same board.
 
 Not covered by the checks: how the palette looks on a light page (the theme is MY-123).
+
+## Author's answers (2026-10-10)
+
+1. Option A — gradient: the shared sheen (`--tile-sheen`) over the base colour of every
+   tile.
+2. The palette is approved as proposed: "sunset → purple" for 2 … 2048 and "lavender →
+   blue" for 4096 and up, with the hex table of section 2 unchanged.
+3. Yes, even out the font sizes as in the table of question 3: 4096 / 8192 from 25px to
+   30px, 16384 from 20px to 25px, the fallback (32768 and up) from 12px to 20px. Each
+   size keeps its `clamp()` shape; 131072 has to fit its tile at 1000px, 375px and
+   320px.

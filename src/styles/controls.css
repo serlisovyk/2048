@@ -12,13 +12,14 @@
 .confirm-accept-button {
   padding: 12px 24px;
   cursor: pointer;
-  background-color: #ffffff;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   border: none;
   border-radius: 8px;
   font-size: clamp(14px, 2.5vw, 18px);
   font-weight: bold;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px var(--button-shadow);
   margin-top: 10px;
 }
 
@@ -27,9 +28,9 @@
 .win-restart-button:hover,
 .confirm-cancel-button:hover,
 .confirm-accept-button:hover {
-  background-color: #f0f0f0;
+  background-color: var(--button-hover-bg);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 20px var(--button-hover-shadow);
 }
 
 .restart-game-button:active,
@@ -44,20 +45,20 @@
 .confirm-accept-button {
   padding: 10px 22px;
   background-color: transparent;
-  color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  color: var(--dialog-text);
+  border: 2px solid var(--button-outline);
 }
 
 .win-restart-button:hover,
 .confirm-accept-button:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: var(--button-outline-hover-bg);
 }
 
 .reset-high-score-button {
   margin: -4px -6px -4px 0;
   padding: 8px;
   background-color: transparent;
-  color: #b0b0b0;
+  color: var(--icon-muted);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -67,22 +68,22 @@
 }
 
 .reset-high-score-button:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+  background-color: var(--icon-hover-bg);
+  color: var(--icon-hover);
 }
 
 .toolbar-button {
   padding: 9px;
-  background-color: #444444;
-  color: #f0f0f0;
-  border: 1px solid #555555;
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--surface-border);
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .toolbar-button:hover {
-  background-color: #555555;
+  background-color: var(--surface-hover);
 }
 
 .reset-high-score-button svg,

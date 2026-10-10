@@ -7,6 +7,7 @@
   --tile-text-dark: #2e2620;
   --tile-text-light: #f9f6f2;
   --tile-2048-glow: rgba(255, 196, 60, 0.6);
+  --tile-shadow: rgba(0, 0, 0, 0.2);
 
   --tile-2: #f1ebdb;
   --tile-4: #ecdeb1;

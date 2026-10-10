@@ -5,7 +5,8 @@
   padding: 40px 30px;
   border: none;
   border-radius: 15px;
-  color: #ffffff;
+  color: var(--dialog-text);
+  --focus-ring-color: var(--dialog-ring);
   max-width: 90vw;
   text-align: center;
 }
@@ -21,23 +22,23 @@
 }
 
 dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--backdrop);
   animation: backdrop-fade 0.3s ease-out;
 }
 
 .game-over {
-  background-color: rgba(80, 50, 50, 0.95);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  background-color: var(--game-over-bg);
+  box-shadow: 0 10px 40px var(--dialog-shadow);
 }
 
 .win-overlay {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.5);
+  background: var(--win-bg);
+  box-shadow: 0 10px 40px var(--win-shadow);
 }
 
 .confirm-dialog {
-  background-color: #444444;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  background-color: var(--surface);
+  box-shadow: 0 10px 40px var(--dialog-shadow);
 }
 
 .game-over h2,

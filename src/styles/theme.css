@@ -1,0 +1,45 @@
+/* Every colour of the page lives in this file (the tile colours are in tiles.css). The dark
+   theme is the default on :root; the other stylesheets only read var(--...). */
+:root {
+  color-scheme: dark;
+
+  --page-bg: #333333;
+  --text: #f0f0f0;
+  --text-muted: #c4c4c4;
+  --focus-ring-color: #ffffff;
+
+  --surface: #444444;
+  --surface-border: #555555;
+  --surface-hover: #555555;
+  --icon-muted: #b0b0b0;
+  --icon-hover: #ffffff;
+  --icon-hover-bg: rgba(255, 255, 255, 0.12);
+
+  --accent: #ffd700;
+  --on-gold: #3b3226;
+  --logo-bg: linear-gradient(135deg, #f5d36b 0%, #edc22e 100%);
+  --logo-shadow: rgba(237, 194, 46, 0.35);
+  --record-badge-bg: #ffd700;
+  --record-badge-shadow: rgba(0, 0, 0, 0.35);
+
+  --board-bg: rgba(50, 50, 50, 0.4);
+  --board-shadow: rgba(0, 0, 0, 0.3);
+  --grid-bg: rgba(0, 0, 0, 0.1);
+  --cell-bg: rgba(255, 255, 255, 0.1);
+
+  --backdrop: rgba(0, 0, 0, 0.5);
+  --dialog-text: #ffffff;
+  --dialog-ring: #ffffff;
+  --dialog-shadow: rgba(0, 0, 0, 0.5);
+  --game-over-bg: rgba(80, 50, 50, 0.95);
+  --win-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --win-shadow: rgba(102, 126, 234, 0.5);
+
+  --button-bg: #ffffff;
+  --button-text: #000000;
+  --button-hover-bg: #f0f0f0;
+  --button-shadow: rgba(0, 0, 0, 0.2);
+  --button-hover-shadow: rgba(0, 0, 0, 0.3);
+  --button-outline: rgba(255, 255, 255, 0.8);
+  --button-outline-hover-bg: rgba(255, 255, 255, 0.15);
+}

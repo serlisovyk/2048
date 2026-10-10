@@ -9,9 +9,9 @@ built in parallel in `header.css` and the other style files: this plan writes th
 colours as plain values the header already uses (`#ffd700`, `#3b3226`) and does not turn
 any colour into a custom property, so the theme task can tokenise them like the rest.
 
-The issue says the screen-reader question is "to be decided in the plan", so the work stops
-after this plan and waits for the author (section 5). The decisions below are my
-recommendations; the other options are written down so the author can switch.
+The issue said the screen-reader question is "to be decided in the plan", so the work
+stopped after this plan. The author approved it, every recommendation included
+(section 5); the options that were not taken stay written down as the reasons.
 
 No decision record is contradicted:
 
@@ -119,9 +119,9 @@ Tried and rejected, with the reason:
   collides with the toolbar button.
 - **A pill fully in the gap.** The gap is 10 px at 320px: a 10 px pill means an 8 px font.
 
-### How long it stays and how it ends (open, Q1)
+### How long it stays and how it ends
 
-Recommended: about **4 seconds**, then it fades out and removes itself. The badge marks a
+Decided (Q1): about **4 seconds**, then it fades out and removes itself. The badge marks a
 moment, like the score pop; it is not a status. A status would go stale in places: it
 would have to survive a reload (it cannot, the state is not saved), and the header would
 carry a gold pill for the rest of a half-hour game.
@@ -143,9 +143,9 @@ The alternative is "until the game ends": no animation timing, no `animationend`
 reduced-motion case costs nothing. The price is the stale status above, and a gold pill in
 the header for the whole game.
 
-### Reduced motion (open, Q3)
+### Reduced motion
 
-Recommended: **static**, as the issue says. The global rule in `motion.css` makes every
+Decided (Q3): **static**, as the issue says. The global rule in `motion.css` makes every
 animation 0.01 ms long, which would remove the badge at once and make the feature useless
 under reduced motion. So, as for the pop, the badge gets its own override: its duration is
 restored with `!important`, and it plays a second keyframes rule that does not change
@@ -157,7 +157,9 @@ The alternative is "fade in place", the author's choice for the `+N` pop: the sa
 the scale start set to 1 by a custom property. That is one line less in `motion.css` and
 no second keyframes rule.
 
-### Screen readers (open, Q2)
+### Screen readers
+
+Decided (Q2): option A.
 
 | Option                                              | What a screen reader user gets                                           | Cost                                                                                      |
 | --------------------------------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
@@ -234,16 +236,18 @@ run animations here. Positions come from `localStorage` (`highScore`, `savedGame
   still read once. No NVDA or VoiceOver pass is possible here; reported as manual.
 - **Screenshots** of the real badge (desktop, 320px, reduced motion) go to the scratchpad.
 
-## 5. Open questions for the author
+## 5. Author's answers (2026-10-10)
 
-1. **Q1. How long does the badge stay?** About 4 s, then fades out (recommended), or until the
-   game ends (`New Game`, restart, or reset).
-2. **Q2. Screen readers.** A (recommended): `New record! <score>` once, through the score's live
-   region; B: a second live region; C: no announcement.
-3. **Q3. Reduced motion.** Static: appears and disappears at once, no fade (recommended, matches
-   the issue), or the same fade in place as the `+N` pop.
-4. **Q4. A reset in the middle of a game.** Recommended: the rest of that game has no badge (the
-   record is 0 again, like a first game), and the next game is armed. The issue says the logic
-   "starts anew" after `New Game` and a reset; this is my reading of it for the reset.
-5. **Q5. Place and wording.** A corner flag on the top edge of the High Score box, right
-   end, with the issue's exact text `New record!`; see the screenshots.
+The author approved the plan with every recommendation in it.
+
+1. **Q1. How long the badge stays.** About 4 s, then it fades (a CSS animation,
+   `--record-badge-duration`, hidden on `animationend`, no JS timer).
+2. **Q2. Screen readers.** Option A: announce once through the existing score live region
+   as `New record! <score>`, with the debounce kept and the badge itself `aria-hidden`. It
+   is recorded in a new decision record that refines the score live-region one.
+3. **Q3. Reduced motion.** Fully static: the badge appears at full size, stays 4 s, and
+   disappears, with its own override in `motion.css` like the score pop.
+4. **Q4. A reset in the middle of a game.** The badge is removed and there is none for the
+   rest of that game; the next game is armed again.
+5. **Q5. Place and wording.** A flag on the top edge of the High Score box, on the right
+   side, with the text exactly `New record!`.

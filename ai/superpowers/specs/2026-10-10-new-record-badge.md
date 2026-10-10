@@ -2,8 +2,9 @@
 
 Issue: MY-125 · Branch: `my-125-new-record-badge` · Plan: `ai/superpowers/plans/2026-10-10-new-record-badge.md`
 
-Items marked **(open, Qn)** are not decided yet: the issue leaves them to the plan and
-the author answers them (plan, section 5). The text shows the recommended default.
+The questions the issue left to the plan (how long the badge stays, what a screen reader
+hears, reduced motion, a reset in the middle of a game, the place) were answered by the
+author on 2026-10-10: plan, section 5. This text is the approved behavior.
 
 ## Goal
 
@@ -69,29 +70,29 @@ the badge remains.
   away, at any width from 320px up, and it never takes a tap. It does not overlap the
   reset-high-score button (which is in the box's second row, at the right) or any other
   button, and fits next to a 7-digit high score at 320px.
-- **(open, Q1) How long it stays:** about 4 seconds, then it fades out by itself and is
-  gone from the page. It is not shown again in that game.
+- **How long it stays:** about 4 seconds, then it fades out by itself and is gone from
+  the page. It is not shown again in that game.
 - **Entry:** a short pop, about 300 ms: it grows from 60% to a little over 100% of its
   size while fading in, and settles at 100%. It then holds still until the last ~400 ms,
   when it fades out.
 
 ### Reduced motion
 
-- **(open, Q3)** With `prefers-reduced-motion: reduce` the badge is static: it appears at
-  once at full size and opacity, stays the same length of time, and is removed at once. No
-  scale, no movement, no fade.
+- With `prefers-reduced-motion: reduce` the badge is static: it appears at once at full
+  size and opacity, stays the same length of time, and is removed at once. No scale, no
+  movement, no fade.
 
 ### Screen readers
 
 - The badge itself is `aria-hidden="true"`: a visual decoration that is not in the
   accessibility tree, so browse mode does not read it, and it never changes the text of
   the score or the high score.
-- **(open, Q2)** The record is announced once, through the score's existing polite live
-  region and not as a second announcement: the announcement that follows the record
-  move reads `New record! <score>` instead of the bare `<score>`. The usual 500 ms
-  debounce applies, so a burst of fast moves is read once, with the prefix on that one
-  announcement. Later announcements are bare numbers again. There is no second live
-  region and no duplicate: the score is spoken once.
+- The record is announced once, through the score's existing polite live region and not
+  as a second announcement: the announcement that follows the record move reads
+  `New record! <score>` instead of the bare `<score>`. The usual 500 ms debounce applies,
+  so a burst of fast moves is read once, with the prefix on that one announcement. Later
+  announcements are bare numbers again. There is no second live region and no duplicate:
+  the score is spoken once.
 - The high score box still has no live region
   (`ai/decisions/2026-10-10-score-live-region-and-focus-ring.md`).
 

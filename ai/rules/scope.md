@@ -8,6 +8,7 @@ larger application template.
 - React, Vue, Angular, or another UI framework
 - TypeScript
 - Tailwind, Bootstrap, or a component library
+- An icon font or icon library (icons are inline SVG)
 - Client-side routing
 - Backend integrations
 - Analytics scripts

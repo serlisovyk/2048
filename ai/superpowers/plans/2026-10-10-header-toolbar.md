@@ -52,11 +52,16 @@ two extra buttons.
 The board's width is computed from `--cell-size`, `--cell-gap`, and `--board-size`, which
 are set on `.game-container` and on the grid by `GridView`. Instead of duplicating that
 arithmetic, header and board go into one wrapper (`.game-layout`) that shrink-wraps to
-its widest child, and the header opts out of contributing to that width with
-`contain: inline-size`. The wrapper then equals the board's width, the header stretches
-to it, and a future board size changes the header with it. `contain: inline-size` is in
-Vite's default browser target. If it misbehaves in the browser, the fallback is
-`width: 0; min-width: 100%` on the header.
+its widest child. The header only contributes its minimum width to that size
+(`width: min-content; min-width: 100%`: the percentage is ignored while the wrapper is
+being sized and applied afterwards). The wrapper then equals the board's width, the
+header stretches to it, and a future board size changes the header with it. A board
+narrower than the header's own content (a 3x3 board at 320px with three toolbar buttons)
+widens the wrapper to the header instead of letting the toolbar stick out.
+
+The first idea was `contain: inline-size` on the header (it contributes nothing at all).
+Checked with the board size set to 3 at 320px, it let the toolbar overflow the board by
+10px; the min-content version does not, and the two behave the same for the 4x4 board.
 
 ### Score box: label above the value, grid inside
 
@@ -117,11 +122,21 @@ cell grows).
    old button below the board.
 3. `feat:` the toolbar: the `New Game` icon button moves into it, `.toolbar-button`, the
    old button's CSS is removed (`index.html`, `header.css`, `controls.css`).
-4. `docs:` `README.md`, `ai/map.md`, `ai/rules/style.md`, `ai/skills/feature.md`, the
-   decision record and its index entry.
+4. `style:` the header gap tightens on short screens (`max-height: 600px`), as the old
+   heading and score margins did; found while checking landscape phones.
+5. `fix:` the header is never narrower than its own content (`width: min-content;
+min-width: 100%` instead of `contain: inline-size`), see section 1.
+6. `docs:` `README.md`, `ai/map.md`, `ai/rules/style.md`, `ai/rules/scope.md`,
+   `ai/skills/feature.md`, `ai/skills/review.md`, the decision record and its index
+   entry.
 
 If the browser shows that the plan was wrong somewhere, this file is updated in the same
 commit as the fix.
+
+Divergences found while playing it: the header width trick changed from
+`contain: inline-size` to `width: min-content; min-width: 100%` (section 1); the toolbar
+holds up to four buttons at 320px, not only three, and a fifth overflows (recorded in
+the decision and the map).
 
 ## 4. Verification
 
@@ -142,5 +157,8 @@ a tab of its own in the browser pane, as in the spec:
 - two extra toolbar buttons injected at 320px, and again on a wide desktop;
 - `Tab` order and the ring through the header; the accessibility tree for the banner, the
   heading, and the button names; the live region still changes after a move;
-- the pane is hidden-prone (no frames): DOM and layout checks run in the pane with
-  timeouts, real keyboard and screenshot checks in the pane where it renders.
+- the built-in pane is hidden here (screenshots time out), so DOM and layout checks run
+  in it with timeouts, and the real keyboard, mouse, touch, screenshot, and
+  accessibility-tree checks run in a separate headless Chrome driven over the DevTools
+  protocol at the same widths (touch emulation for the swipes and taps at 320px and
+  768px).

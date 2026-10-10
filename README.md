@@ -17,14 +17,16 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Keyboard controls for desktop: arrow keys or WASD, on any keyboard layout
 - Swipe controls for touch screens: a swipe works anywhere on the board area, with
   no pull-to-refresh and no double-tap zoom
-- Current score and persisted high score; a small icon next to the high score resets it
-  after a confirmation (the current game is not affected)
+- A header above the board, as wide as the board: the `2048` logo, the score and the
+  persisted high score in two boxes, and a toolbar of icon buttons (inline SVG, each
+  with a label and a tooltip). A small icon in the high score box resets it after a
+  confirmation (the current game is not affected)
 - The game in progress is saved in the browser and restored after a reload
 - Win dialog: keep playing or start a new game (`Escape` keeps playing)
 - Game-over dialog when no moves remain; if the same move reaches 2048, it says so
-- `New Game` in the middle of a game asks for confirmation first (`Cancel` is focused,
-  `Escape` cancels and focus returns to the button); a fresh or finished game starts
-  over at once
+- The `New Game` icon button in the header, in the middle of a game, asks for
+  confirmation first (`Cancel` is focused, `Escape` cancels and focus returns to the
+  button); a fresh or finished game starts over at once
 - Dialogs are native `<dialog>` modals: the page behind is dimmed and inert, `Tab`
   stays inside, and focus returns to the board when the win and game-over dialogs close
 - Responsive layout for desktop, tablet, and small mobile screens, clear of notches
@@ -74,7 +76,8 @@ src/
   styles/
     main.css             CSS entry imported by main.js
     base.css             Reset, base element styles, the shared button focus ring
-    layout.css           Page, score, and responsive layout
+    layout.css           Page and responsive layout
+    header.css           Header: logo, score boxes, and the icon toolbar
     board.css            Board, cells, and tile animations
     tiles.css            Tile value colors and text sizing
     overlays.css         Win, game-over, and confirmation dialogs
@@ -166,6 +169,9 @@ CI runs `lint`, `format:check`, `build`, and `size` on every push.
   with `showModal()`, so the browser provides the backdrop, the inert page, and the
   focus trap; there is no hand-made overlay code. The confirmation is one shared view
   that answers a Promise, so every "are you sure?" reuses it.
+- The header and the board share one wrapper that is as wide as the board, so the
+  header never widens the page. Icons are inline SVG (no icon font or library), and an
+  icon-only button always has an `aria-label` and a `title`.
 - Keyboard and pointer input share the same movement guard to keep moving,
   paused, and game-over states consistent.
 - CSS is split by responsibility rather than by page because the project has

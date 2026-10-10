@@ -14,6 +14,10 @@
 - Use buttons for actions.
 - Give interactive controls clear accessible names when visible text is not
   enough.
+- Icons are inline SVG written in the markup: `viewBox`, `stroke="currentColor"` (or
+  `fill`), `aria-hidden="true"`, `focusable="false"`. No icon font, icon library,
+  image file, or `<use>` sprite. A button that holds only an icon has an `aria-label`
+  and a `title` with the same text.
 - A value that changes during play and matters to a screen-reader user (the score)
   gets a live region: a visually hidden `<span aria-live="polite" aria-atomic="true">`
   that the owning view fills after a short debounce (the delay is in

@@ -26,7 +26,8 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   keys, or the target tile; JS timings match CSS durations.
 - **Storage**: every read/write wrapped and validated; old saved data still loads or
   is safely discarded.
-- **Accessibility**: buttons have names, focus is visible and returns to the board
+- **Accessibility**: buttons have names (an icon-only button has an `aria-label` and a
+  `title`; its icon is inline SVG with `aria-hidden="true"`), focus is visible and returns to the board
   after dialogs, `prefers-reduced-motion` respected for new animation (including
   `::backdrop`). Every button shows the one shared focus ring on keyboard focus and
   none on a mouse click (no per-button `outline` override), the board shows none, and

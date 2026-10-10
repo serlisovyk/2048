@@ -88,6 +88,12 @@ reads or writes persisted data.
    styles off `outline` and never set `outline: none` on a button. Something that is
    not a button but is focused from script (`tabindex="-1"`) gets
    `:focus-visible { outline: none }`.
+   An action that belongs in the header (a theme switch, the settings) is a
+   `.toolbar-button` in the header's `.toolbar`: copy the `New Game` button, give it an
+   inline SVG icon (24px, `currentColor`, `aria-hidden="true"`, `focusable="false"`),
+   an `aria-label` and a `title` with the same text, and its own hook class for
+   `main.js`. No CSS: at 320px the row holds up to four buttons. Icons are inline
+   SVG, never an icon font or library (`ai/rules/style.md`).
    A value that changes during play and that a screen-reader user needs (like the
    score) gets a live region owned by its view: a visually hidden
    `aria-live="polite" aria-atomic="true"` element, the visible value `aria-hidden`,
@@ -108,6 +114,9 @@ reads or writes persisted data.
   "are you sure?" — use `ConfirmDialogView.ask`.
 - Per-button focus styles, `outline: none` on a button, or a focus ring built from
   `box-shadow`.
+- An icon font, an icon library, or an image file for an icon; a placeholder button for
+  a feature that does not exist yet; an icon-only button without an `aria-label` and a
+  `title`.
 - `aria-live` on text that changes with every move with no debounce, `assertive` live
   regions, or a live region on the high score.
 - Base classes, factories, or other abstractions for a single implementation.

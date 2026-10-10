@@ -38,8 +38,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Basic metadata and Open Graph title/description
 - Reduced-motion support for users who prefer less animation
 - Rubik as the game font, self-hosted (one Latin woff2 from the game's own origin, no
-  font CDN), with tabular digits so the score and the tiles keep their width and a
-  fallback face that keeps the layout still while the font loads
+  font CDN), with tabular digits so the score and the tiles keep their width
 - Screen reader support: the score is announced after a move (once for a burst of
   fast moves), and every button shows the same clear focus ring for keyboard users
 - Vite production build with HTML, CSS, and JavaScript minification

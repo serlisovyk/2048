@@ -86,16 +86,16 @@ an empty cell (MY-126).
 
 `main.css` imports, in order:
 
-| File           | What it holds                                                                                                                                                                                                                                                            |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `base.css`     | `@font-face` for Rubik and the `Rubik Fallback` faces, reset, body font (family, `tabular-nums`, `line-height`) and colors, `overscroll-behavior-y`, page `touch-action`, `--focus-ring-color`, the one `button:focus-visible` ring for every button, `.visually-hidden` |
-| `layout.css`   | Page layout, safe-area body padding, `--cell-size` / `--cell-gap`, game area `touch-action`, breakpoints                                                                                                                                                                 |
-| `header.css`   | `.game-layout`, the header (`width: min-content; min-width: 100%`), `.logo`, `.toolbar` row, score boxes, `--header-gap`, the score pop (`.score-pops`, `.score-pop`, `score-pop` keyframes)                                                                             |
-| `board.css`    | Grid (`repeat(var(--board-size, 4), …)`, no focus ring on the script-focused board), cells, the tile structure (weight, shadow, `transition`), `pop-in` / `merge-scale` animations (`var(--tile-animation-duration, 200ms)`)                                             |
-| `tiles.css`    | Tile palette tokens on `:root` (`--tile-<value>`, `--tile-fallback`, text, sheen, 2048 glow), the base `.grid-cell[data-value]` fallback rule (32768 and up), one rule per value 2 … 16384 (colour, text token, font size by digit count)                                |
-| `overlays.css` | Win, game-over, and confirmation `<dialog>`s: `[open]` layout, `dialog::backdrop`, `modal-pop` / `backdrop-fade`                                                                                                                                                         |
-| `controls.css` | Buttons (the dialogs' primary white and secondary outlined looks), the dialog button row (`.dialog-actions`), the reset-high-score icon, `.toolbar-button`                                                                                                               |
-| `motion.css`   | `prefers-reduced-motion` overrides: every animation to 0.01ms, except the score pop, which keeps its duration and fades in place                                                                                                                                         |
+| File           | What it holds                                                                                                                                                                                                                             |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `base.css`     | `@font-face` for Rubik, reset, body font (family, `tabular-nums`, `line-height`) and colors, `overscroll-behavior-y`, page `touch-action`, `--focus-ring-color`, the one `button:focus-visible` ring for every button, `.visually-hidden` |
+| `layout.css`   | Page layout, safe-area body padding, `--cell-size` / `--cell-gap`, game area `touch-action`, breakpoints                                                                                                                                  |
+| `header.css`   | `.game-layout`, the header (`width: min-content; min-width: 100%`), `.logo`, `.toolbar` row, score boxes, `--header-gap`, the score pop (`.score-pops`, `.score-pop`, `score-pop` keyframes)                                              |
+| `board.css`    | Grid (`repeat(var(--board-size, 4), …)`, no focus ring on the script-focused board), cells, the tile structure (weight, shadow, `transition`), `pop-in` / `merge-scale` animations (`var(--tile-animation-duration, 200ms)`)              |
+| `tiles.css`    | Tile palette tokens on `:root` (`--tile-<value>`, `--tile-fallback`, text, sheen, 2048 glow), the base `.grid-cell[data-value]` fallback rule (32768 and up), one rule per value 2 … 16384 (colour, text token, font size by digit count) |
+| `overlays.css` | Win, game-over, and confirmation `<dialog>`s: `[open]` layout, `dialog::backdrop`, `modal-pop` / `backdrop-fade`                                                                                                                          |
+| `controls.css` | Buttons (the dialogs' primary white and secondary outlined looks), the dialog button row (`.dialog-actions`), the reset-high-score icon, `.toolbar-button`                                                                                |
+| `motion.css`   | `prefers-reduced-motion` overrides: every animation to 0.01ms, except the score pop, which keeps its duration and fades in place                                                                                                          |
 
 Touch and safe areas: `html` and `body` have `overscroll-behavior-y: none` and
 `touch-action: manipulation`; `.game-container` (the swipe surface) has
@@ -112,7 +112,7 @@ source: `@fontsource-variable/rubik@5.3.0`, `files/rubik-latin-wght-normal.woff2
 (the font's copyright line and the SIL OFL 1.1 text; it stays next to the woff2 and is not
 copied into `dist/`). `base.css` declares it (`font-display: swap`), `index.html` preloads it,
 Vite hashes it into `dist/assets/`. Only weights 400 and 700 are used. Why self-hosted, why
-Latin only, how the layout is kept still while it loads:
+Latin only, what shows while it loads:
 `ai/decisions/2026-10-10-self-hosted-font.md`. To update it, replace both files from a newer
 Fontsource release.
 

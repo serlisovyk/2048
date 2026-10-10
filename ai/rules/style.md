@@ -83,18 +83,19 @@
   text where the tile is light, light text where it is dark, and compute the ratio with
   the WCAG formula, because axe does not check gradients.
 - Typography lives in `src/styles/base.css`: one family, set once on `body`
-  (`'Rubik', 'Rubik Fallback', Arial, sans-serif`) and inherited by everything else
+  (`'Rubik', Arial, sans-serif`) and inherited by everything else
   (buttons through `font: inherit`). Do not set `font-family` on other elements. The UI
   uses two weights, normal (400) and `bold` (700); `font-variant-numeric: tabular-nums`
   is set once on `body`, so every number, including one added later, keeps its width as
   it changes. Do not repeat it per element.
 - `body` pins `line-height: 1.15` (Arial's `normal`) so box heights do not depend on
   which face is active; elements that set their own `line-height` keep it.
-- The font is the `@font-face` at the top of `base.css` (`font-display: swap`).
-  `Rubik Fallback` is the system Arial scaled to Rubik's bold digit width
-  (`size-adjust: 119%`), so the logo does not widen when the font swaps in. That number
-  belongs to Rubik: measure it again if the face changes. A new weight, an italic, another
-  script or another face needs a decision record (`ai/decisions/2026-10-10-self-hosted-font.md`).
+- The font is the `@font-face` at the top of `base.css` (`font-display: swap`), with
+  Arial as the fallback in the stack. While the font loads on a first, uncached visit the
+  logo and the numbers are set in Arial and change width a little when Rubik arrives (the
+  logo by about 15px); that is accepted, there is no metric-adjusted fallback face. A new
+  weight, an italic, another script or another face needs a decision record
+  (`ai/decisions/2026-10-10-self-hosted-font.md`).
 - Avoid one-off visual effects that do not improve the game UI.
 
 ## JavaScript

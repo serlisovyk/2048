@@ -45,9 +45,9 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
 - **Typography**: one family set on `body` only, no `font-family` or per-element
   `tabular-nums` elsewhere, weights 400 and 700 only; the font is the self-hosted woff2
   (no third-party request in the Network tab, one font request from the game's own
-  origin); the layout does not move when it swaps in (`line-height` pinned, the
-  `Rubik Fallback` face), digits do not change the width of the score; the font stays
-  inside its own `size-limit` entry.
+  origin); `line-height` is pinned on `body` so the height does not move when the font swaps
+  in, digits do not change the width of the score; the font stays inside its own
+  `size-limit` entry.
 - **Scope**: nothing from `ai/rules/scope.md` or
   `ai/decisions/2026-10-10-rejected-features.md` slipped in; no unrelated rewrites.
 - **Dead code**: removed behavior left no unused functions, classes, styles, or

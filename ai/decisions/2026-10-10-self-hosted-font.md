@@ -46,14 +46,15 @@ support, how wide the digits are, whether the widest tiles fit at 320px.
   `crossorigin` is required (font fetches are CORS-mode even on the same origin), and Vite
   rewrites the preload `href` and the CSS `url()` to the same hashed file, so there is one
   request.
-- **The layout does not move when the font arrives.** Before this, on a throttled preview
-  build the swap widened the logo by 15px (1000px) and 11px (320px) and made the header 1px
-  taller at 320px. Now `body` has `line-height: 1.15` (Arial's `normal`), so box heights do
-  not depend on the active face, and a fallback face `Rubik Fallback` (the system Arial,
-  regular and bold, `size-adjust: 119%`) stands in until Rubik loads. 119% is the ratio of
-  Rubik's bold tabular digit (0.662 em) to Arial's (0.556 em); the digits fix the width of
-  the logo, the one element whose width comes from its text. Measured after: nothing moves
-  at the swap, only glyph shapes change.
+- **While the font loads.** Arial stays the fallback in the stack. On a throttled preview
+  build (Slow 4G and Slow 3G, cache off) the font arrives 40 to 125ms (Slow 4G) and about
+  600ms (Slow 3G) after the first paint and the page changes at that moment: the logo, the one element whose width comes
+  from its text, widens by 15px at 1000px and 11px at 320px, and the score and high score
+  text grow by 18 to 21px inside their fixed boxes. This is the first, uncached load (the
+  preload starts the request together with the HTML). The author accepted this small
+  horizontal change. `body` has `line-height: 1.15` (Arial's `normal`) so the height does not
+  move either: without it the header grows by 1px at 320px and the board shifts by 0.5px at
+  the swap, with it the swap is horizontal only.
 - **Tabular digits** are one `font-variant-numeric: tabular-nums` on `body`. It is
   inherited, so the score, the high score, the tiles and the dialogs get it, and so does
   any number added later (the score "+N" pop of MY-124).
@@ -67,15 +68,18 @@ support, how wide the digits are, whether the widest tiles fit at 320px.
 
 - A new weight inside 300 to 900 needs no new file. An italic, another script (Cyrillic,
   Latin Extended) or another face is a new decision and a new woff2 with its own budget.
-- The 119% of the fallback face belongs to Rubik's digit width: if the font is replaced, it
-  is measured again. The same goes for the pinned `line-height`.
+- The pinned `line-height` was measured against Rubik: if the font is replaced, check that
+  the height still does not move at the swap.
 - Fonts are not a place for third-party hosts: a `<link>` to Google Fonts or any other CDN
   is out, for the reasons above.
 - Updating Rubik means replacing the woff2 and `OFL.txt` from a newer Fontsource release
   (the source file name stays the same, Vite hashes it in the build).
 - The bold 700 of Rubik is heavy on the big tiles. The author can lower the tile weight (one
   declaration) if it looks too heavy; it was not changed.
-- Rejected: Clear Sans (no `tnum`, Apache-2.0 rather than OFL, 41.8 kB for two files);
+- Rejected: a metric-adjusted fallback face (Arial scaled with `size-adjust: 119%`, regular
+  and real bold): it removed the swap jump completely in measurement (logo 116.44px against
+  Rubik's 116.45px), but the author found it extra and unclear and chose the small jump;
+  Clear Sans (no `tnum`, Apache-2.0 rather than OFL, 41.8 kB for two files);
   Inter (the largest file, 48.3 kB); Nunito (no `tnum` feature, the lightest bold);
   Google Fonts or another CDN (a third-party request and domain); a system font stack only
   (the problem the issue started from); a custom subset narrower than Latin (needs

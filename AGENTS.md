@@ -91,7 +91,9 @@ change.
 - Runtime: Browser + Node.js build tooling
 - Build tool: Vite
 - Languages: HTML, CSS, and JavaScript ESM (ES classes, OOP)
-- Styling: modular plain CSS imported from `styles/main.css`
+- Sources: everything in `src/` (`index.html`, `scripts/`, `styles/`), Vite
+  `root: 'src'`, output in `dist/`
+- Styling: modular plain CSS imported from `src/styles/main.css`
 - Compatibility: Vite legacy plugin for non-modern browsers, excluding IE 11
 - Formatting: Prettier; line endings are LF (`.gitattributes`)
 

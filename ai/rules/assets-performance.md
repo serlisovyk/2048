@@ -2,8 +2,10 @@
 
 ## Assets
 
-- Keep the favicon as source in the project root unless more static assets are
-  added later.
+- Keep the favicon next to `index.html` (`src/favicon.svg`) so Vite hashes it. Files
+  that need a stable, unhashed URL (e.g. an Open Graph image) go into `public/` in
+  the repo root (`publicDir: '../public'`); the folder is created when the first such
+  file appears.
 - Keep the favicon visually readable at small sizes. Prefer simple tile shapes
   over tiny text.
 - Let Vite hash and copy assets into `dist/` during `yarn build`.

@@ -22,16 +22,22 @@
 - Keep plain CSS. Do not introduce Less, Sass, or CSS-in-JS unless explicitly
   requested.
 - Keep CSS split by responsibility through the files imported in
-  `styles/main.css`.
+  `src/styles/main.css`.
 - Keep responsive rules near the layout or component they affect.
-- Keep reduced-motion rules in `styles/motion.css`.
+- Keep reduced-motion rules in `src/styles/motion.css`.
 - Use CSS custom properties for values that are shared inside a component.
+- When CSS needs a number defined in `src/scripts/constants.js` (board size,
+  durations), the owning view sets it as a custom property and the CSS reads it with
+  a fallback: `var(--board-size, 4)`.
 - Avoid one-off visual effects that do not improve the game UI.
 
 ## JavaScript
 
-- Keep the file organized by responsibility: constants, DOM references, state,
-  initialization, game flow, rendering, movement, status checks, input handlers.
+- Follow `ai/rules/oop.md`: ES classes, one per file, private state, layers,
+  constructor-injected dependencies.
+- Class files are PascalCase (`GridView.js`); `main.js` and `constants.js` are the
+  only camelCase modules. Named exports only.
+- Imports include the `.js` extension.
 - Keep game logic simple and event-driven.
 - Keep movement rules deterministic except for new tile placement.
 - Do not expose game state on `window`.

@@ -8,9 +8,11 @@ here.
 
 ## Quick orientation
 
-- Vanilla JS + Vite 2048 game, deployed on Vercel. Game logic, rendering, and input
-  currently live in one `script.js`; styles are split by responsibility under
-  `styles/`. Check `ai/map.md` before assuming where something lives.
+- Vanilla JS + Vite 2048 game, deployed on Vercel. Everything lives in `src/`:
+  object-oriented JavaScript in `src/scripts/` (model, views, input, storage, a
+  controller, `main.js` as the composition root — see `ai/rules/oop.md`), CSS split
+  by responsibility in `src/styles/`. Check `ai/map.md` before assuming where
+  something lives.
 - Task flow: `ai/workflow.md` — branch → plan → implement → docs → verify → DoD →
   self-review → report → author approval → local merge into `main`.
 - Several tasks from one session: `ai/orchestrator-prompt-template.md`.

@@ -34,3 +34,5 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-10 — merge locally into `main`, no pull requests](2026-10-10-local-merge-without-pr.md)
 - [2026-10-10 — features the author rejected](2026-10-10-rejected-features.md)
 - [2026-10-10 — object-oriented architecture](2026-10-10-oop-architecture.md)
+- [2026-10-10 — all sources in `src/`, built with Vite `root: 'src'`](2026-10-10-sources-in-src.md)
+- [2026-10-10 — JS passes shared numbers to CSS through custom properties](2026-10-10-css-custom-properties-from-js.md)

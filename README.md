@@ -40,18 +40,26 @@ clear AI-agent rule set for future maintenance.
 ## 📁 Project Structure
 
 ```text
-index.html           Main page markup and Vite entry
-script.js            Game state, rendering, movement, and input handling
-favicon.svg          Source favicon
-styles/
-  main.css           CSS entry imported by script.js
-  base.css           Reset and base element styles
-  layout.css         Page, score, and responsive layout
-  board.css          Board, cells, and tile animations
-  tiles.css          Tile value colors and text sizing
-  overlays.css       Win and game-over dialogs
-  controls.css       Button styles
-  motion.css         Reduced-motion preferences
+src/
+  index.html             Main page markup and Vite entry
+  favicon.svg            Source favicon
+  scripts/
+    main.js              Composition root: finds DOM elements, wires the objects
+    constants.js         Board size, win tile, timings, storage keys
+    GameController.js    Movement guard, win pause, high score
+    game/                Model: Board and Game (rules, no DOM)
+    ui/                  Views: grid, score, overlays
+    input/               Keyboard and swipe input
+    storage/             Safe localStorage wrapper
+  styles/
+    main.css             CSS entry imported by main.js
+    base.css             Reset and base element styles
+    layout.css           Page, score, and responsive layout
+    board.css            Board, cells, and tile animations
+    tiles.css            Tile value colors and text sizing
+    overlays.css         Win and game-over dialogs
+    controls.css         Button styles
+    motion.css           Reduced-motion preferences
 ai/                  AI-agent docs: repo map, workflow, rules, decisions, skills, templates
 AGENTS.md            AI-agent entry instructions
 CLAUDE.md            Claude Code entrypoint, points to AGENTS.md
@@ -100,17 +108,19 @@ yarn format:check
 
 ## 🧱 Architecture Notes
 
+- All sources live in `src/`; Vite builds with `root: 'src'` into `dist/`.
 - `index.html` owns the static page shell, basic metadata, favicon, and Vite
   entry point while leaving board cells to JavaScript.
-- `script.js` stays as one vanilla JavaScript module because the game logic is
-  still small enough to understand in one file.
-- Grid cells are generated from `SIZE` so the board structure is not duplicated
-  in HTML.
+- The JavaScript is object-oriented: the model (`Board`, `Game`) holds the rules
+  without touching the DOM, views render, input classes turn keys and swipes into
+  directions, and `GameController` connects them. `main.js` wires everything.
+- Grid cells and the CSS grid are generated from `BOARD_SIZE`, so the board
+  structure is not duplicated in HTML or CSS.
 - Keyboard and pointer input share the same movement guard to keep moving,
   paused, and game-over states consistent.
 - CSS is split by responsibility rather than by page because the project has
   one screen.
-- Motion preferences live in `styles/motion.css` so accessibility-related
+- Motion preferences live in `src/styles/motion.css` so accessibility-related
   animation rules stay visible and easy to adjust.
 - Vite owns production optimization: hashed assets, minified HTML, minified CSS,
   minified JavaScript, and legacy chunks.

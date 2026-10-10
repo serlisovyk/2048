@@ -9,7 +9,7 @@ conventions. `ai/map.md` lists every file.
 - `src/index.html` owns the page markup, landmarks, metadata, favicon link, and the
   Vite entry script (`./scripts/main.js`).
 - `src/favicon.svg` is the only image; Vite hashes it into `dist/assets/`.
-- `src/fonts/` holds the self-hosted font (one woff2) and its license text; `base.css`
+- `src/fonts/` holds the self-hosted font (one woff2 that carries its own license metadata); `base.css`
   declares it and `index.html` preloads it.
 - `src/scripts/main.js` is the composition root: imports the styles, finds the DOM
   elements, creates and wires the objects, starts the game.

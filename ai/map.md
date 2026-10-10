@@ -108,12 +108,12 @@ it, or swipes that start outside the `none` region die in a scroll.
 ## Fonts (`src/fonts/`)
 
 `rubik-latin-wght-normal.woff2` — Rubik, variable `wght` 300 to 900, Latin subset (35,348 bytes;
-source: `@fontsource-variable/rubik@5.3.0`, `files/rubik-latin-wght-normal.woff2`) — and `OFL.txt`
-(the font's copyright line and the SIL OFL 1.1 text; it stays next to the woff2 and is not
-copied into `dist/`). `base.css` declares it (`font-display: swap`), `index.html` preloads it,
+source: `@fontsource-variable/rubik@5.3.0`, `files/rubik-latin-wght-normal.woff2`). The file
+carries its own copyright notice and license reference (SIL OFL 1.1) in its metadata (`name`
+table IDs 0 and 14), so there is no separate license file. `base.css` declares it (`font-display: swap`), `index.html` preloads it,
 Vite hashes it into `dist/assets/`. Only weights 400 and 700 are used. Why self-hosted, why
 Latin only, what shows while it loads:
-`ai/decisions/2026-10-10-self-hosted-font.md`. To update it, replace both files from a newer
+`ai/decisions/2026-10-10-self-hosted-font.md`. To update it, replace the file from a newer
 Fontsource release.
 
 ## Storage

@@ -36,11 +36,15 @@ support, how wide the digits are, whether the widest tiles fit at 320px.
   blocker or a privacy setting can cut, and the game works offline once the page is
   cached). `rules/assets-performance.md` already forbids third-party runtime scripts; this
   extends it to fonts.
-- **License travels with the file.** `src/fonts/OFL.txt` (Fontsource's `LICENSE`: the
-  copyright line and the OFL 1.1 text) sits next to the woff2. The OFL asks for exactly
-  that, and no Reserved Font Name is declared, so the subset needs no renaming. There is
-  no README license section (`2026-10-10-license-in-package-json.md`), and `OFL.txt` is
-  not copied into `dist/`.
+- **License travels inside the file.** The woff2 carries the copyright notice (`name` table
+  ID 0: "Copyright 2015 The Rubik Project Authors (https://github.com/googlefonts/rubik)")
+  and the license reference (ID 14: `https://scripts.sil.org/OFL`) in its metadata, the way
+  Google Fonts and Fontsource serve it. OFL 1.1 §2 allows exactly that ("machine-readable
+  metadata fields within text or binary files"), so the author chose no separate license
+  file; an `OFL.txt` next to the woff2 was there first and was removed. No Reserved Font
+  Name is declared. There is no README license section either
+  (`2026-10-10-license-in-package-json.md`). The file must stay as downloaded: a tool that
+  strips the `name` table would also strip the license.
 - **Loading.** `@font-face` in `base.css` with `font-display: swap`, and one
   `<link rel="preload" as="font" type="font/woff2" crossorigin>` in `index.html`. The
   `crossorigin` is required (font fetches are CORS-mode even on the same origin), and Vite
@@ -72,8 +76,9 @@ support, how wide the digits are, whether the widest tiles fit at 320px.
   the height still does not move at the swap.
 - Fonts are not a place for third-party hosts: a `<link>` to Google Fonts or any other CDN
   is out, for the reasons above.
-- Updating Rubik means replacing the woff2 and `OFL.txt` from a newer Fontsource release
-  (the source file name stays the same, Vite hashes it in the build).
+- Updating Rubik means replacing the woff2 from a newer Fontsource release (the source file
+  name stays the same, Vite hashes it in the build) and checking that its `name` table still
+  has the copyright and license reference.
 - The bold 700 of Rubik is heavy on the big tiles. The author can lower the tile weight (one
   declaration) if it looks too heavy; it was not changed.
 - Rejected: a metric-adjusted fallback face (Arial scaled with `size-adjust: 119%`, regular

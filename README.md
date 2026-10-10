@@ -69,7 +69,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 src/
   index.html             Main page markup and Vite entry
   favicon.svg            Source favicon
-  fonts/                 Self-hosted Rubik (Latin woff2) and its OFL license text
+  fonts/                 Self-hosted Rubik (Latin woff2)
   scripts/
     main.js              Composition root: finds DOM elements, wires the objects
     constants.js         Board size, win tile, timings, storage keys

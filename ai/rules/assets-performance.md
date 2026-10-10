@@ -8,9 +8,11 @@
   file appears.
 - Keep the favicon visually readable at small sizes. Prefer simple tile shapes
   over tiny text.
-- Fonts are self-hosted: a Latin-subset woff2 in `src/fonts/` with its license text
-  (`OFL.txt`) next to it, referenced by a relative URL in `@font-face` so Vite hashes it
-  and serves it from the game's own origin. Never a font CDN (Google Fonts or any other
+- Fonts are self-hosted: a Latin-subset woff2 in `src/fonts/`, referenced by a relative
+  URL in `@font-face` so Vite hashes it and serves it from the game's own origin. The file
+  keeps its copyright notice and license reference in its own metadata (OFL §2 allows that),
+  so there is no separate license file; use the file as downloaded and do not strip its
+  `name` table. Never a font CDN (Google Fonts or any other
   third-party host). Only the main file gets
   `<link rel="preload" as="font" type="font/woff2" crossorigin>` in `index.html`;
   `crossorigin` is required or the file is fetched twice. Use `font-display: swap`. Why:

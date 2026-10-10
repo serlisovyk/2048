@@ -18,5 +18,5 @@ here.
 - Several tasks from one session: `ai/orchestrator-prompt-template.md`.
 - Rules of record: `ai/rules/`. Decision records: `ai/decisions/` — including the
   list of features the author rejected; do not propose them again.
-- No automated test suite. Verify with `yarn format:check`, `yarn build`, and by
+- No automated test suite. Verify with `yarn lint`, `yarn format:check`, `yarn build`, and by
   playing the game in `yarn dev`.

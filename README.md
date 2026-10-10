@@ -34,7 +34,10 @@ clear AI-agent rule set for future maintenance.
 - PostCSS
 - Autoprefixer
 - Terser
+- ESLint
 - Prettier
+- Husky
+- lint-staged
 - Yarn
 
 ## 📁 Project Structure
@@ -65,12 +68,16 @@ AGENTS.md            AI-agent entry instructions
 CLAUDE.md            Claude Code entrypoint, points to AGENTS.md
 vite.config.js       Vite production build configuration
 postcss.config.js    PostCSS and Autoprefixer configuration
+eslint.config.js     ESLint flat config, including OOP rules
+.lintstagedrc.json   Pre-commit checks for staged files
+.husky/              Git hooks installed by yarn install
 dist/                Generated production output
 ```
 
 ## 🚀 Scripts
 
-Install dependencies:
+Install dependencies (also installs the pre-commit hook that lints and formats
+staged files):
 
 ```bash
 yarn install
@@ -92,6 +99,18 @@ Preview the production build locally:
 
 ```bash
 yarn preview
+```
+
+Lint code:
+
+```bash
+yarn lint
+```
+
+Fix lint issues that can be fixed automatically:
+
+```bash
+yarn lint:fix
 ```
 
 Format code:

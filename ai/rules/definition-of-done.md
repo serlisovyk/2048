@@ -33,6 +33,7 @@ change over for approval.
 
 ## Verification
 
+- `yarn lint` is clean.
 - `yarn format:check` is clean.
 - `yarn build` is clean.
 - The change was played in the browser on desktop and at mobile width, not just
@@ -45,6 +46,7 @@ change over for approval.
 - Commit in logical units, not one giant final snapshot.
 - Inspect `git status` and `git diff` before committing.
 - Use specific Conventional Commit messages in English.
+- Every commit passed the pre-commit hook — no `--no-verify`.
 
 ## Out of scope unless explicitly requested
 

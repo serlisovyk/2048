@@ -5,6 +5,7 @@
 After HTML, CSS, JavaScript, config, package, or documentation changes, run:
 
 ```bash
+yarn lint
 yarn format:check
 yarn build
 ```

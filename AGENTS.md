@@ -96,6 +96,9 @@ change.
 - Styling: modular plain CSS imported from `src/styles/main.css`
 - Compatibility: Vite legacy plugin for non-modern browsers, excluding IE 11
 - Formatting: Prettier; line endings are LF (`.gitattributes`)
+- Linting: ESLint 10 flat config (`eslint.config.js`), including rules that enforce
+  `ai/rules/oop.md`
+- Pre-commit: Husky + lint-staged lint and format staged files; never `--no-verify`
 
 ## Language
 
@@ -108,6 +111,7 @@ change.
 Run before handing over any change:
 
 ```bash
+yarn lint
 yarn format:check
 yarn build
 ```

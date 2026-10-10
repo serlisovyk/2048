@@ -59,6 +59,8 @@ Do not explore the code from scratch when the map answers the question.
 ## 6. Implement
 
 - Follow the plan; commit in logical units, not one giant snapshot.
+- Every commit goes through the pre-commit hook (lint-staged: ESLint + Prettier on
+  staged files). Never bypass it with `--no-verify`; fix what it reports.
 - Conventional Commit messages in English (`feat:`, `fix:`, `refactor:`, `docs:`,
   `chore:`, `style:`, `build:`, `ci:`) — specific, never `update` or `changes`.
 - Use the matching skill instead of improvising a pattern that already exists.
@@ -75,6 +77,7 @@ Do not explore the code from scratch when the map answers the question.
 
 ## 8. Verify
 
+- `yarn lint`
 - `yarn format:check`
 - `yarn build`
 - Play the change in `yarn dev`: desktop (keyboard, mouse) and mobile width (swipes).
@@ -125,7 +128,7 @@ git switch my-<n>-<slug>
 git rebase main            # re-run the checks if the rebase brought in new commits
 git switch main
 git merge --ff-only my-<n>-<slug>
-yarn format:check && yarn build
+yarn lint && yarn format:check && yarn build
 git push origin main
 git branch -d my-<n>-<slug>
 ```
@@ -158,4 +161,5 @@ my-<n>-<slug> main`, then `yarn install` inside it. In Claude Code, enter it wit
 - Never merge or close an issue without explicit author approval.
 - Never open pull requests — merge locally.
 - Never force-push `main`.
+- Never bypass the pre-commit hook (`--no-verify`).
 - Never add tests unless explicitly asked.

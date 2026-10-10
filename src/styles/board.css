@@ -22,7 +22,6 @@
 }
 
 .grid-cell[data-value] {
-  font-size: clamp(20px, 4vw, 40px);
   font-weight: bold;
   transition: all 0.1s ease-out;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

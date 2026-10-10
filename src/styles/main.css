@@ -1,5 +1,6 @@
 @import './base.css';
 @import './layout.css';
+@import './header.css';
 @import './board.css';
 @import './tiles.css';
 @import './overlays.css';

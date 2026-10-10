@@ -1,0 +1,63 @@
+.game-layout {
+  --header-gap: clamp(10px, 2.5vw, 16px);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--header-gap);
+}
+
+/* The header takes the board's width and never widens the page. */
+.game-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--header-gap);
+  contain: inline-size;
+}
+
+.logo {
+  justify-self: start;
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f5d36b 0%, #edc22e 100%);
+  box-shadow: 0 4px 12px rgba(237, 194, 46, 0.35);
+  color: #3b3226;
+  font-size: clamp(26px, 7vw, 36px);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.score-container {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--header-gap);
+}
+
+.score-box {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 4px;
+  padding: 8px 12px;
+  background-color: #444444;
+  border: 1px solid #555555;
+  border-radius: 8px;
+}
+
+.score-label {
+  grid-column: 1 / -1;
+  color: #c4c4c4;
+  font-size: clamp(11px, 2.8vw, 13px);
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.current-score,
+.high-score {
+  color: #ffd700;
+  font-size: clamp(20px, 5.5vw, 28px);
+  font-weight: bold;
+  line-height: 1.2;
+}

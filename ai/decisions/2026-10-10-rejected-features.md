@@ -27,6 +27,7 @@ Do not build or propose these again unless the author explicitly asks:
 | `N` hotkey for a new game                         | Undiscoverable without a shortcuts help screen, which is not worth building |
 | Separate Lighthouse audit task                    | The author monitors Lighthouse personally                                   |
 | `.editorconfig`, `.nvmrc`, `packageManager` field | Overkill — only `engines` in `package.json` is kept                         |
+| Confetti on a win                                 | Overkill: the New record badge is the only celebration                      |
 
 Also not planned (recommended against during planning, not requested): a global
 leaderboard (needs a backend), sound effects, analytics, i18n.

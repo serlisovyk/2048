@@ -27,7 +27,10 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
 - **Storage**: every read/write wrapped and validated; old saved data still loads or
   is safely discarded.
 - **Accessibility**: buttons have names, focus is visible and returns to the board
-  after dialogs, `prefers-reduced-motion` respected for new animation.
+  after dialogs, `prefers-reduced-motion` respected for new animation (including
+  `::backdrop`).
+- **Dialogs**: native `<dialog>` opened with `showModal()`, never two open at once,
+  `Escape` does what the dialog's purpose says, the page behind is dimmed and inert.
 - **Responsive**: 320px wide to desktop, no horizontal scroll, swipes work on touch.
 - **Scope**: nothing from `ai/rules/scope.md` or
   `ai/decisions/2026-10-10-rejected-features.md` slipped in; no unrelated rewrites.

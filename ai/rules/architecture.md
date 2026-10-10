@@ -41,6 +41,9 @@ conventions. `ai/map.md` lists every file.
 - Do not move styles into inline attributes. The one exception: a view may set CSS
   custom properties that pass numbers from `constants.js` to CSS.
 - Do not move interaction logic into HTML event handlers.
+- Do not build modals by hand: dialogs are native `<dialog>` elements opened with
+  `showModal()`, with no custom overlay, focus trap, or `style.display` toggling
+  (`ai/decisions/2026-10-10-native-dialog.md`).
 - Do not add React, Vue, Angular, or another UI framework.
 - Do not rename existing CSS classes only for cosmetic reasons; class names are part
   of the local styling contract.

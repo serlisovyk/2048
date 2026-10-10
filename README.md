@@ -19,8 +19,10 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
   no pull-to-refresh and no double-tap zoom
 - Current score and persisted high score
 - The game in progress is saved in the browser and restored after a reload
-- Win dialog with continue-playing flow
-- Game-over dialog when no moves remain
+- Win dialog: keep playing or start a new game (`Escape` keeps playing)
+- Game-over dialog when no moves remain; if the same move reaches 2048, it says so
+- Dialogs are native `<dialog>` modals: the page behind is dimmed and inert, `Tab`
+  stays inside, and focus returns to the board when they close
 - Responsive layout for desktop, tablet, and small mobile screens, clear of notches
   and home indicators
 - Generated board cells controlled by one `BOARD_SIZE` constant
@@ -60,7 +62,7 @@ src/
     constants.js         Board size, win tile, timings, storage keys
     GameController.js    Movement guard, win pause, high score, saved game
     game/                Model: Board and Game (rules, no DOM)
-    ui/                  Views: grid, score, overlays
+    ui/                  Views: grid, score, dialogs
     input/               Keyboard and swipe input
     storage/             Safe localStorage wrapper (numbers and JSON)
   styles/
@@ -154,6 +156,9 @@ CI runs `lint`, `format:check`, `build`, and `size` on every push.
   directions, and `GameController` connects them. `main.js` wires everything.
 - Grid cells and the CSS grid are generated from `BOARD_SIZE`, so the board
   structure is not duplicated in HTML or CSS.
+- The win and game-over dialogs are native `<dialog>` elements opened with
+  `showModal()`, so the browser provides the backdrop, the inert page, and the focus
+  trap; there is no hand-made overlay code.
 - Keyboard and pointer input share the same movement guard to keep moving,
   paused, and game-over states consistent.
 - CSS is split by responsibility rather than by page because the project has

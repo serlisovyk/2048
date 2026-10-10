@@ -72,7 +72,7 @@ onContinue(handler) // Continue button click and Escape on the win dialog
 onRestart(handler) // both New Game / Restart Game buttons
 onClose(handler) // a dialog closed, however it was closed
 showWin() // closes the game-over dialog, then showModal()
-showGameOver({ hasWon }) // closes the win dialog, shows or hides the extra line, showModal()
+showGameOver({ justWon }) // closes the win dialog, shows or hides the extra line, showModal()
 hideWin()
 hideAll()
 ```
@@ -103,7 +103,7 @@ hideAll()
 requestMove(direction) {
   // ... guard, move, render ...
   if (result.isOver) {
-    this.#overlayView.showGameOver({ hasWon: result.justWon })
+    this.#overlayView.showGameOver({ justWon: result.justWon })
   } else if (result.justWon) {
     this.#isPausedAfterWin = true
     this.#overlayView.showWin()
@@ -152,7 +152,11 @@ returnFocusToBoard() {
 `controls.css`: a `.dialog-actions` row (flex, centered, `gap`, wraps on narrow
 screens); `.win-restart-button` shares the button base and gets a secondary look
 (outline on the dialog's gradient), so `Continue Playing` stays the primary action.
-`motion.css`: add `::backdrop` next to `*::before` / `*::after`.
+`overlays.css` also tightens the gap under the extra game-over line
+(`.game-over .game-over-win-note`, smaller `margin-bottom`).
+`motion.css`: add `::backdrop` next to `*::before` / `*::after` — checked in the
+browser: `*, *::before, *::after` leaves the backdrop animation at `0.3s` under the
+reduced-motion rule, the explicit `::backdrop` brings it to `0.01ms`.
 
 ## 5. Commits
 
@@ -163,7 +167,8 @@ screens); `.win-restart-button` shares the button base and gets a secondary look
    `controls.css`, `motion.css`. The view, markup and styles go together so every
    commit leaves a working page.
 3. `fix: show one dialog when a move both wins and ends the game` — the extra line
-   (markup, `winNote` option, `showGameOver({ hasWon })`) and the `requestMove` branch.
+   (markup, its small CSS rule, `winNote` option, `showGameOver({ justWon })`) and the
+   `requestMove` branch.
 4. `feat: return focus to the board whenever a dialog closes` — `onClose`,
    `returnFocusToBoard`, the wiring, and the focus call removed from
    `continueAfterWin()`.

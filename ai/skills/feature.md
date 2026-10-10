@@ -38,8 +38,29 @@ reads or writes persisted data.
 4. Put every new shared value (sizes, thresholds, timings, storage keys, targets) in
    `src/scripts/constants.js`. When CSS needs a number from JS, pass it as a CSS
    custom property set by the view that owns the element.
-5. Dialogs: use native `<dialog>` with `showModal()` (focus trap, `Escape`,
-   `::backdrop` for free) and return focus to the board on close.
+5. Dialogs — native `<dialog>` + `showModal()` (the top layer, inert page, `Tab` trap,
+   `::backdrop`, and `cancel` on `Escape` come for free;
+   `ai/decisions/2026-10-10-native-dialog.md`):
+   - **Markup** in `index.html`: `<dialog class="…" aria-labelledby="…">` with a
+     heading and real buttons; no `role` / `aria-modal`. The safe or primary button
+     comes first and carries `autofocus`.
+   - **View**: `OverlayView` owns the `<dialog>` elements `main.js` passes in.
+     `show…()` calls `showModal()`, `hide…()` calls `close()`, user actions are
+     `on<Action>(handler)`; no `style.display`, no manual focus. Showing a dialog
+     closes the other game-end dialog first, so two are never open at once. Give a
+     dialog its own view class once it has state of its own (a settings form).
+   - **`Escape`** is the `cancel` event: cancel it and run the action that fits
+     (`Continue Playing`, `Cancel`), or only `preventDefault()` when there is nothing
+     to dismiss into. A browser may still close a dialog by force on a repeated
+     `Escape`; leave it closed and keep the controller's state valid.
+   - **Focus**: `OverlayView.onClose` (fires for every close) is wired in `main.js` to
+     `GameController.returnFocusToBoard()`.
+   - **Controller**: decides when to show which dialog and whether a pause flag is
+     needed; the model only reports (`justWon`, `isOver`).
+   - **CSS** (`overlays.css`): `display` only on `dialog[open]`; `margin: auto`
+     (the reset's `margin: 0` beats the browser's); dimming on `dialog::backdrop`;
+     `::backdrop` listed in the reduced-motion selector in `motion.css`, since `*`
+     does not match it.
 6. Controls: real `<button>`s with an accessible name; icon-only buttons get
    `aria-label` and `title`.
 7. Animation: respect `prefers-reduced-motion`; never let an animation swallow or
@@ -52,6 +73,7 @@ reads or writes persisted data.
 - Rule logic inside views or the controller; DOM access inside the model.
 - Module-level state or loose functions where a class method belongs.
 - A second input path that bypasses `requestMove`.
+- Hand-made overlays, focus traps, or `style.display` toggling for a dialog.
 - Base classes, factories, or other abstractions for a single implementation.
 - Reading `localStorage` directly instead of through `SafeStorage`.
 - Features listed in `ai/decisions/2026-10-10-rejected-features.md`.

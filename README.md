@@ -14,7 +14,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 ## ✨ Features
 
 - Classic 4x4 2048 gameplay
-- Keyboard controls for desktop
+- Keyboard controls for desktop: arrow keys or WASD, on any keyboard layout
 - Swipe controls for touch screens
 - Current score and persisted high score
 - Win dialog with continue-playing flow

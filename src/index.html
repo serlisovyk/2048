@@ -24,7 +24,14 @@
   <body>
     <h1>2048 Game</h1>
     <header class="score-container">
-      <div>Score: <span class="current-score">0</span></div>
+      <div>
+        Score: <span class="current-score" aria-hidden="true">0</span>
+        <span
+          class="score-announcement visually-hidden"
+          aria-live="polite"
+          aria-atomic="true"
+        ></span>
+      </div>
       <div>
         High Score: <span class="high-score">0</span>
         <button

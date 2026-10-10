@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const scoreView = new ScoreView({
     scoreElement: document.querySelector('.current-score'),
+    announcementElement: document.querySelector('.score-announcement'),
     highScoreElement: document.querySelector('.high-score'),
     resetHighScoreButton: document.querySelector('.reset-high-score-button'),
   })

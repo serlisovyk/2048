@@ -17,7 +17,8 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Keyboard controls for desktop: arrow keys or WASD, on any keyboard layout
 - Swipe controls for touch screens: a swipe works anywhere on the board area, with
   no pull-to-refresh and no double-tap zoom
-- Current score and persisted high score
+- Current score and persisted high score; a small icon next to the high score resets it
+  after a confirmation (the current game is not affected)
 - The game in progress is saved in the browser and restored after a reload
 - Win dialog: keep playing or start a new game (`Escape` keeps playing)
 - Game-over dialog when no moves remain; if the same move reaches 2048, it says so

@@ -158,11 +158,11 @@ tabular by default and two static weights are 32.5 kB.
    match `*.woff2`, so the font never counts against them; the CSS grows by about 0.1 kB.
 7. **Fallback metrics: conditional.** If the throttled run in section 5 shows the logo
    tile jumping by more than about 2px when the font arrives (Arial's "2048" at 36px is
-   narrower than Rubik's), add a metric-adjusted fallback face
-   (`@font-face { font-family: 'Rubik Fallback'; src: local('Arial'); size-adjust: …;
-ascent-override: …; descent-override: … }`, put after `'Rubik'` in the stack, numbers
-   measured, not guessed). Otherwise not added: preload makes the swap rare, and it is
-   more CSS to maintain.
+   narrower than Rubik's), add a metric-adjusted fallback face named `Rubik Fallback`,
+   put after `'Rubik'` in the stack, with numbers measured, not guessed. Otherwise not
+   added: preload makes the swap rare, and it is more CSS to maintain. (Both conditions
+   were met; see "What was measured" at the end for the result and for how the face
+   differs from this sketch.)
 8. **Tiles.** The digit ladder (40, 35, 30, 25px, fallback 20px, each a `clamp()`) stays
    as it is. If a different candidate than Rubik is chosen, the fit numbers above say it
    fits as well.
@@ -234,3 +234,36 @@ the diff.
    more than 2px, a separate `Font` entry in `size-limit` at 40 kB raw.
 3. If the tile weight of 700 looks too heavy on the screenshots, it is reported to the
    author and not changed without them.
+
+## What was measured, and how the result differs from the sketch (2026-10-10)
+
+Measured in headless Chrome over the DevTools Protocol on the `yarn preview` build, with
+the cache off and the network throttled (Slow 4G: 150ms, 1.6 Mbps; Slow 3G: 400ms,
+400 kbps), sampling every animation frame.
+
+- **The jump was real.** With the plain Arial fallback the font arrived 100ms (Slow 4G)
+  to 600ms (Slow 3G) after the first paint, and at that moment the logo widened by 15.2px
+  at 1000px and 11.0px at 320px (the score text by 18 to 21px inside its fixed box), and
+  at 320px the header grew by 1px (`line-height: normal`: Arial 108.0px, Rubik 109.0px).
+  Both optional steps were therefore taken.
+- **`line-height: 1.15` on `body`** removes the vertical shift. The page is 0.64px
+  taller than the old Arial page at 320px (11px labels: 12.65px against Arial's rounded
+  12px) and identical at 1000px.
+- **`Rubik Fallback`** is two faces, not one: the regular `local('Arial')` and the real
+  bold `local('Arial Bold'), local('Arial-BoldMT')` (the page uses 400 and 700), both
+  with `size-adjust: 119%`, the ratio of Rubik's bold tabular digit (0.662 em) to Arial's
+  (0.556 em). There is no `ascent-override` / `descent-override`: with the pinned
+  line-height they would move the baseline by 0.15px at 36px and nothing else. The
+  fallback state was forced with `font-family: 'NoSuchFont', 'Rubik Fallback', …` and
+  confirmed to use `Arial-BoldMT` (`CSS.getPlatformFontsForNode`): the logo is 116.44px
+  wide against Rubik's 116.45px at 1000px, 90.75 against 90.78 at 320px.
+- **After:** the throttled runs show no element moving at the swap; only glyph shapes
+  change inside the same boxes. (Blocking the woff2 request cannot reproduce the fallback
+  here: the machine has Rubik installed, and Chrome then falls back to the system copy.)
+- Other numbers, `yarn preview`: one font request, `/assets/rubik-latin-wght-normal-<hash>.woff2`,
+  200, 35,348 bytes, from the page's own origin, started by the preload link; no request
+  to any other origin; no `http(s)://` string anywhere in `dist/`. The widest tile of
+  all widths from 320px to 1280px is 0.83 of its cell (16384 at 1000px); at 320px
+  131072 is 0.79. A 7-digit score and high score with the reset button fit the boxes at
+  every width from 320px.
+- `yarn size`: JS 4.25 kB, CSS 2.52 kB (both gzip), Font 35.35 kB raw.

@@ -1,11 +1,16 @@
 body {
+  --page-padding: 20px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
   overflow-x: hidden;
-  padding: 20px;
+  padding: max(var(--page-padding), env(safe-area-inset-top, 0px))
+    max(var(--page-padding), env(safe-area-inset-right, 0px))
+    max(var(--page-padding), env(safe-area-inset-bottom, 0px))
+    max(var(--page-padding), env(safe-area-inset-left, 0px));
 }
 
 h1 {
@@ -52,7 +57,7 @@ h1 {
 
 @media (max-width: 768px) {
   body {
-    padding: 10px;
+    --page-padding: 10px;
   }
 
   h1 {
@@ -71,7 +76,7 @@ h1 {
 
 @media (max-height: 600px) {
   body {
-    padding: 10px;
+    --page-padding: 10px;
   }
 
   h1 {

@@ -1,4 +1,4 @@
-import { ANIMATION_CLEANUP_MS } from '../constants.js'
+import { ANIMATION_CLEANUP_MS, TILE_ANIMATION_MS } from '../constants.js'
 
 export class GridView {
   #element
@@ -7,6 +7,11 @@ export class GridView {
 
   constructor(element, size) {
     this.#element = element
+    this.#element.style.setProperty('--board-size', size)
+    this.#element.style.setProperty(
+      '--tile-animation-duration',
+      `${TILE_ANIMATION_MS}ms`,
+    )
     this.#cells = this.#createCells(size)
   }
 

@@ -1,7 +1,7 @@
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(4, var(--cell-size));
-  grid-template-rows: repeat(4, var(--cell-size));
+  grid-template-columns: repeat(var(--board-size, 4), var(--cell-size));
+  grid-template-rows: repeat(var(--board-size, 4), var(--cell-size));
   gap: var(--cell-gap);
   background-color: rgba(0, 0, 0, 0.1);
   padding: var(--cell-gap);
@@ -27,11 +27,11 @@
 }
 
 .new-cell {
-  animation: pop-in 0.2s ease-out;
+  animation: pop-in var(--tile-animation-duration, 200ms) ease-out;
 }
 
 .merged-cell {
-  animation: merge-scale 0.2s ease-out;
+  animation: merge-scale var(--tile-animation-duration, 200ms) ease-out;
 }
 
 @keyframes pop-in {

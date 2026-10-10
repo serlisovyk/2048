@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     popsElement: document.querySelector('.score-pops'),
     highScoreElement: document.querySelector('.high-score'),
     resetHighScoreButton: document.querySelector('.reset-high-score-button'),
+    recordBadgeElement: document.querySelector('.record-badge'),
   })
 
   const controller = new GameController({

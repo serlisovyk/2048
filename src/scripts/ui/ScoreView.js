@@ -6,8 +6,10 @@ export class ScoreView {
   #resetHighScoreButton
   #announcementElement
   #popsElement
+  #recordBadgeElement
   #announcedScore = null
   #announcementTimeoutId = null
+  #isRecordPending = false
 
   constructor({
     scoreElement,
@@ -15,12 +17,19 @@ export class ScoreView {
     resetHighScoreButton,
     announcementElement,
     popsElement,
+    recordBadgeElement,
   }) {
     this.#scoreElement = scoreElement
     this.#highScoreElement = highScoreElement
     this.#resetHighScoreButton = resetHighScoreButton
     this.#announcementElement = announcementElement
     this.#popsElement = popsElement
+    this.#recordBadgeElement = recordBadgeElement
+
+    this.#recordBadgeElement.addEventListener(
+      'animationend',
+      this.#handleRecordBadgeEnd,
+    )
   }
 
   onResetHighScore(handler) {
@@ -53,6 +62,18 @@ export class ScoreView {
     this.#popsElement.replaceChildren(pop)
   }
 
+  // Decoration only (aria-hidden). The record is spoken once, with the next score
+  // announcement, so a screen reader hears `New record! <score>` and no second message.
+  showNewRecord() {
+    this.#recordBadgeElement.hidden = false
+    this.#isRecordPending = true
+  }
+
+  hideNewRecord() {
+    this.#recordBadgeElement.hidden = true
+    this.#isRecordPending = false
+  }
+
   renderHighScore(highScore) {
     this.#highScoreElement.textContent = highScore
     this.#resetHighScoreButton.hidden = highScore === 0
@@ -71,6 +92,11 @@ export class ScoreView {
     if (score === this.#announcedScore) return
 
     this.#announcedScore = score
-    this.#announcementElement.textContent = score
+    this.#announcementElement.textContent = this.#isRecordPending
+      ? `${this.#recordBadgeElement.textContent} ${score}`
+      : score
+    this.#isRecordPending = false
   }
+
+  #handleRecordBadgeEnd = () => this.hideNewRecord()
 }

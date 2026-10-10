@@ -20,6 +20,7 @@ export class GameController {
   #confirmDialogView
   #storage
   #highScore = 0
+  #hasRecordToBeat = false
   #isMoving = false
   #isPausedAfterWin = false
 
@@ -126,6 +127,8 @@ export class GameController {
 
     const { spawnedTiles } = this.#game.start()
 
+    this.#hasRecordToBeat = this.#highScore > 0
+    this.#scoreView.hideNewRecord()
     this.#renderScore()
     this.#gridView.render(this.#game.cells, spawnedTiles)
   }
@@ -137,6 +140,7 @@ export class GameController {
       return false
     }
 
+    this.#hasRecordToBeat = this.#game.score < this.#highScore
     this.#renderScore()
     this.#gridView.render(this.#game.cells)
 
@@ -162,6 +166,8 @@ export class GameController {
 
   #resetHighScore() {
     this.#highScore = 0
+    this.#hasRecordToBeat = false
+    this.#scoreView.hideNewRecord()
     this.#scoreView.renderHighScore(0)
     this.#storage.setValue(STORAGE_KEYS.HIGH_SCORE, 0)
   }
@@ -172,6 +178,11 @@ export class GameController {
     this.#scoreView.renderScore(score)
 
     if (score <= this.#highScore) return
+
+    if (this.#hasRecordToBeat) {
+      this.#hasRecordToBeat = false
+      this.#scoreView.showNewRecord()
+    }
 
     this.#highScore = score
     this.#scoreView.renderHighScore(score)

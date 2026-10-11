@@ -55,3 +55,5 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-10 — the theme reveal is a View Transition, a progressive enhancement over an instant switch](2026-10-10-view-transitions-progressive-enhancement.md)
 - [2026-10-10 — tiles are elements over a background grid; a move is animated from the model's result](2026-10-10-tiles-over-the-grid.md)
 - [2026-10-10 — a press during a tile animation finishes the animation and is applied at once](2026-10-10-input-during-tile-animation.md)
+- [2026-10-11 — the high score reset stays next to the high score; it does not move into the settings](2026-10-11-high-score-reset-stays-in-the-header.md)
+- [2026-10-11 — the settings dialog is built before its first section; one dialog at a time; one `settings` object](2026-10-11-settings-dialog-and-storage.md)

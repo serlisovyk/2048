@@ -58,8 +58,8 @@ reads or writes persisted data.
      `show…()` calls `showModal()`, `hide…()` calls `close()`, user actions are
      `on<Action>(handler)`; no `style.display`, no manual focus. Showing a dialog
      closes the other game-end dialog first, so two are never open at once. Give a
-     dialog its own view class once it has state of its own (`ConfirmDialogView`, a
-     settings form).
+     dialog its own view class once it has state of its own (`ConfirmDialogView`,
+     `SettingsView`).
    - **`Escape`** is the `cancel` event: cancel it and run the action that fits
      (`Continue Playing`, `Cancel`), or only `preventDefault()` when there is nothing
      to dismiss into. A browser may still close a dialog by force on a repeated
@@ -83,28 +83,68 @@ reads or writes persisted data.
      controller calls `restoreFocus()` (back to that element) and falls back to
      `returnFocusToBoard()` when it returns `false`; after a "yes" the use case acts and
      then calls `returnFocusToBoard()` itself. There is no `onClose` hook for it. One
-     question at a time; a confirmation stacked over another dialog is
-     for the issue that needs it to decide
-     (`ai/decisions/2026-10-10-confirm-dialog.md`).
+     question at a time, and never stacked over another dialog: a question asked from
+     the settings closes the settings first and reopens it on "no"
+     (`SettingsController.requestChange`), so there is never more than one open dialog
+     (`ai/decisions/2026-10-10-confirm-dialog.md`,
+     `ai/decisions/2026-10-11-settings-dialog-and-storage.md`).
    - **Controller**: decides when to show which dialog and whether a pause flag is
      needed; the model only reports (`justWon`, `isOver`).
    - **CSS** (`overlays.css`): `display` only on `dialog[open]`; `margin: auto`
      (the reset's `margin: 0` beats the browser's); dimming on `dialog::backdrop`;
      `::backdrop` listed in the reduced-motion selector in `motion.css`, since `*`
      does not match it.
-6. Controls: real `<button>`s with an accessible name; icon-only buttons get
+6. Settings — a choice the player makes once and the game keeps (board size, win target;
+   `ai/decisions/2026-10-11-settings-dialog-and-storage.md`, "Settings" in `ai/map.md`). The
+   dialog, the storage and the "this starts a new game" question already exist, so a setting is
+   data plus a section, not a new mechanism.
+   - **Where it lives**: the value and its checks in `Settings` (model), through one entry in
+     `SETTING_DEFINITIONS` (`constants.js`): `name: { defaultValue, allowedValues }`. It is saved
+     by `SettingsController` as one flat object `{ version, <name>: <value> }` under
+     `STORAGE_KEYS.SETTINGS` through `SafeStorage`, only when a setting changes. The model
+     validates field by field (a broken field falls back to its default and the others are kept),
+     the controller owns the `version`. Adding a field with a default needs no version bump;
+     changing what an existing field means or allows does (a migration, or a discard).
+   - **A section** is markup only, inside `.settings-dialog` between the title and `Close`:
+     `<section class="settings-section">` with an `<h3 id="…">` and a
+     `<div role="radiogroup" aria-labelledby="…">` (the heading's id) holding one
+     `<label><input type="radio" name="<setting>" value="<allowed value>"> …</label>` per choice.
+     The group, not the `<section>`, carries the name, so a screen reader announces it once (a
+     labelled `<section>` adds a second landmark). `SettingsView.render` checks the stored value from the model and `onChange`
+     reports `(name, value)` to `SettingsController.requestChange`: nothing to wire in
+     `main.js`. Another control type extends `SettingsView.render` and `onChange`. Style the
+     controls with tokens only (`controls.css` / `overlays.css`).
+   - **The first section turns the button on**: remove `hidden` from `.settings-button`. The UI
+     never shows a settings dialog with nothing in it, and never a placeholder for a section that
+     has no issue yet. Later sections add nothing there.
+   - **A change starts a new game** (every planned setting does): `requestChange` ignores an
+     unchanged or invalid value, asks first in a game in progress (the settings closes for the
+     question and reopens on "no", showing the stored value, so a refused change needs no
+     revert), then saves and calls `GameController.restart()`. The game has to read the value
+     where it builds the game and the grid: `settingsController.start()` runs before
+     `controller.start()`. A setting that depends on another (the win target on the board size)
+     is a method of `Settings`; fields are read in the order of the table, so a later one may
+     depend on an earlier one.
+   - **An action inside a section** (the statistics reset): the same rule as `requestChange`:
+     close the settings, ask through `ConfirmDialogView`, reopen on "no". Extract that step into
+     a private method when the second caller arrives.
+   - **Not here**: the high score reset (it stays by the high score,
+     `ai/decisions/2026-10-11-high-score-reset-stays-in-the-header.md`) and a confirmation over
+     the settings.
+7. Controls: real `<button>`s with an accessible name; icon-only buttons get
    `aria-label` and `title`. Do not style focus: the generic `button:focus-visible`
    rule in `base.css` gives every button the same ring, so keep hover and active
    styles off `outline` and never set `outline: none` on a button. Something that is
    not a button but is focused from script (`tabindex="-1"`) gets
    `:focus-visible { outline: none }`.
-   An action that belongs in the header (the settings; the theme toggle is the worked
-   example) is a `.toolbar-button` in the header's `.toolbar`: copy the `New Game` button,
+   An action that belongs in the header (the theme toggle and the settings button are the
+   worked examples) is a `.toolbar-button` in the header's `.toolbar`: copy the `New Game` button,
    give it an inline SVG icon (24px, `currentColor`, `aria-hidden="true"`,
    `focusable="false"`), an `aria-label` and a `title` with the same text, and its own hook
    class for `main.js`. No CSS, unless the icon depends on a state: the theme toggle holds a
    sun and a moon and `controls.css` shows one by `data-theme`, so the right icon is there
-   at the first paint without JS. At 320px the row holds up to four buttons (two are used).
+   at the first paint without JS. At 320px three buttons fit exactly, a fourth makes the header
+   5px wider than the board, a fifth overflows (`ai/map.md`).
    Icons are inline SVG, never an icon font or library (`ai/rules/style.md`). A toggle's
    label names the action (`Switch to light theme`), not the state, and it has no
    `aria-pressed`.
@@ -120,7 +160,7 @@ reads or writes persisted data.
    the current game that depends on the high score (whether it can still beat it) is
    controller state, not model or view state, and a restored game derives it from what is
    saved instead of storing it.
-7. Animation: respect `prefers-reduced-motion`; never let an animation swallow or
+8. Animation: respect `prefers-reduced-motion`; never let an animation swallow or
    reorder player input. The global reduced-motion rule makes every animation instant;
    one the player must still see (the score pop, `+N`) gets its own override in
    `motion.css` — no movement, duration restored — as the pop does. A transient element
@@ -150,7 +190,7 @@ reads or writes persisted data.
    `ai/decisions/2026-10-10-input-during-tile-animation.md`). A whole board is drawn with
    `render(tiles, spawnedTiles)`: a new game pops its tiles in, a restored game draws
    with no animation.
-8. Verify per `ai/workflow.md`: format, build, and play the feature on desktop and at
+9. Verify per `ai/workflow.md`: format, build, and play the feature on desktop and at
    mobile width.
 
 ## Avoid
@@ -159,6 +199,10 @@ reads or writes persisted data.
 - Module-level state or loose functions where a class method belongs.
 - A second input path that bypasses `requestMove`.
 - Hand-made overlays, focus traps, or `style.display` toggling for a dialog.
+- A second dialog open together with another one (a confirmation over the settings), or a
+  settings section, button state or placeholder for a setting that does not exist yet.
+- Settings kept outside the `settings` object (a key per setting), read by a view, or written
+  on a path other than `SettingsController`; the high score reset moved into the settings.
 - A second confirmation dialog, or a copy of the confirmation markup, for a new
   "are you sure?" — use `ConfirmDialogView.ask`.
 - Per-button focus styles, `outline: none` on a button, or a focus ring built from

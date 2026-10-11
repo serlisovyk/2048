@@ -19,14 +19,20 @@ conventions. `ai/map.md` lists every file.
   the `theme-color` metas. `src/styles/theme.css` holds every UI colour for both themes.
   The inline script in the `<head>` of `index.html` applies the theme before the first paint;
   it is the one code that is not a class (it runs before any module).
+- `src/scripts/SettingsController.js` owns the settings use cases: loading and saving the
+  settings (the `settings` key and its `version`), opening the dialog, and applying a change,
+  asking first when it would end a game in progress. `game/Settings.js` holds the values and
+  checks them against `SETTING_DEFINITIONS`; `ui/SettingsView.js` owns the dialog, its toolbar
+  button and `Close`. The button stays `hidden` until the first section exists
+  (`ai/decisions/2026-10-11-settings-dialog-and-storage.md`).
 - `src/scripts/GameController.js` owns the use cases and flow state: the single
   movement guard, the pause after a win, the high score (and whether
   the current game can still beat it, for the New record badge), and saving and
   restoring the current game.
-- `src/scripts/game/` is the model (`Board`, `Game`): rules and game state, no DOM,
-  no storage, no timers.
+- `src/scripts/game/` is the model (`Board`, `Game`, `Settings`): rules, game state and the
+  settings values, no DOM, no storage, no timers.
 - `src/scripts/ui/` holds the views (`GridView`, `ScoreView`, `OverlayView`,
-  `ConfirmDialogView`): they own their elements and render what they are given;
+  `ConfirmDialogView`, `SettingsView`): they own their elements and render what they are given;
   `GridView` draws the tiles and animates the model's move result.
 - `src/scripts/input/` turns keyboard and pointer events into directions
   (`KeyboardInput`, `SwipeInput`).
@@ -60,6 +66,8 @@ conventions. `ai/map.md` lists every file.
 - Do not build modals by hand: dialogs are native `<dialog>` elements opened with
   `showModal()`, with no custom overlay, focus trap, or `style.display` toggling
   (`ai/decisions/2026-10-10-native-dialog.md`).
+- Never two dialogs open at once: a question asked from the settings closes the settings first
+  and reopens it on "no" (`ai/decisions/2026-10-11-settings-dialog-and-storage.md`).
 - Do not add React, Vue, Angular, or another UI framework.
 - Do not rename existing CSS classes only for cosmetic reasons; class names are part
   of the local styling contract.

@@ -43,3 +43,7 @@ without one place for them they would be added wherever there was room.
   theme task (MY-123) tokenises its colors with the rest.
 - The size budget is unchanged in kind: icons add a few hundred bytes of markup, not a
   dependency.
+- Refined by `2026-10-11-settings-dialog-and-storage.md` (MY-127): the settings button is in the markup,
+  `hidden`, until the first settings section exists, a narrow exception to "no hidden slot" for a feature
+  that is built and only lacks its first section. Measured with it shown: three buttons fit at 320px with
+  the header exactly as wide as the board, a fourth makes the header 5px wider, a fifth overflows.

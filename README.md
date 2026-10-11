@@ -84,11 +84,12 @@ src/
   fonts/                 Self-hosted Rubik (Latin woff2)
   scripts/
     main.js              Composition root: finds DOM elements, wires the objects
-    constants.js         Board size, win tile, timings, storage keys
+    constants.js         Board size, win tile, timings, storage keys, settings table
     GameController.js    Movement guard, win pause, high score, saved game
     ThemeController.js   Current theme, its saved choice, following the system
-    game/                Model: Board and Game (rules, no DOM)
-    ui/                  Views: grid, score, dialogs, theme switch
+    SettingsController.js  Loads, saves and applies the settings, asks before a new game
+    game/                Model: Board, Game and Settings (rules and values, no DOM)
+    ui/                  Views: grid, score, dialogs, settings, theme switch
     input/               Keyboard and swipe input
     storage/             Safe localStorage wrapper (numbers, strings, and JSON)
   styles/
@@ -99,7 +100,7 @@ src/
     header.css           Header: logo, score boxes, and the icon toolbar
     board.css            Board, background cells, tiles, and tile animations
     tiles.css            Tile colour tokens (both themes) and text sizing
-    overlays.css         Win, game-over, and confirmation dialogs
+    overlays.css         Win, game-over, confirmation, and settings dialogs
     controls.css         Button styles
     motion.css           Reduced-motion preferences
 ai/                  AI-agent docs: repo map, workflow, rules, decisions, skills, templates

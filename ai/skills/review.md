@@ -33,7 +33,9 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
 - **Single sources**: no duplicated literals for size, thresholds, timings, storage
   keys, or the target tile; JS timings match CSS durations.
 - **Storage**: every read/write wrapped and validated; old saved data still loads or
-  is safely discarded.
+  is safely discarded. Settings: one `settings` object with a `version`, a broken field falls
+  back to its default, a damaged or missing blob never stops the game, nothing is written until
+  a setting changes.
 - **Accessibility**: buttons have names (an icon-only button has an `aria-label` and a
   `title`; its icon is inline SVG with `aria-hidden="true"`), focus is visible and returns to the board
   after dialogs, `prefers-reduced-motion` respected for new animation (including
@@ -45,8 +47,10 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   never gone at once. The `New record!` badge is `aria-hidden` and static under reduced
   motion, never covers a button or shifts the header, and the record is spoken once
   inside the score announcement, not by a second live region.
-- **Dialogs**: native `<dialog>` opened with `showModal()`, never two open at once,
-  `Escape` does what the dialog's purpose says, the page behind is dimmed and inert.
+- **Dialogs**: native `<dialog>` opened with `showModal()`, never two open at once (a question
+  asked from the settings closes it first and reopens it on "no", showing the stored value),
+  `Escape` does what the dialog's purpose says, the page behind is dimmed and inert. The settings
+  button is `hidden` until a settings section exists, and no section is an empty placeholder.
 - **Responsive**: 320px wide to desktop, no horizontal scroll, swipes work on touch.
 - **Tile colours**: only tokens in `tiles.css` (no literals in the per-value rules),
   the base `.tile[data-value]` rule first and no `:not()` chain, text at least

@@ -78,3 +78,6 @@ its own "no" handling.
   restores the game, as before.
 - Rejected: a confirmation from the win and game-over buttons, a move counter instead
   of a flag (nothing needs the number), and a separate confirmation dialog per issue.
+- Refined by `2026-10-11-settings-dialog-and-storage.md` (MY-127): the settings asks through `ask()` with
+  its own wording and never stacks the confirmation over itself; it closes for the question and reopens
+  on "no". The view, its markup and its styles are unchanged.

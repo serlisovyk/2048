@@ -54,3 +54,6 @@ key handlers) would copy what the platform already does, and the next dialogs â€
   movement guard.
 - Rejected: a hand-made focus trap and overlay, and reopening the game-over dialog
   after a forced close.
+- Refined by `2026-10-11-settings-dialog-and-storage.md` (MY-127): the stack the last bullet of
+  "Decision" left to the settings issue was decided against; a question asked from the settings closes it
+  first and reopens it on "no", so there are never two open dialogs.

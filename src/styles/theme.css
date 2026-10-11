@@ -73,10 +73,11 @@
   --dialog-shadow: rgba(46, 38, 32, 0.35);
 }
 
-/* The win and game-over cards keep their own colours in both themes. The confirmation is
-   the neutral dialog: a light card in the light theme, so it re-points the dialog and
-   button tokens to ink on paper. */
-:root[data-theme='light'] .confirm-dialog {
+/* The win and game-over cards keep their own colours in both themes. The confirmation and
+   the settings are the neutral dialogs: a light card in the light theme, so they re-point
+   the dialog and button tokens to ink on paper. */
+:root[data-theme='light'] .confirm-dialog,
+:root[data-theme='light'] .settings-dialog {
   --dialog-text: #2e2620;
   --dialog-ring: #2e2620;
   --button-bg: #2e2620;

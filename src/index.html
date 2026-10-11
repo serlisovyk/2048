@@ -123,6 +123,30 @@
               <path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.8 6.8 0 0 0 10.7 10.7z" />
             </svg>
           </button>
+          <button
+            class="toolbar-button settings-button"
+            aria-label="Settings"
+            title="Settings"
+            hidden
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                d="M10.1 5L10.5 2.5L13.5 2.5L13.9 5L15.6 5.8L17.6 4.2L19.8 6.4L18.2 8.4L19 10.1L21.5 10.5L21.5 13.5L19 13.9L18.2 15.6L19.8 17.6L17.6 19.8L15.6 18.2L13.9 19L13.5 21.5L10.5 21.5L10.1 19L8.4 18.2L6.4 19.8L4.2 17.6L5.8 15.6L5 13.9L2.5 13.5L2.5 10.5L5 10.1L5.8 8.4L4.2 6.4L6.4 4.2L8.4 5.8z"
+              />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </button>
         </div>
         <div class="score-container">
           <div class="score-box">
@@ -196,6 +220,11 @@
         <button class="confirm-cancel-button" autofocus></button>
         <button class="confirm-accept-button"></button>
       </div>
+    </dialog>
+
+    <dialog class="settings-dialog" aria-labelledby="settings-title">
+      <h2 id="settings-title">Settings</h2>
+      <button class="settings-close-button" autofocus>Close</button>
     </dialog>
   </body>
 </html>

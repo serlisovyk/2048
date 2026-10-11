@@ -202,10 +202,12 @@ export class Settings {
 A section, added by its own issue, goes between the title and `Close`:
 
 ```html
-<section class="settings-section" aria-labelledby="settings-board-size-title">
+<section class="settings-section">
   <h3 id="settings-board-size-title">Board size</h3>
-  <label><input type="radio" name="boardSize" value="3" /> 3x3</label>
-  ...
+  <div role="radiogroup" aria-labelledby="settings-board-size-title">
+    <label><input type="radio" name="boardSize" value="3" /> 3x3</label>
+    ...
+  </div>
 </section>
 ```
 
@@ -306,9 +308,10 @@ Switching the settings button on and adding the first section (MY-128, "Board si
 1. `constants.js`: add the definition to `SETTING_DEFINITIONS`:
    `boardSize: { defaultValue: 4, allowedValues: [3, 4, 5] }`. No version bump (a new field
    with a default).
-2. `index.html`: add a `<section class="settings-section">` with a heading and
-   `<input type="radio" name="boardSize" value="3|4|5">` inside `.settings-dialog`, between the
-   title and `Close`. No JavaScript: `SettingsView.render` checks the radio from the model and
+2. `index.html`: add a `<section class="settings-section">` with a heading and a
+   `<div role="radiogroup" aria-labelledby="…">` of
+   `<label><input type="radio" name="boardSize" value="3|4|5"> …</label>` inside
+   `.settings-dialog`, between the title and `Close`. No JavaScript: `SettingsView.render` checks the radio from the model and
    the `change` event reaches `SettingsController.requestChange`.
 3. `index.html`: **remove `hidden` from `.settings-button`.** That turns the button on.
 4. CSS for the section's controls (tokens only; the section skeleton is already there).
@@ -414,3 +417,32 @@ Any section or setting and everything MY-128 / MY-129 / MY-130 own (the board si
 target, statistics, the per-size high score, the saved game's `size` and `winTile`, a game that
 reads a setting); showing the settings button; the high score reset (it stays); a stacked
 confirmation; raising the CSS limit; automated tests.
+
+## 12. What building it found
+
+Written after the work, because reality moved the plan in a few places.
+
+- **The section markup changed.** The first recipe (section 4) labelled the `<section>`. In the
+  accessibility tree that gave two nodes with the same name, a region and the radio group. The
+  recipe is now a plain `<section>`, an `<h3 id>` and a `<div role="radiogroup" aria-labelledby>`
+  around the labelled radio buttons: heading, then one named group, then the radios (checked with
+  `Accessibility.getFullAXTree`). `ai/map.md` and `ai/skills/feature.md` carry the corrected steps.
+- **The toolbar numbers (measured).** Three 44px buttons at 320px: the header is exactly as wide as the
+  board (296px), 57px between the logo and the toolbar, no sideways scroll; the same at 375px and 1000px.
+  A fourth button still causes no scroll at 320px but makes the header, and so the board's wrapper, 5px
+  wider than the board; a fifth overflows (scroll width 336px). `ai/map.md` said "up to four fit": the
+  honest version is "three fit exactly".
+- **The sizes.** CSS 3.68 kB of 4 (was 3.60), JS 6.36 kB of 8 (was 5.72). The limit is not raised, as
+  planned. The CSS skeleton (the dialog, the `Close` button, the section rules) cost about 90 gzipped bytes;
+  the section rules have no markup to style until MY-128, by the author's wish for a skeleton.
+- **The dry run of section 7 worked as written.** One table entry, a section, and `hidden` removed were
+  enough to show, change, save and restore a setting with no other JavaScript.
+- **`Settings.get` had no caller.** It is the read path MY-128 uses, so it stayed, and `isChange` now reads
+  the current value through it instead of reaching into the field.
+- **Harness notes, for the next person who checks a dialog this way.** In headless Chrome a `Tab` from the
+  last control of a modal dialog lands on `BODY` (the browser's own UI is the next stop of the native
+  trap), so a focus check must allow `BODY` and look for page elements outside the dialog instead. A click
+  within about 0.5s of the theme toggle is swallowed by the View Transition overlay (already documented in
+  `2026-10-10-view-transitions-progressive-enhancement.md`). Chromium's `:focus-visible` for a focus moved
+  by script follows the last input: after a keyboard press the settings button shows its ring when focus
+  returns to it, after mouse-only use it does not (checked both ways).

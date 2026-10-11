@@ -39,6 +39,10 @@ export class GameController {
     this.#storage = storage
   }
 
+  get isInProgress() {
+    return this.#game.isInProgress
+  }
+
   start() {
     this.#highScore = this.#storage.getNumber(STORAGE_KEYS.HIGH_SCORE)
     this.#scoreView.renderHighScore(this.#highScore)

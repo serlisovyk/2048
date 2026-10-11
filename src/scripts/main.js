@@ -3,14 +3,17 @@ import '../styles/main.css'
 import { BOARD_SIZE, WIN_TILE } from './constants.js'
 import { GameController } from './GameController.js'
 import { Game } from './game/Game.js'
+import { Settings } from './game/Settings.js'
 import { KeyboardInput } from './input/KeyboardInput.js'
 import { SwipeInput } from './input/SwipeInput.js'
 import { SafeStorage } from './storage/SafeStorage.js'
+import { SettingsController } from './SettingsController.js'
 import { ThemeController } from './ThemeController.js'
 import { ConfirmDialogView } from './ui/ConfirmDialogView.js'
 import { GridView } from './ui/GridView.js'
 import { OverlayView } from './ui/OverlayView.js'
 import { ScoreView } from './ui/ScoreView.js'
+import { SettingsView } from './ui/SettingsView.js'
 import { ThemeView } from './ui/ThemeView.js'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -66,6 +69,20 @@ document.addEventListener('DOMContentLoaded', () => {
     systemQuery: matchMedia('(prefers-color-scheme: light)'),
   })
 
+  const settingsView = new SettingsView({
+    dialog: document.querySelector('.settings-dialog'),
+    openButton: document.querySelector('.settings-button'),
+    closeButton: document.querySelector('.settings-close-button'),
+  })
+
+  const settingsController = new SettingsController({
+    settings: new Settings(),
+    view: settingsView,
+    gameController: controller,
+    confirmDialogView,
+    storage,
+  })
+
   const requestMove = (direction) => controller.requestMove(direction)
   const restart = () => controller.restart()
 
@@ -78,7 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
   scoreView.onResetHighScore(() => controller.requestResetHighScore())
   newGameButton.addEventListener('click', () => controller.requestNewGame())
   themeView.onToggle(() => themeController.toggle())
+  settingsView.onOpen(() => settingsController.open())
+  settingsView.onChange((name, value) =>
+    settingsController.requestChange(name, value),
+  )
 
   themeController.start()
+  settingsController.start()
   controller.start()
 })

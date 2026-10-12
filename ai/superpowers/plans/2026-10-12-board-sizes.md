@@ -115,7 +115,7 @@ export const SETTING_DEFINITIONS = Object.freeze({
   with no new path. `settingsController.start()` still runs before `controller.start()`.
 - `Game` keeps its constructor `{ size, winTile }` so it is always a valid game; the size given there
   is the board it holds before its first `start` or `restore` (`main.js` passes the setting's current
-  value). `start(size = this.#size)` begins a game on `size`; `get size()` reports it.
+  value). `start(size)` begins a game on `size`; `get size()` reports it.
   `restore(state)` adopts `state.size` once the whole state has passed validation, and fails without
   touching the game otherwise.
 - `GridView` takes the element only. `resize(size)` finishes what is running, forgets the tile elements

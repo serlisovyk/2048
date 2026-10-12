@@ -74,7 +74,7 @@ export class Game {
     return true
   }
 
-  start(size = this.#size) {
+  start(size) {
     this.#size = size
     this.#board = new Board(size)
     this.#score = 0

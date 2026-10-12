@@ -57,6 +57,58 @@
   background-color: var(--button-outline-hover-bg);
 }
 
+/* A choice among a few options (the board size): radio buttons drawn as a row of buttons.
+   The inputs stay in the page, visually hidden, so it is still a radio group for the
+   keyboard and for screen readers; the chosen segment is filled like a primary button. */
+.segmented {
+  display: flex;
+}
+
+.segment {
+  position: relative;
+  flex: 1;
+  cursor: pointer;
+  user-select: none;
+}
+
+.segment span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-left: -2px;
+  background-color: transparent;
+  color: var(--dialog-text);
+  border: 2px solid var(--button-outline);
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.segment:first-child span {
+  margin-left: 0;
+  border-radius: 8px 0 0 8px;
+}
+
+.segment:last-child span {
+  border-radius: 0 8px 8px 0;
+}
+
+.segment:hover span {
+  background-color: var(--button-outline-hover-bg);
+}
+
+.segment input:checked + span {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border-color: var(--button-bg);
+}
+
+.segment input:focus-visible + span {
+  outline: 3px solid var(--focus-ring-color);
+  outline-offset: 3px;
+}
+
 .reset-high-score-button {
   margin: -4px -6px -4px 0;
   padding: 8px;

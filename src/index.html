@@ -127,7 +127,6 @@
             class="toolbar-button settings-button"
             aria-label="Settings"
             title="Settings"
-            hidden
           >
             <svg
               viewBox="0 0 24 24"
@@ -224,6 +223,27 @@
 
     <dialog class="settings-dialog" aria-labelledby="settings-title">
       <h2 id="settings-title">Settings</h2>
+      <section class="settings-section">
+        <h3 id="settings-board-size-title">Board size</h3>
+        <div
+          class="segmented"
+          role="radiogroup"
+          aria-labelledby="settings-board-size-title"
+        >
+          <label class="segment">
+            <input class="visually-hidden" type="radio" name="boardSize" value="3" />
+            <span>3×3</span>
+          </label>
+          <label class="segment">
+            <input class="visually-hidden" type="radio" name="boardSize" value="4" />
+            <span>4×4</span>
+          </label>
+          <label class="segment">
+            <input class="visually-hidden" type="radio" name="boardSize" value="5" />
+            <span>5×5</span>
+          </label>
+        </div>
+      </section>
       <button class="settings-close-button" autofocus>Close</button>
     </dialog>
   </body>

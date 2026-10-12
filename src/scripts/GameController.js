@@ -15,7 +15,8 @@ export class GameController {
 
   static #RESET_HIGH_SCORE_PROMPT = Object.freeze({
     title: 'Reset the high score?',
-    message: 'It will be set back to 0. Your current game is not affected.',
+    message:
+      'The high score of this board size will be set back to 0. Other sizes and your current game are not affected.',
     confirmLabel: 'Reset',
   })
 
@@ -26,7 +27,7 @@ export class GameController {
   #confirmDialogView
   #settings
   #storage
-  #highScore = 0
+  #highScores = new Map()
   #hasRecordToBeat = false
   #isPausedAfterWin = false
 
@@ -53,8 +54,7 @@ export class GameController {
   }
 
   start() {
-    this.#highScore = this.#storage.getNumber(STORAGE_KEYS.HIGH_SCORE)
-    this.#scoreView.renderHighScore(this.#highScore)
+    this.#migrateLegacyHighScore()
 
     if (!this.#restoreSavedGame()) this.#startNewGame()
   }
@@ -162,8 +162,37 @@ export class GameController {
     return true
   }
 
+  // The record of the board on screen. A size's record is read from storage when the size
+  // comes on screen and kept for the session, so a record still stands when storage is
+  // blocked; the larger of the two is used, as another tab may have set a higher one.
+  get #highScore() {
+    return this.#highScores.get(this.#game.size) ?? 0
+  }
+
   #showBoardSize() {
-    this.#gridView.resize(this.#game.size)
+    const size = this.#game.size
+    const stored = this.#storage.getNumber(GameController.#getHighScoreKey(size))
+
+    this.#gridView.resize(size)
+    this.#highScores.set(size, Math.max(this.#highScores.get(size) ?? 0, stored))
+    this.#scoreView.renderHighScore(this.#highScore)
+  }
+
+  // The one record the game had before the sizes is the record of the classic board. It is
+  // moved to that size's key once: the old key is removed, so it cannot come back after a
+  // reset, and the larger value wins in case an older tab wrote the old key again.
+  #migrateLegacyHighScore() {
+    const legacyKey = STORAGE_KEYS.LEGACY_HIGH_SCORE
+
+    if (this.#storage.getString(legacyKey) === null) return
+
+    const key = GameController.#getHighScoreKey(LEGACY_BOARD_SIZE)
+
+    this.#storage.setValue(
+      key,
+      Math.max(this.#storage.getNumber(legacyKey), this.#storage.getNumber(key)),
+    )
+    this.#storage.remove(legacyKey)
   }
 
   #persistGame() {
@@ -184,11 +213,17 @@ export class GameController {
   }
 
   #resetHighScore() {
-    this.#highScore = 0
     this.#hasRecordToBeat = false
     this.#scoreView.hideNewRecord()
-    this.#scoreView.renderHighScore(0)
-    this.#storage.setValue(STORAGE_KEYS.HIGH_SCORE, 0)
+    this.#storeHighScore(0)
+  }
+
+  #storeHighScore(score) {
+    const size = this.#game.size
+
+    this.#highScores.set(size, score)
+    this.#scoreView.renderHighScore(score)
+    this.#storage.setValue(GameController.#getHighScoreKey(size), score)
   }
 
   #renderScore() {
@@ -203,9 +238,11 @@ export class GameController {
       this.#scoreView.showNewRecord()
     }
 
-    this.#highScore = score
-    this.#scoreView.renderHighScore(score)
-    this.#storage.setValue(STORAGE_KEYS.HIGH_SCORE, score)
+    this.#storeHighScore(score)
+  }
+
+  static #getHighScoreKey(size) {
+    return `${STORAGE_KEYS.HIGH_SCORE_PREFIX}${size}x${size}`
   }
 
   // The saved game as the current version reads it: a version 1 save has no size, it was

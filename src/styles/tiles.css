@@ -32,95 +32,97 @@
   --tile-shadow: rgba(60, 40, 10, 0.28);
 }
 
-/* Fallback: every value without a rule of its own below (32768 and up). */
+/* Fallback: every value without a rule of its own below (32768 and up). The text is a
+   share of the cell by digit count, 0.4 (1-2), 0.35, 0.3, 0.25, and 0.2 (6), so it
+   scales with the board size. */
 .tile[data-value] {
   background-color: var(--tile-fallback);
   background-image: var(--tile-sheen);
   color: var(--tile-text-light);
-  font-size: clamp(12px, 2vw, 20px);
+  font-size: calc(var(--cell-size) * 0.2);
 }
 
 .tile[data-value='2'] {
   background-color: var(--tile-2);
   color: var(--tile-text-dark);
-  font-size: clamp(20px, 4vw, 40px);
+  font-size: calc(var(--cell-size) * 0.4);
 }
 
 .tile[data-value='4'] {
   background-color: var(--tile-4);
   color: var(--tile-text-dark);
-  font-size: clamp(20px, 4vw, 40px);
+  font-size: calc(var(--cell-size) * 0.4);
 }
 
 .tile[data-value='8'] {
   background-color: var(--tile-8);
   color: var(--tile-text-dark);
-  font-size: clamp(20px, 4vw, 40px);
+  font-size: calc(var(--cell-size) * 0.4);
 }
 
 .tile[data-value='16'] {
   background-color: var(--tile-16);
   color: var(--tile-text-dark);
-  font-size: clamp(20px, 4vw, 40px);
+  font-size: calc(var(--cell-size) * 0.4);
 }
 
 .tile[data-value='32'] {
   background-color: var(--tile-32);
   color: var(--tile-text-dark);
-  font-size: clamp(20px, 4vw, 40px);
+  font-size: calc(var(--cell-size) * 0.4);
 }
 
 .tile[data-value='64'] {
   background-color: var(--tile-64);
   color: var(--tile-text-dark);
-  font-size: clamp(20px, 4vw, 40px);
+  font-size: calc(var(--cell-size) * 0.4);
 }
 
 .tile[data-value='128'] {
   background-color: var(--tile-128);
   color: var(--tile-text-light);
-  font-size: clamp(18px, 3.5vw, 35px);
+  font-size: calc(var(--cell-size) * 0.35);
 }
 
 .tile[data-value='256'] {
   background-color: var(--tile-256);
   color: var(--tile-text-light);
-  font-size: clamp(18px, 3.5vw, 35px);
+  font-size: calc(var(--cell-size) * 0.35);
 }
 
 .tile[data-value='512'] {
   background-color: var(--tile-512);
   color: var(--tile-text-light);
-  font-size: clamp(18px, 3.5vw, 35px);
+  font-size: calc(var(--cell-size) * 0.35);
 }
 
 .tile[data-value='1024'] {
   background-color: var(--tile-1024);
   color: var(--tile-text-light);
-  font-size: clamp(16px, 3vw, 30px);
+  font-size: calc(var(--cell-size) * 0.3);
 }
 
 .tile[data-value='2048'] {
   background-color: var(--tile-2048);
   color: var(--tile-text-light);
-  font-size: clamp(16px, 3vw, 30px);
+  font-size: calc(var(--cell-size) * 0.3);
   box-shadow: 0 0 20px var(--tile-2048-glow);
 }
 
 .tile[data-value='4096'] {
   background-color: var(--tile-4096);
   color: var(--tile-text-dark);
-  font-size: clamp(16px, 3vw, 30px);
+  font-size: calc(var(--cell-size) * 0.3);
 }
 
 .tile[data-value='8192'] {
   background-color: var(--tile-8192);
   color: var(--tile-text-dark);
-  font-size: clamp(16px, 3vw, 30px);
+  font-size: calc(var(--cell-size) * 0.3);
 }
 
 .tile[data-value='16384'] {
   background-color: var(--tile-16384);
   color: var(--tile-text-light);
-  font-size: clamp(14px, 2.5vw, 25px);
+  font-size: calc(var(--cell-size) * 0.25);
 }

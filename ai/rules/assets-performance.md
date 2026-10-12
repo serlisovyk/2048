@@ -3,11 +3,18 @@
 ## Assets
 
 - Keep the favicon next to `index.html` (`src/favicon.svg`) so Vite hashes it. Files
-  that need a stable, unhashed URL (e.g. an Open Graph image) go into `public/` in
-  the repo root (`publicDir: '../public'`); the folder is created when the first such
-  file appears.
+  that need a stable, unhashed URL go into `public/` in the repo root
+  (`publicDir: '../public'`, copied as they are to the root of `dist/`): today only the Open
+  Graph image, `public/og-image.png` (1200×630). Anything that is not served (the
+  1280×640 GitHub social preview) stays out of `public/`, in `.github/`.
 - Keep the favicon visually readable at small sizes. Prefer simple tile shapes
-  over tiny text.
+  over tiny text. Its tile colours are taken from the palette (the logo gold and
+  `tiles.css` values); when the palette changes, change them too.
+- The preview PNGs are finished files, not generated: no generator script and no image
+  dependency (`ai/decisions/2026-10-12-og-preview-image.md`). Keep each well under 200 kB
+  (they are about 100 kB, re-encoded losslessly), keep them out of `dist/assets/` and out
+  of every `size-limit` entry, and remake them by the recipe in `ai/map.md` when the palette,
+  the logo or a page colour changes.
 - Fonts are self-hosted: a Latin-subset woff2 in `src/fonts/`, referenced by a relative
   URL in `@font-face` so Vite hashes it and serves it from the game's own origin. The file
   keeps its copyright notice and license reference in its own metadata (OFL §2 allows that),
@@ -27,6 +34,10 @@
   `prefers-color-scheme`, and each must equal the `--page-bg` of its theme in
   `src/styles/theme.css` (HTML cannot read CSS, so this is the one duplicated colour);
   `ThemeView` rewrites both with the token value of the theme in force.
+- The link preview is `og:url`, `og:image` (with `:type`, `:width`, `:height`, `:alt`) and
+  `twitter:card` in `index.html`. Their URLs are absolute, on the production domain
+  (`https://2048-xi-three.vercel.app/`): a crawler does not resolve a relative one. The size
+  and the alt text must match the file. No `twitter:image` (X reads `og:image`).
 - Keep metadata truthful to the visible game and current tech stack.
 - Do not add larger SEO infrastructure such as `robots.txt`, `sitemap.xml`, or
   web app manifests unless the user asks for it.

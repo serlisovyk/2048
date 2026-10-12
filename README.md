@@ -49,7 +49,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Footer with the author's name and year, and a GitHub icon linking to the source
 - Generated board cells and tiles for any board size
 - SVG favicon based on a compact 2x2 2048 board
-- Basic metadata and Open Graph title/description
+- Link preview image for social networks (Open Graph, Twitter card)
 - Reduced-motion support for users who prefer less animation
 - Rubik as the game font, self-hosted (one Latin woff2 from the game's own origin, no
   font CDN), with tabular digits so the score and the tiles keep their width

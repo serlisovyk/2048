@@ -78,6 +78,11 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   `STORAGE_KEYS.THEME` (and no other direct `localStorage` use); the switch works with the
   View Transitions API absent and under reduced motion, and shows no wrong-theme frame on
   load.
+- **Link preview**: a change to the tile palette, the logo gold, a page colour or the
+  tagline means `public/og-image.png`, `.github/social-preview.png` and `src/favicon.svg`
+  were remade by the recipe in `ai/map.md`; the `og:*` and `twitter:card` URLs in
+  `index.html` are absolute, the declared width and height equal the file's, and no image
+  went into `dist/assets/` or a `size-limit` entry.
 - **Typography**: one family set on `body` only, no `font-family` or per-element
   `tabular-nums` elsewhere, weights 400 and 700 only; the font is the self-hosted woff2
   (no third-party request in the Network tab, one font request from the game's own

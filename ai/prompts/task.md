@@ -11,7 +11,8 @@ Pick up Linear issue MY-**{ISSUE}** in the 2048 repo.
 First, set up the environment:
 
 - Fetch the issue from Linear. Check its "blocked by" relations — if a blocker is not
-  `Done`, stop and say so.
+  `Done`, stop and say so. Read its «Решения автора» section if there is one — those
+  answers are final.
 - Work on branch `my-{ISSUE}-<slug>` off the latest `main` — lowercase issue id,
   your own short English slug (do not use Linear's `gitBranchName`: it prepends a
   username and transliterates the Russian title).
@@ -23,13 +24,14 @@ First, set up the environment:
 
 Then follow `ai/workflow.md` end to end for this issue:
 
-- Read `AGENTS.md`, orient via `ai/map.md`, the relevant `ai/rules/*`, and the
-  `feature` skill.
+- Read `AGENTS.md`, orient via `ai/map.md`, the relevant `ai/rules/*`, the decision
+  records in `ai/decisions/`, and the `feature` skill.
 - Move the issue to `In Progress`.
 - Write spec (if behavior changes) + plan under `ai/superpowers/` and commit them
-  together, one commit, before any code. If the issue says something is to be
-  decided in the plan («решить в плане»), stop after that commit and report the plan
-  with the open questions — do not implement until the author approves.
+  together, one commit, before any code, with the author's answers in the plan. If
+  something is still to be decided in the plan («решить в плане») and has no answer
+  yet, stop after that commit and report the plan with the open questions — do not
+  implement until the author approves.
 - Implement in logical commits (Conventional Commits, English).
 - Update docs in the same change (`README.md`, `ai/map.md`, `ai/rules/*`,
   `ai/skills/*`, `ai/decisions/` — whichever applies).
@@ -46,6 +48,7 @@ Constraints:
 - No tests — do not add any, do not report their absence as a gap.
 - Stop at the author-approval gate (workflow step 11): do not merge, do not push
   `main`, do not mark the issue `Done`.
+- Never use `--no-verify`; the pre-commit hook must pass.
 - If the scope is ambiguous or conflicts with a rule or decision record, stop and
   ask — don't guess.
 

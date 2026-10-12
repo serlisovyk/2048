@@ -149,9 +149,13 @@ git branch -d my-<n>-<slug>
 - One task per worktree: `git worktree add .claude/worktrees/my-<n>-<slug> -b
 my-<n>-<slug> main`, then `yarn install` inside it. In Claude Code, enter it with
   `EnterWorktree` (`path`) so file access does not keep prompting.
-- Only run tasks in parallel when they touch different areas of the code (e.g. game
-  logic vs. styles vs. input). Two tasks editing the same files will conflict on
-  merge.
+- Only run tasks in parallel — at most two at a time — when they touch different areas
+  of the code (e.g. game logic vs. styles vs. input). Two tasks editing the same files
+  will conflict on merge; two tasks changing the same data format (the saved game, the
+  settings) or the same class never run together.
+- Before a batch starts, the orchestrator asks the author every foreseeable decision
+  and writes the answers into the issues («Решения автора»), so the tasks go from the
+  plan straight to the code (`ai/prompts/orchestrator.md`).
 - Merge one branch at a time, rebasing the next one onto the updated `main` before
   its merge.
 - Repo-wide changes (Vite config, file moves, lint/format setup) run alone, never

@@ -57,3 +57,5 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-10 — a press during a tile animation finishes the animation and is applied at once](2026-10-10-input-during-tile-animation.md)
 - [2026-10-11 — the high score reset stays next to the high score; it does not move into the settings](2026-10-11-high-score-reset-stays-in-the-header.md)
 - [2026-10-11 — the settings dialog is built before its first section; one dialog at a time; one `settings` object](2026-10-11-settings-dialog-and-storage.md)
+- [2026-10-12 — the board size is a setting; a record per size; the saved game stores its size and wins over a disagreeing setting](2026-10-12-board-size-records-and-saved-game.md)
+- [2026-10-12 — the cell size follows the board size and the viewport; tile text is a share of the cell; the size picker is a segmented control over radios](2026-10-12-board-geometry-per-size.md)

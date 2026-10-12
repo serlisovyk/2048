@@ -69,3 +69,6 @@ allowedValues }`. A value is accepted when it is, or reads as, an allowed one (t
   raises it to 5 kB (the author agreed in principle, 2026-10-11) with its own record.
 - Rejected: the high score reset in the settings (`2026-10-11-high-score-reset-stays-in-the-header.md`), a
   settings hotkey (`2026-10-10-rejected-features.md`), a key per setting, a settings object the views read.
+- Refined by `2026-10-12-board-size-records-and-saved-game.md` (MY-128): the settings button is on and the
+  `GameController` takes the shared `Settings` model to read the board size, as this record said it would.
+  CSS ended at 3.87 kB of 4 after MY-128, so the 5 kB limit is still waiting for the issue that crosses it.

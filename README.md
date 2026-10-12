@@ -13,7 +13,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 
 ## ✨ Features
 
-- Classic 4x4 2048 gameplay
+- Board sizes 3×3, 4×4 and 5×5 from the settings dialog, with a high score for each
 - Keyboard controls for desktop: arrow keys or WASD, on any keyboard layout
 - Swipe controls for touch screens: a swipe works anywhere on the board area, with
   no pull-to-refresh and no double-tap zoom
@@ -45,7 +45,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
   stays inside, and focus returns to the board when the win and game-over dialogs close
 - Responsive layout for desktop, tablet, and small mobile screens, clear of notches
   and home indicators
-- Generated board cells and tiles controlled by one `BOARD_SIZE` constant
+- Generated board cells and tiles for any board size
 - SVG favicon based on a compact 2x2 2048 board
 - Basic metadata and Open Graph title/description
 - Reduced-motion support for users who prefer less animation
@@ -84,7 +84,7 @@ src/
   fonts/                 Self-hosted Rubik (Latin woff2)
   scripts/
     main.js              Composition root: finds DOM elements, wires the objects
-    constants.js         Board size, win tile, timings, storage keys, settings table
+    constants.js         Board sizes, win tile, timings, storage keys, settings table
     GameController.js    Movement guard, win pause, high score, saved game
     ThemeController.js   Current theme, its saved choice, following the system
     SettingsController.js  Loads, saves and applies the settings, asks before a new game
@@ -183,7 +183,7 @@ CI runs `lint`, `format:check`, `build`, and `size` on every push.
 - The JavaScript is object-oriented: the model (`Board`, `Game`) holds the rules
   without touching the DOM, views render, input classes turn keys and swipes into
   directions, and `GameController` connects them. `main.js` wires everything.
-- Grid cells and the CSS grid are generated from `BOARD_SIZE`, so the board
+- Grid cells and the CSS grid are generated from the board size, so the board
   structure is not duplicated in HTML or CSS.
 - Tiles are their own elements over the grid, placed by `--row` and `--col` through
   CSS, so a resize needs no JavaScript. The model reports each move as slides, merges

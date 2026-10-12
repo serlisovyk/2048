@@ -40,3 +40,6 @@ outdated save must never stop the game from starting.
 - Anything that is flow state rather than game data (open dialogs, pending
   confirmations) restores as closed or idle.
 - Two tabs of the game overwrite each other's save; the last write wins. Not handled.
+- Refined by `2026-10-12-board-size-records-and-saved-game.md` (MY-128): the version is 2 and the save carries
+  its `size`; a version 1 save still loads, as 4x4, and a save that disagrees with the stored board-size
+  setting wins.

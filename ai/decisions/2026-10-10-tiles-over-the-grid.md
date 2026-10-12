@@ -86,3 +86,5 @@ know what moved without guessing from a diff of two boards.
 - The 5x5 board at 320 px is wider than the screen because of the existing minimum cell
   size (60 px) in `layout.css`; the tiles stay on their cells. Fitting other board sizes is
   the game-modes issue (MY-128).
+- Refined by `2026-10-12-board-geometry-per-size.md` (MY-128): the 5x5 overflow described above is fixed by a
+  cell size that is a function of the board size and the viewport; 4x4 keeps its sizes exactly.

@@ -62,3 +62,6 @@ specificity of (0,16,0) and beat the own rule of any new value.
 - Refined by `2026-10-10-tiles-over-the-grid.md` (MY-126): the tiles are `.tile` elements,
   so the base rule is `.tile[data-value]` and the per-value rules are `.tile[data-value='N']`.
   The base-first scheme, the tokens, and every declaration are unchanged.
+- Refined by `2026-10-12-board-geometry-per-size.md` (MY-128): the font sizes still follow the digit count, but
+  as a share of the cell (0.4, 0.35, 0.3, 0.25, 0.2) instead of `clamp()`s of viewport units; the same sizes at
+  the 100px cell.

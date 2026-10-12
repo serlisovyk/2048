@@ -23,12 +23,12 @@ conventions. `ai/map.md` lists every file.
   settings (the `settings` key and its `version`), opening the dialog, and applying a change,
   asking first when it would end a game in progress. `game/Settings.js` holds the values and
   checks them against `SETTING_DEFINITIONS`; `ui/SettingsView.js` owns the dialog, its toolbar
-  button and `Close`. The button stays `hidden` until the first section exists
+  button and `Close`; the button is shown since the first section (Board size) exists
   (`ai/decisions/2026-10-11-settings-dialog-and-storage.md`).
 - `src/scripts/GameController.js` owns the use cases and flow state: the single
-  movement guard, the pause after a win, the high score (and whether
+  movement guard, the pause after a win, the high score of each board size (and whether
   the current game can still beat it, for the New record badge), and saving and
-  restoring the current game.
+  restoring the current game. It reads the shared `Settings` model to start a game.
 - `src/scripts/game/` is the model (`Board`, `Game`, `Settings`): rules, game state and the
   settings values, no DOM, no storage, no timers.
 - `src/scripts/ui/` holds the views (`GridView`, `ScoreView`, `OverlayView`,
@@ -45,7 +45,10 @@ conventions. `ai/map.md` lists every file.
 
 ## Game Structure
 
-- Keep the board size controlled by `BOARD_SIZE`; CSS gets it as `--board-size`.
+- The board size is the `boardSize` setting (`BOARD_SIZES`, `SETTING_DEFINITIONS`): `GameController`
+  reads it from `Settings` when a game starts and hands it to `Game` and `GridView.resize`; CSS
+  gets it as `--board-size`. A saved game carries its own size
+  (`ai/decisions/2026-10-12-board-size-records-and-saved-game.md`).
 - Generate grid cells from JavaScript instead of duplicating board structure in
   HTML. The cells are only the background; a tile is its own element over them
   (`ai/decisions/2026-10-10-tiles-over-the-grid.md`).

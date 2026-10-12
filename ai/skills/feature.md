@@ -113,18 +113,31 @@ reads or writes persisted data.
      labelled `<section>` adds a second landmark). `SettingsView.render` checks the stored value from the model and `onChange`
      reports `(name, value)` to `SettingsController.requestChange`: nothing to wire in
      `main.js`. Another control type extends `SettingsView.render` and `onChange`. Style the
-     controls with tokens only (`controls.css` / `overlays.css`).
-   - **The first section turns the button on**: remove `hidden` from `.settings-button`. The UI
-     never shows a settings dialog with nothing in it, and never a placeholder for a section that
-     has no issue yet. Later sections add nothing there.
+     controls with tokens only (`controls.css` / `overlays.css`). A choice among a few options is
+     the `.segmented` control (the board size is the example): each option is
+     `<label class="segment"><input class="visually-hidden" type="radio" …><span>…</span></label>`,
+     so the inputs stay a real radio group for the keyboard and screen readers and the `<span>`
+     is what is drawn; the chosen one is filled like a primary button and the focus ring is drawn
+     on the `<span>` (`input:focus-visible + span`), where a hidden input has nothing to show it.
+   - **The settings button is on** since the first section (Board size) exists; a new section
+     needs nothing there. The UI never shows a placeholder for a section that has no issue yet.
    - **A change starts a new game** (every planned setting does): `requestChange` ignores an
      unchanged or invalid value, asks first in a game in progress (the settings closes for the
      question and reopens on "no", showing the stored value, so a refused change needs no
      revert), then saves and calls `GameController.restart()`. The game has to read the value
-     where it builds the game and the grid: `settingsController.start()` runs before
-     `controller.start()`. A setting that depends on another (the win target on the board size)
+     where it builds the game: `GameController` takes the same `Settings` object (`main.js`
+     creates one and hands it to both controllers) and reads it in `#startNewGame`;
+     `settingsController.start()` runs before `controller.start()`. A setting that depends on
+     another (the win target on the board size)
      is a method of `Settings`; fields are read in the order of the table, so a later one may
      depend on an earlier one.
+   - **A setting that is also part of a saved game** (the board size): the save stores what the
+     game was built with and the model validates it (`Game.restore`); a save that disagrees with
+     the stored setting wins, because it is the game the player was in, and `GameController` sets
+     the in-memory setting from it (never written: `SettingsController` stays the only writer;
+     `ai/decisions/2026-10-12-board-size-records-and-saved-game.md`). Data kept per choice of a
+     setting (the high score per size) gets a key per choice; an older single key is moved once
+     on start (the larger value wins, then the old key is removed).
    - **An action inside a section** (the statistics reset): the same rule as `requestChange`:
      close the settings, ask through `ConfirmDialogView`, reopen on "no". Extract that step into
      a private method when the second caller arrives.

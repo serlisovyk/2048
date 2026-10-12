@@ -124,8 +124,12 @@
   write the fallback as a `:not()` chain of the values that have a rule.
 - Adding a tile value is a token plus one rule after the base rule, in value order:
   `background-color`, `color` (`--tile-text-dark` or `--tile-text-light`) and
-  `font-size`. Size follows the digit count, each as a `clamp()`: 1-2 digits 40px,
-  3 digits 35px, 4 digits 30px, 5 digits 25px, the fallback 20px (6 digits).
+  `font-size`. Size follows the digit count as a share of the cell, `calc(var(--cell-size) * x)`:
+  1-2 digits 0.4, 3 digits 0.35, 4 digits 0.3, 5 digits 0.25, the fallback 0.2 (6 digits)
+  (40, 35, 30, 25 and 20px at the 100px cell). No pixel floor: it is what overflows a small
+  tile on the 5x5 board. The cell size is declared on `.game-grid` in `layout.css` as a
+  function of `--board-size` and the viewport, so every board size fits from 320px up
+  (`ai/decisions/2026-10-12-board-geometry-per-size.md`).
 - Tile colours are two ramps in one logic: 2 to 2048 run from cream through amber, red
   and magenta, 4096 and up restart in lavender and run to deep blue. A new colour keeps
   that order (lightness falls, chroma rises, hue keeps turning) and stays clearly

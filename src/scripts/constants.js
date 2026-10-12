@@ -1,4 +1,4 @@
-export const BOARD_SIZE = 4
+export const BOARD_SIZES = Object.freeze([3, 4, 5])
 export const WIN_TILE = 2048
 
 export const SWIPE_THRESHOLD_PX = 30
@@ -40,10 +40,22 @@ export const THEMES = Object.freeze({
   DARK: 'dark',
 })
 
-export const SAVED_GAME_VERSION = 1
+export const SAVED_GAME_VERSION = 2
+
+// Before the board size became a setting there was one size, the classic one: version 1
+// saves have no `size` and the one record (`STORAGE_KEYS.HIGH_SCORE`) belongs to it.
+export const LEGACY_SAVED_GAME_VERSION = 1
+export const LEGACY_BOARD_SIZE = 4
 
 export const SETTINGS_VERSION = 1
 
-// One entry per setting, name -> { defaultValue, allowedValues }. The first ones are
-// added with their sections: the board size, then the win target.
-export const SETTING_DEFINITIONS = Object.freeze({})
+export const SETTING_NAMES = Object.freeze({
+  // The inputs of the settings dialog are named after these (`name` in index.html).
+  BOARD_SIZE: 'boardSize',
+})
+
+// One entry per setting, name -> { defaultValue, allowedValues }. The win target is added
+// with its section.
+export const SETTING_DEFINITIONS = Object.freeze({
+  [SETTING_NAMES.BOARD_SIZE]: { defaultValue: 4, allowedValues: BOARD_SIZES },
+})

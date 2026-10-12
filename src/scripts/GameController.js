@@ -1,4 +1,10 @@
-import { SAVED_GAME_VERSION, STORAGE_KEYS } from './constants.js'
+import {
+  LEGACY_BOARD_SIZE,
+  LEGACY_SAVED_GAME_VERSION,
+  SAVED_GAME_VERSION,
+  SETTING_NAMES,
+  STORAGE_KEYS,
+} from './constants.js'
 
 export class GameController {
   static #NEW_GAME_PROMPT = Object.freeze({
@@ -18,6 +24,7 @@ export class GameController {
   #scoreView
   #overlayView
   #confirmDialogView
+  #settings
   #storage
   #highScore = 0
   #hasRecordToBeat = false
@@ -29,6 +36,7 @@ export class GameController {
     scoreView,
     overlayView,
     confirmDialogView,
+    settings,
     storage,
   }) {
     this.#game = game
@@ -36,6 +44,7 @@ export class GameController {
     this.#scoreView = scoreView
     this.#overlayView = overlayView
     this.#confirmDialogView = confirmDialogView
+    this.#settings = settings
     this.#storage = storage
   }
 
@@ -123,26 +132,38 @@ export class GameController {
   #startNewGame() {
     this.#clearSavedGame()
 
-    const { spawnedTiles } = this.#game.start()
+    const { spawnedTiles } = this.#game.start(
+      this.#settings.get(SETTING_NAMES.BOARD_SIZE),
+    )
 
+    this.#showBoardSize()
     this.#hasRecordToBeat = this.#highScore > 0
     this.#scoreView.hideNewRecord()
     this.#renderScore()
     this.#gridView.render(this.#game.tiles, spawnedTiles)
   }
 
+  // A save is the game the player was in the middle of, so it wins over a setting that
+  // disagrees with it (a cleared or damaged `settings` key, another tab): the game is
+  // restored at its own size and the setting follows it, in memory only.
   #restoreSavedGame() {
-    const saved = this.#storage.getJson(STORAGE_KEYS.SAVED_GAME)
+    const saved = GameController.#readSavedGame(
+      this.#storage.getJson(STORAGE_KEYS.SAVED_GAME),
+    )
 
-    if (saved?.version !== SAVED_GAME_VERSION || !this.#game.restore(saved)) {
-      return false
-    }
+    if (!saved || !this.#game.restore(saved)) return false
 
+    this.#settings.set(SETTING_NAMES.BOARD_SIZE, this.#game.size)
+    this.#showBoardSize()
     this.#hasRecordToBeat = this.#game.score < this.#highScore
     this.#renderScore()
     this.#gridView.render(this.#game.tiles)
 
     return true
+  }
+
+  #showBoardSize() {
+    this.#gridView.resize(this.#game.size)
   }
 
   #persistGame() {
@@ -185,5 +206,17 @@ export class GameController {
     this.#highScore = score
     this.#scoreView.renderHighScore(score)
     this.#storage.setValue(STORAGE_KEYS.HIGH_SCORE, score)
+  }
+
+  // The saved game as the current version reads it: a version 1 save has no size, it was
+  // always the classic board. Anything else is no save; the model validates the rest.
+  static #readSavedGame(saved) {
+    if (saved?.version === SAVED_GAME_VERSION) return saved
+
+    if (saved?.version === LEGACY_SAVED_GAME_VERSION) {
+      return { ...saved, size: LEGACY_BOARD_SIZE }
+    }
+
+    return null
   }
 }

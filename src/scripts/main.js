@@ -1,6 +1,6 @@
 import '../styles/main.css'
 
-import { BOARD_SIZE, WIN_TILE } from './constants.js'
+import { SETTING_NAMES, WIN_TILE } from './constants.js'
 import { GameController } from './GameController.js'
 import { Game } from './game/Game.js'
 import { Settings } from './game/Settings.js'
@@ -47,12 +47,18 @@ document.addEventListener('DOMContentLoaded', () => {
     recordBadgeElement: document.querySelector('.record-badge'),
   })
 
+  const settings = new Settings()
+
   const controller = new GameController({
-    game: new Game({ size: BOARD_SIZE, winTile: WIN_TILE }),
-    gridView: new GridView(gridElement, BOARD_SIZE),
+    game: new Game({
+      size: settings.get(SETTING_NAMES.BOARD_SIZE),
+      winTile: WIN_TILE,
+    }),
+    gridView: new GridView(gridElement),
     scoreView,
     overlayView,
     confirmDialogView,
+    settings,
     storage,
   })
 
@@ -76,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   const settingsController = new SettingsController({
-    settings: new Settings(),
+    settings,
     view: settingsView,
     gameController: controller,
     confirmDialogView,

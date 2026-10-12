@@ -6,16 +6,23 @@ export class GridView {
   #retiredElements = []
   #settleTimeoutId = null
 
-  constructor(element, size) {
+  constructor(element) {
     this.#element = element
-    this.#element.style.setProperty('--board-size', size)
     this.#element.style.setProperty('--tile-slide-duration', `${TILE_SLIDE_MS}ms`)
     this.#element.style.setProperty('--tile-pop-duration', `${TILE_POP_MS}ms`)
-    this.#createCells(size)
+    this.#element.tabIndex = -1
   }
 
   focus() {
     this.#element.focus()
+  }
+
+  // A board of another size: the background cells are rebuilt (which also drops every
+  // tile) and CSS gets the size. Always followed by render().
+  resize(size) {
+    this.#clearTiles()
+    this.#element.style.setProperty('--board-size', size)
+    this.#createCells(size)
   }
 
   // The whole board at once, with no slide: a new game (its tiles pop in) or a
@@ -23,9 +30,7 @@ export class GridView {
   render(tiles, spawnedTiles = []) {
     const spawnedIds = new Set(spawnedTiles.map(({ id }) => id))
 
-    this.#finish()
-    this.#tiles.forEach(({ element }) => element.remove())
-    this.#tiles.clear()
+    this.#clearTiles()
 
     tiles.forEach((tile) => {
       this.#createTile(tile, spawnedIds.has(tile.id) ? ['new-tile'] : [])
@@ -67,8 +72,13 @@ export class GridView {
       return cell
     })
 
-    this.#element.tabIndex = -1
     this.#element.replaceChildren(...cells)
+  }
+
+  #clearTiles() {
+    this.#finish()
+    this.#tiles.forEach(({ element }) => element.remove())
+    this.#tiles.clear()
   }
 
   #createTile({ id, value, row, col }, classNames) {

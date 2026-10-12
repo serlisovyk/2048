@@ -61,3 +61,4 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-12 — the cell size follows the board size and the viewport; tile text is a share of the cell; the size picker is a segmented control over radios](2026-10-12-board-geometry-per-size.md)
 - [2026-10-13 — the win target is a setting with three choices per board size; the saved game is version 3 and is brought up to date step by step](2026-10-13-win-target-per-board-size.md)
 - [2026-10-13 — the footer's year is written by a view at load; the GitHub link is a row of its own in the page's flow](2026-10-13-footer-and-github-link.md)
+- [2026-10-12 — the link preview image is a hand-made PNG in `public/`, with no generator](2026-10-12-og-preview-image.md)

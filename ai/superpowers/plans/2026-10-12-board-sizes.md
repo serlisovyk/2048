@@ -382,3 +382,31 @@ Before the final commit: the build is rebuilt and the sizes in the report are th
 The win target and anything MY-129 owns (so on 3x3 the 2048 target is unreachable for now); statistics and the move
 counter (MY-130); a size label on the High Score box; sizes other than 3, 4 and 5; making the page fit short windows
 vertically; a keyboard shortcut for the size; automated tests.
+
+## 12. What building it found
+
+Written after the work, because reality moved the plan in a few places.
+
+- **Seven commits, not nine.** The setting and the saved game's size (plan commits 2 and 4) landed together, so
+  the plan's transient "a version 1 save of another size is discarded" never existed; every commit still builds
+  and passes the hook. The CSS limit did not move, so there is no budget commit and no
+  `2026-10-12-css-budget-5-kb.md`. `Game.start(size)` has no default (its own small refactor commit), and
+  section 2 says so.
+- **`GameController` keeps a record per size.** `#highScores` is a `Map` by size with a `#highScore` getter for
+  the size on screen; `#showBoardSize()` takes no argument (it reads `game.size`), resizes the grid and loads
+  that size's record, the larger of the session's and the stored value. Section 3.1 had a single `#highScore` and
+  `#showBoardSize(size)`; the map keeps a record that could not be written (blocked storage) standing for the
+  session. `GridView` sets `tabIndex = -1` in its constructor, since `#createCells` now runs once per size.
+- **The sizes.** CSS 3.87 kB of 4 (was 3.68), JS 6.67 kB of 8 (was 6.36): the estimates of section 6 held and
+  the limit stays at 4 kB.
+- **The geometry held as written.** 4x4 has the baseline cell at all nine widths (60, 61.19, 67.5, 74.52,
+  86.39, 100, 100, 100, 100); 5x5 at 320px has a 47.19px cell and a 300px header; every tile from 2 to 131072
+  fits on every size from 320px up (the production build gives the same numbers as the dev server). A seven
+  digit number (1048576) is outside the range checked, and on 5x5 at 320px it still sits inside its tile with
+  3.5px to spare.
+- **Harness notes, for the next person who checks the game this way.** An `Enter` sent with
+  `Input.dispatchKeyEvent` activates a button only with `text: "\r"`; arrows, `Tab` and `Space` need no text.
+  Compare boards without `.retired-tile` (a merge's two old tiles stay in the DOM for about 0.3 s). To check a
+  swipe, seed one tile and look where that tile ends: the new tile spawned after every move breaks any "packed
+  to the edge" test. A script that throws must still close its Chrome, or the debugging port stays busy and
+  the next run hangs on the old browser.

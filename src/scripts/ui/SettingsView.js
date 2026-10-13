@@ -23,8 +23,13 @@ export class SettingsView {
     })
   }
 
-  // Checks the radio button of every named group whose value is the setting's.
-  render(values) {
+  // Checks the radio button of every named group whose value is the setting's. A group
+  // listed in `choices` (a setting whose options change) takes them first.
+  render(values, choices = {}) {
+    Object.entries(choices).forEach(([name, options]) =>
+      this.#renderChoices(name, options),
+    )
+
     this.#dialog.querySelectorAll('input[name]').forEach((input) => {
       input.checked = String(values[input.name]) === input.value
     })
@@ -36,6 +41,17 @@ export class SettingsView {
 
   close() {
     this.#dialog.close()
+  }
+
+  // The radios of the group, in order, get an option each as their value and as the text
+  // of the `<span>` drawn beside the input.
+  #renderChoices(name, options) {
+    this.#dialog
+      .querySelectorAll(`input[name="${name}"]`)
+      .forEach((input, index) => {
+        input.value = String(options[index])
+        input.nextElementSibling.textContent = options[index]
+      })
   }
 
   // Escape and Close: the dialog was opened by a button, so focus goes back to it.

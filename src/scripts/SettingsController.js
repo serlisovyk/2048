@@ -1,4 +1,4 @@
-import { SETTINGS_VERSION, STORAGE_KEYS } from './constants.js'
+import { SETTING_NAMES, SETTINGS_VERSION, STORAGE_KEYS } from './constants.js'
 
 export class SettingsController {
   static #CHANGE_PROMPT = Object.freeze({
@@ -30,7 +30,7 @@ export class SettingsController {
   }
 
   open() {
-    this.#view.render(this.#settings.toState())
+    this.#render()
     this.#view.open()
   }
 
@@ -39,7 +39,7 @@ export class SettingsController {
   // the stored value again.
   async requestChange(name, value) {
     if (!this.#settings.isChange(name, value)) {
-      this.#view.render(this.#settings.toState())
+      this.#render()
 
       return
     }
@@ -58,9 +58,21 @@ export class SettingsController {
 
     this.#settings.set(name, value)
     this.#persist()
+    // The dialog is still open when nothing was asked, and a size change changes the
+    // choices of the win target.
+    this.#render()
     this.#gameController.restart()
 
     if (isAsked) this.#gameController.returnFocusToBoard()
+  }
+
+  // The win target's choices follow the board size, so the view is given them each time.
+  #render() {
+    this.#view.render(this.#settings.toState(), {
+      [SETTING_NAMES.WIN_TILE]: this.#settings.getAllowedValues(
+        SETTING_NAMES.WIN_TILE,
+      ),
+    })
   }
 
   #persist() {

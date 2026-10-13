@@ -15,16 +15,16 @@ worktree; this issue touches the `<head>` meta tags, `public/`, `src/favicon.svg
 Final; copied from the issue's «Решения автора» and the coordinator's follow-up.
 
 - **The image.** The background is cut in half by a diagonal into the dark and the light
-  theme. It holds the gold `2048` logo, a short tagline, and a board with tiles in our palette
-  (the real hex values from `src/styles/theme.css` and `tiles.css`, Rubik from `src/fonts/`).
-  **No toolbar**, so the image does not go stale when the header buttons change. A 1200×630
-  PNG for Open Graph / Twitter, and a 1280×640 variant for GitHub's Social preview (the
-  author uploads that one by hand; it is not deployed).
+  theme. It holds the gold `2048` logo, a short tagline (dropped in the review, see below),
+  and a board with tiles in our palette (the real hex values from `src/styles/theme.css` and
+  `tiles.css`, Rubik from `src/fonts/`). **No toolbar**, so the image does not go stale when
+  the header buttons change. A 1200×630 PNG for Open Graph / Twitter, and a 1280×640 variant
+  for GitHub's Social preview (the author uploads that one by hand; it is not deployed).
 - **The diagonal.** It is not a vertical stripe: the background is cut exactly in half by a
   straight line from the **bottom-left corner to the top-right corner** of the image, corner
   to corner, for both 1200×630 and 1280×640. One triangle is the dark theme's page colour, the
-  other the light theme's. I pick which triangle is which so the logo, the tagline and the
-  board stay readable, and an element that crosses the line must stay legible on both sides.
+  other the light theme's. I pick which triangle is which so the logo and the name stay
+  readable, and an element that crosses the line must stay legible on both sides.
 - **Only the finished PNGs go into the repo**, in `public/`. No generator script, no new
   dependencies. `ai/map.md` says in a few lines how they were made (an HTML template rendered
   and screenshotted in headless Chrome) so they can be remade.
@@ -41,6 +41,24 @@ Final; copied from the issue's «Решения автора» and the coordinat
   Graph title/description" line with one short line (e.g. "Link preview image for social
   networks (Open Graph, Twitter card)") and do not touch Architecture Notes. The details go
   into `ai/map.md`; the full README cleanup is MY-132.
+
+### Changes after the first version (2026-10-12, review by the author)
+
+Final; they replace what the answers above say about the tagline and the board's place.
+
+1. **No tagline.** `Slide. Merge. / Reach 2048.` is removed from the image entirely.
+2. **The author's name at the bottom.** `Serhii Lisovyk`, small and plain, in dark ink: the
+   bottom edge lies in the light triangle (the line runs from the bottom-left corner), so the
+   text sits on the light page colour.
+3. **The split must read on the board.** The board moves to the middle of the image so the
+   diagonal crosses it through its middle: about half of its panel and empty cells are the dark
+   theme and half the light one (before, only the top two cells were dark). The tile layout
+   leaves empty cells on both sides of the line. The tiles look the same in both themes; what
+   differs is the panel, the empty cells and the shadows. The gold logo stays on the dark side
+   (top-left), resized and moved beside the board. Still no toolbar. Same for both sizes.
+4. **Attribute quotes stay in the built HTML.** The `minify-html` plugin in `vite.config.js`
+   gets `removeAttributeQuotes: false`, so `dist/index.html` has `content="https://…"` on every
+   meta tag (the first version had `content=https://… >`).
 
 ## Decision records checked
 
@@ -63,32 +81,52 @@ None is contradicted.
 
 ### 1.1 Geometry and layout
 
-One template, rendered twice (1200×630 and 1280×640) with the same CSS: the layout is flex,
-the board has a fixed size, the diagonal is a `clip-path` in percentages, so it runs corner
-to corner at any size.
+One template, rendered twice (1200×630 and 1280×640) with the same CSS: the board is placed
+by the image's centre, the diagonal is a `clip-path` in percentages, so it runs corner to
+corner at any size.
 
-- **Which triangle is dark: top-left dark, bottom-right light.** The logo and the tagline are
-  in the top-left, so they sit on the dark triangle and are checked to be entirely above the
-  line (every corner of their boxes, with a margin). The board is on the right and the
-  diagonal passes through it; it is the one element that crosses the line.
-- **The board is cut by the same diagonal.** The whole scene is built twice with the theme
+- **Which triangle is dark: top-left dark, bottom-right light.** The logo is on the dark
+  triangle (the box is checked to lie entirely above the line, at least 225px from it), the
+  name on the light one (at least 175px below it). The board is in the middle and the line
+  crosses it.
+- **The board is in the middle of the image and is cut by the diagonal.** The board's centre
+  is the image's centre, which lies on the line, so the line crosses the board through its
+  middle and splits its area in half exactly. The whole scene is built twice with the theme
   tokens of each theme (the CSS files are read as they are and scoped to a `.scene` wrapper,
   so the values cannot drift from the game): the light scene fills the image, the dark scene
-  is laid over it, clipped to the top-left triangle. So the board's panel, cells and tile
-  shadows are dark above the line and light below it. The tiles are the same colours in both
-  themes (only the depth shadow and the 2048 glow differ, and those follow the theme too).
-  **Found while building:** two clipped copies of a tile leave a one-pixel dark hairline
-  along the cut, so a third copy of just the tiles (no shadows, not clipped) is laid over
-  both; the line then passes behind the tiles and never through a tile or a number. Every
-  tile stays legible on both sides.
-- **Logo** — the header's logo scaled up: the `--logo-bg` gold gradient, `--on-gold` text,
-  Rubik 700 at 132px, `-0.02em`, the logo's shadow. **Tagline** — Rubik 400 at 48px in
-  `--text`, two short lines: `Slide. Merge.` / `Reach 2048.`.
-- **Board** — the game's structure at its largest size (cell 100px, gap 12px, two nested
-  panels with the game's radii), `.tile` rules from `tiles.css` as they are. The tiles are a
-  snake, the way a game ends up: 2048 in the corner, then 1024, 512, 256, 128 … 2, so the
-  whole ramp from cream to the 2048 magenta is visible, with a few empty cells.
-- Rubik is loaded from `src/fonts/rubik-latin-wght-normal.woff2` (weights 400 and 700).
+  is laid over it, clipped to the top-left triangle. So the board's panel, empty cells and tile shadows are dark above the line and
+  light below it. The tiles are the same colours in both themes (only the depth shadow and
+  the 2048 glow differ, and those follow the theme too). **Found while building:** two
+  clipped copies of a tile leave a one-pixel dark hairline along the cut, so a third copy of
+  just the tiles (no shadows, not clipped) is laid over both; the line then passes behind the
+  tiles and never through a tile or a number. Every tile stays legible on both sides.
+- **Board** — the game's structure with the cell at 92px (not 100: the board is 452px, which
+  leaves 89px above and below it for the name), gap 12px, two nested panels with the game's
+  radii, `.tile` rules from `tiles.css` as they are. Twelve tiles, no toolbar:
+
+  ```
+  2048 1024  256   64
+   512  128    ·    ·
+     ·    ·   16    4
+    32    8    2    2
+  ```
+
+  The ramp from the 2048 magenta to the cream 2 runs from the dark side to the light one (the
+  tiles are ordered by their distance from the line, so the colours form a band parallel to
+  it). The four empty cells are the ones the line cuts (dark share, 1200×630: 77%, 18%, 82%,
+  23%), so each of them shows both themes in one cell, and the two on either side of the
+  line are the pixel checks in section 5.
+
+- **Logo** — the header's logo: the `--logo-bg` gold gradient, `--on-gold` text, Rubik 700 at
+  84px, `-0.02em`, padding 10px 28px, radius 20px, the logo's shadow. It sits to the left of
+  the board, its right edge 50px from the board and its top level with the board's top, so the
+  composition is the same at both sizes.
+- **Name** — `Serhii Lisovyk`, Rubik 500 at 30px, letter-spacing 0.06em, in the light theme's
+  `--text-muted` (`#6b6055` on `#f4efe6`, about 5.3:1), centred under the board, 24px from the
+  bottom edge. It is drawn only in the light scene, so it needs no readable colour on the
+  dark side.
+- Rubik is loaded from `src/fonts/rubik-latin-wght-normal.woff2` (the variable file, so weights
+  400, 500 and 700 all come from it).
 
 ### 1.2 Files
 
@@ -99,17 +137,17 @@ to corner at any size.
 
 `public/` is copied as it is to the root of `dist/` (a stable URL `/og-image.png`);
 `.github/` is not part of the build. The size-limit entries only match `dist/assets/*.js`,
-`*.css` and `*.woff2`, so the PNG is outside the budgets. Chrome's PNGs were 125,827 and
-119,936 bytes; a throwaway zlib re-encode (RGB, per-row filter search, level 9, lossless,
-checked by decoding it back) made them **105,518** and **98,440** bytes. Nothing of it is in
-the repo.
+`*.css` and `*.woff2`, so the PNG is outside the budgets. Chrome's PNGs are 88,478 and 83,581
+bytes; a throwaway zlib re-encode (RGB, per-row filter search, level 9, lossless, checked by
+decoding it back) makes them **76,590** and **70,738** bytes. Nothing of it is in the repo.
+(The first version, with the tagline and the board on the right, was 105,518 and 98,440.)
 
 ### 1.3 How it is made
 
 An HTML template and a small Node script live outside the repo (the session's scratchpad):
 the script reads `theme.css`, `tiles.css` and `board.css`, scopes them to `.scene`, inlines
 Rubik, writes the page, opens it in headless Chrome (`--headless=new`, an exact viewport) and
-saves `Page.captureScreenshot` as a PNG. The recipe (sizes, tile layout, tagline, the three
+saves `Page.captureScreenshot` as a PNG. The recipe (sizes, tile layout, the name, the three
 layers) is written in `ai/map.md`, because the template itself is not committed (the
 author's decision).
 
@@ -133,12 +171,13 @@ After `og:type`:
 - The URLs are absolute and fixed to the production domain, as the issue asks. A branch
   preview deployment points at the production image, which does not exist there until the
   merge, so the first real check of the card is after the merge (section 6).
-- The `minify-html` plugin (`removeAttributeQuotes`, `collapseWhitespace`) must keep every
-  tag; checked in `dist/index.html`. **Found while building:** all tags survive, but the
-  values without a space are written unquoted (`content=https://2048-xi-three.vercel.app/ >`,
-  the plugin adds the space so the trailing `/` is not read as `/>`). Valid HTML; Chrome reads
-  every value back exactly (checked on `yarn preview`). `vite.config.js` is not touched; a
-  crawler with a naive parser is on the list of things to look at in the first real check.
+- The `minify-html` plugin must keep every tag; checked in `dist/index.html`. **Found while
+  building:** all tags survive, but with `removeAttributeQuotes: true` the values without a
+  space were written unquoted (`content=https://2048-xi-three.vercel.app/ >`, the plugin adds
+  the space so the trailing `/` is not read as `/>`). Valid HTML, and Chrome read every value
+  back exactly, but a crawler with a naive parser might not. **Decided by the author in the
+  review:** `removeAttributeQuotes: false` in `vite.config.js`, so every meta tag keeps
+  `content="https://…"` (checked in `dist/index.html`).
 
 ## 3. Favicon (`src/favicon.svg`)
 
@@ -154,7 +193,7 @@ the target; the old set had two near-identical creams that merged at 16px).
 ## 4. Docs
 
 - `ai/map.md`: root files (`public/`, `.github/social-preview.png`), `vite.config.js` row
-  (`public/` exists now), the `<head>` meta tags, a new "Link preview" section (the files, how
+  (`public/` exists now; the HTML minifier keeps attribute quotes), the `<head>` meta tags, a new "Link preview" section (the files, how
   they were made, how to remake them, what to re-check when the palette changes), the favicon
   line in "Theme".
 - `ai/rules/assets-performance.md`: `public/` exists; the Open Graph image and its URL rule;
@@ -173,11 +212,14 @@ the target; the old set had two near-identical creams that merged at 16px).
 
 - `yarn lint`, `yarn format:check`, `yarn build`, `yarn size` (budget numbers unchanged).
 - `dist/` has `og-image.png` at the URL the tag points to; `dist/index.html` keeps every meta
-  tag after minification; `yarn preview` (port 5195) serves the page, the image with
-  `image/png` and the right byte size, and the favicon.
+  tag after minification, each value quoted; `yarn preview` (port 5195) serves the page, the
+  image with `image/png` and the right byte size, and the favicon.
 - Both PNGs looked at; the dimensions read back from the files (IHDR); both diagonals go
-  corner to corner (the corner pixels and the pixels next to the other two corners are the
-  expected theme colours); the logo and the tagline boxes are entirely in the dark triangle.
+  corner to corner (pixels 10px to either side of the line, away from the board, are the two
+  page colours; the corner pixels are the expected theme colours); the logo box is entirely
+  in the dark triangle and the name box in the light one; the board's centre is the image's
+  centre; the centres of the four empty cells are the dark empty-cell colour on the dark side
+  of the line and the light one on the other (`#434343`, `#cec4b7`).
 - The favicon in a tab strip in a light and a dark colour scheme.
 
 ## 6. After the merge and the deploy (for the author)

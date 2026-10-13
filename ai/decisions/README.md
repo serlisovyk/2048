@@ -63,3 +63,4 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-13 — the footer's year is written by a view at load; the GitHub link is a row of its own in the page's flow](2026-10-13-footer-and-github-link.md)
 - [2026-10-12 — the link preview image is a hand-made PNG in `public/`, with no generator](2026-10-12-og-preview-image.md)
 - [2026-10-13 — the link preview also has `og:site_name` and the `twitter:*` twins of the `og:*` tags; the GitHub social preview lives only in the repository settings](2026-10-13-complete-link-preview-tags.md)
+- [2026-10-13 — the CSS size limit goes from 4 kB to 5 kB](2026-10-13-css-size-limit-5-kb.md)

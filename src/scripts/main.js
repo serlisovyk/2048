@@ -88,12 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
     dialog: document.querySelector('.settings-dialog'),
     openButton: document.querySelector('.settings-button'),
     closeButton: document.querySelector('.settings-close-button'),
+    resetStatisticsButton: document.querySelector('.reset-statistics-button'),
   })
 
   const settingsController = new SettingsController({
     settings,
     view: settingsView,
     gameController: controller,
+    statisticsController,
     confirmDialogView,
     storage,
   })
@@ -116,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
   settingsView.onChange((name, value) =>
     settingsController.requestChange(name, value),
   )
+  settingsView.onResetStatistics(() => settingsController.requestResetStatistics())
 
   footerView.renderYear(new Date().getFullYear())
   themeController.start()

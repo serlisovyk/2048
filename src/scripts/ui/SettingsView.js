@@ -2,11 +2,13 @@ export class SettingsView {
   #dialog
   #openButton
   #closeButton
+  #resetStatisticsButton
 
-  constructor({ dialog, openButton, closeButton }) {
+  constructor({ dialog, openButton, closeButton, resetStatisticsButton }) {
     this.#dialog = dialog
     this.#openButton = openButton
     this.#closeButton = closeButton
+    this.#resetStatisticsButton = resetStatisticsButton
 
     this.#closeButton.addEventListener('click', this.#dismiss)
     this.#dialog.addEventListener('cancel', this.#handleCancel)
@@ -14,6 +16,10 @@ export class SettingsView {
 
   onOpen(handler) {
     this.#openButton.addEventListener('click', handler)
+  }
+
+  onResetStatistics(handler) {
+    this.#resetStatisticsButton.addEventListener('click', handler)
   }
 
   // One delegated listener: a section is markup only, a control named after its setting.
@@ -33,6 +39,17 @@ export class SettingsView {
     this.#dialog.querySelectorAll('input[name]').forEach((input) => {
       input.checked = String(values[input.name]) === input.value
     })
+  }
+
+  // Each number goes into the element named after it (`data-statistic`). With nothing
+  // counted there is nothing to reset, so the button is hidden, as the high score's is.
+  renderStatistics(values) {
+    this.#dialog.querySelectorAll('[data-statistic]').forEach((element) => {
+      element.textContent = values[element.dataset.statistic]
+    })
+    this.#resetStatisticsButton.hidden = Object.values(values).every(
+      (value) => value === 0,
+    )
   }
 
   open() {

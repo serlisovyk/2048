@@ -10,7 +10,8 @@
 .win-restart-button,
 .confirm-cancel-button,
 .confirm-accept-button,
-.settings-close-button {
+.settings-close-button,
+.reset-statistics-button {
   padding: 12px 24px;
   cursor: pointer;
   background-color: var(--button-bg);
@@ -29,7 +30,8 @@
 .win-restart-button:hover,
 .confirm-cancel-button:hover,
 .confirm-accept-button:hover,
-.settings-close-button:hover {
+.settings-close-button:hover,
+.reset-statistics-button:hover {
   background-color: var(--button-hover-bg);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px var(--button-hover-shadow);
@@ -40,12 +42,14 @@
 .win-restart-button:active,
 .confirm-cancel-button:active,
 .confirm-accept-button:active,
-.settings-close-button:active {
+.settings-close-button:active,
+.reset-statistics-button:active {
   transform: translateY(0);
 }
 
 .win-restart-button,
-.confirm-accept-button {
+.confirm-accept-button,
+.reset-statistics-button {
   padding: 10px 22px;
   background-color: transparent;
   color: var(--dialog-text);
@@ -53,7 +57,8 @@
 }
 
 .win-restart-button:hover,
-.confirm-accept-button:hover {
+.confirm-accept-button:hover,
+.reset-statistics-button:hover {
   background-color: var(--button-outline-hover-bg);
 }
 

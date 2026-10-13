@@ -11,6 +11,7 @@
 
   --surface: #444444;
   --surface-border: #555555;
+  --divider: #666666;
   --surface-hover: #555555;
   --icon-muted: #b0b0b0;
   --icon-hover: #ffffff;
@@ -55,6 +56,7 @@
 
   --surface: #fffdf8;
   --surface-border: #ddd3c2;
+  --divider: #b9ab98;
   --surface-hover: #f0e9db;
   --icon-muted: #7a6f63;
   --icon-hover: #2e2620;

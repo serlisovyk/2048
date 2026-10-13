@@ -4,7 +4,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   min-height: 100dvh;
   overflow-x: hidden;
   padding: max(var(--page-padding), env(safe-area-inset-top, 0px))
@@ -23,6 +22,22 @@ body {
   box-shadow: 0 8px 32px var(--board-shadow);
   touch-action: none;
   user-select: none;
+}
+
+/* The last child of .game-layout, so it is as wide as the board without knowing it: like
+   the header it adds only its minimum width to the wrapper (the percentage is applied
+   after). Its auto margin pairs with the header's: with room they split it, so the
+   footer is at the bottom of the page and the game centred above it; without room both
+   are 0 and the layout's gap is the distance to the board. */
+.site-footer {
+  width: min-content;
+  min-width: 100%;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--divider);
+  color: var(--text-muted);
+  font-size: 13px;
+  text-align: center;
 }
 
 /* The grid owns the board size (GridView sets --board-size), so the cell size is

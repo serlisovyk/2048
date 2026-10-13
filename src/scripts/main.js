@@ -10,6 +10,7 @@ import { SafeStorage } from './storage/SafeStorage.js'
 import { SettingsController } from './SettingsController.js'
 import { ThemeController } from './ThemeController.js'
 import { ConfirmDialogView } from './ui/ConfirmDialogView.js'
+import { FooterView } from './ui/FooterView.js'
 import { GridView } from './ui/GridView.js'
 import { OverlayView } from './ui/OverlayView.js'
 import { ScoreView } from './ui/ScoreView.js'
@@ -90,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
     storage,
   })
 
+  const footerView = new FooterView(document.querySelector('.footer-year'))
+
   const requestMove = (direction) => controller.requestMove(direction)
   const restart = () => controller.restart()
 
@@ -107,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     settingsController.requestChange(name, value),
   )
 
+  footerView.renderYear(new Date().getFullYear())
   themeController.start()
   settingsController.start()
   controller.start()

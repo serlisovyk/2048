@@ -5,8 +5,9 @@
 - Keep the favicon next to `index.html` (`src/favicon.svg`) so Vite hashes it. Files
   that need a stable, unhashed URL go into `public/` in the repo root
   (`publicDir: '../public'`, copied as they are to the root of `dist/`): today only the Open
-  Graph image, `public/og-image.png` (1200×630). Anything that is not served (the
-  1280×640 GitHub social preview) stays out of `public/`, in `.github/`.
+  Graph image, `public/og-image.png` (1200×630). The 1280×640
+  GitHub social preview is not kept in the repo: it is uploaded by hand in the repository
+  settings.
 - Keep the favicon visually readable at small sizes. Prefer simple tile shapes
   over tiny text. Its tile colours are taken from the palette (the logo gold and
   `tiles.css` values); when the palette changes, change them too.

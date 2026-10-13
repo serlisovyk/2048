@@ -79,8 +79,8 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   View Transitions API absent and under reduced motion, and shows no wrong-theme frame on
   load.
 - **Link preview**: a change to the tile palette, the logo gold, a page colour or the
-  author's name means `public/og-image.png`, `.github/social-preview.png` and `src/favicon.svg`
-  were remade by the recipe in `ai/map.md`; the `og:*` and `twitter:card` URLs in
+  author's name means `public/og-image.png` and `src/favicon.svg` were remade (and the GitHub
+  social preview re-uploaded) by the recipe in `ai/map.md`; the `og:*` and `twitter:card` URLs in
   `index.html` are absolute, the declared width and height equal the file's, and no image
   went into `dist/assets/` or a `size-limit` entry.
 - **Typography**: one family set on `body` only, no `font-family` or per-element

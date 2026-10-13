@@ -1,9 +1,10 @@
 import {
   LEGACY_BOARD_SIZE,
-  LEGACY_SAVED_GAME_VERSION,
+  MIDDLE_CHOICE_INDEX,
   SAVED_GAME_VERSION,
   SETTING_NAMES,
   STORAGE_KEYS,
+  WIN_TILES,
 } from './constants.js'
 
 export class GameController {
@@ -18,6 +19,18 @@ export class GameController {
     message:
       'The high score of this board size will be set back to 0. Other sizes and your current game are not affected.',
     confirmLabel: 'Reset',
+  })
+
+  // Brings a saved game to the next version; the key is the version a step starts from, so
+  // a new version adds one entry and raises SAVED_GAME_VERSION. Version 1 has no size (the
+  // classic board), version 2 has no win tile (the middle choice of its size).
+  static #SAVE_UPGRADES = Object.freeze({
+    1: (saved) => ({ ...saved, version: 2, size: LEGACY_BOARD_SIZE }),
+    2: (saved) => ({
+      ...saved,
+      version: 3,
+      winTile: WIN_TILES[saved.size]?.[MIDDLE_CHOICE_INDEX],
+    }),
   })
 
   #game
@@ -108,10 +121,13 @@ export class GameController {
     this.#gridView.animateMove(result)
 
     if (result.isOver) {
-      this.#overlayView.showGameOver({ justWon: result.justWon })
+      this.#overlayView.showGameOver({
+        justWon: result.justWon,
+        winTile: this.#game.winTile,
+      })
     } else if (result.justWon) {
       this.#isPausedAfterWin = true
-      this.#overlayView.showWin()
+      this.#overlayView.showWin(this.#game.winTile)
     }
 
     this.#persistGame()
@@ -134,6 +150,7 @@ export class GameController {
 
     const { spawnedTiles } = this.#game.start(
       this.#settings.get(SETTING_NAMES.BOARD_SIZE),
+      this.#settings.get(SETTING_NAMES.WIN_TILE),
     )
 
     this.#showBoardSize()
@@ -145,7 +162,7 @@ export class GameController {
 
   // A save is the game the player was in the middle of, so it wins over a setting that
   // disagrees with it (a cleared or damaged `settings` key, another tab): the game is
-  // restored at its own size and the setting follows it, in memory only.
+  // restored with its own size and win tile and the settings follow, in memory only.
   #restoreSavedGame() {
     const saved = GameController.#readSavedGame(
       this.#storage.getJson(STORAGE_KEYS.SAVED_GAME),
@@ -153,7 +170,9 @@ export class GameController {
 
     if (!saved || !this.#game.restore(saved)) return false
 
+    // The size first: a changed size sends the win tile back to its default.
     this.#settings.set(SETTING_NAMES.BOARD_SIZE, this.#game.size)
+    this.#settings.set(SETTING_NAMES.WIN_TILE, this.#game.winTile)
     this.#showBoardSize()
     this.#hasRecordToBeat = this.#game.score < this.#highScore
     this.#renderScore()
@@ -245,15 +264,23 @@ export class GameController {
     return `${STORAGE_KEYS.HIGH_SCORE_PREFIX}${size}x${size}`
   }
 
-  // The saved game as the current version reads it: a version 1 save has no size, it was
-  // always the classic board. Anything else is no save; the model validates the rest.
+  // The saved game as the current version reads it: an older one goes through the upgrade
+  // steps, one version at a time. A version no step starts from (unknown, or newer than this
+  // code) is no save; the model validates the rest.
   static #readSavedGame(saved) {
-    if (saved?.version === SAVED_GAME_VERSION) return saved
+    let upgraded = saved
 
-    if (saved?.version === LEGACY_SAVED_GAME_VERSION) {
-      return { ...saved, size: LEGACY_BOARD_SIZE }
+    while (
+      Number.isInteger(upgraded?.version) &&
+      upgraded.version < SAVED_GAME_VERSION
+    ) {
+      const upgrade = GameController.#SAVE_UPGRADES[upgraded.version]
+
+      if (!upgrade) return null
+
+      upgraded = upgrade(upgraded)
     }
 
-    return null
+    return upgraded?.version === SAVED_GAME_VERSION ? upgraded : null
   }
 }

@@ -4,6 +4,7 @@ export class OverlayView {
   #continueButton
   #winRestartButton
   #restartButton
+  #winMessage
   #winNote
 
   constructor({
@@ -12,6 +13,7 @@ export class OverlayView {
     continueButton,
     winRestartButton,
     restartButton,
+    winMessage,
     winNote,
   }) {
     this.#winDialog = winDialog
@@ -19,6 +21,7 @@ export class OverlayView {
     this.#continueButton = continueButton
     this.#winRestartButton = winRestartButton
     this.#restartButton = restartButton
+    this.#winMessage = winMessage
     this.#winNote = winNote
 
     this.#gameOverDialog.addEventListener('cancel', (event) =>
@@ -44,12 +47,14 @@ export class OverlayView {
     this.#gameOverDialog.addEventListener('close', handler)
   }
 
-  showWin() {
+  showWin(winTile) {
+    this.#winMessage.textContent = OverlayView.#getReachedMessage(winTile)
     this.#gameOverDialog.close()
     this.#winDialog.showModal()
   }
 
-  showGameOver({ justWon = false } = {}) {
+  showGameOver({ justWon = false, winTile } = {}) {
+    this.#winNote.textContent = OverlayView.#getReachedMessage(winTile)
     this.#winNote.hidden = !justWon
     this.#winDialog.close()
     this.#gameOverDialog.showModal()
@@ -62,5 +67,9 @@ export class OverlayView {
   hideAll() {
     this.#winDialog.close()
     this.#gameOverDialog.close()
+  }
+
+  static #getReachedMessage(winTile) {
+    return `You've reached ${winTile}!`
   }
 }

@@ -1,4 +1,4 @@
-import { BOARD_SIZES } from '../constants.js'
+import { BOARD_SIZES, WIN_TILES } from '../constants.js'
 import { Board } from './Board.js'
 
 export class Game {
@@ -10,7 +10,7 @@ export class Game {
   #isOver = false
   #hasMoved = false
 
-  // `size` is the board the game holds until its first start() or restore().
+  // `size` and `winTile` are what the game holds until its first start() or restore().
   constructor({ size, winTile }) {
     this.#size = size
     this.#winTile = winTile
@@ -19,6 +19,10 @@ export class Game {
 
   get size() {
     return this.#size
+  }
+
+  get winTile() {
+    return this.#winTile
   }
 
   get tiles() {
@@ -40,6 +44,7 @@ export class Game {
   toState() {
     return {
       size: this.#size,
+      winTile: this.#winTile,
       board: this.#board.toArray(),
       score: this.#score,
       hasWon: this.#hasWon,
@@ -47,9 +52,10 @@ export class Game {
   }
 
   restore(state) {
-    const { size, board, score, hasWon } = state ?? {}
+    const { size, winTile, board, score, hasWon } = state ?? {}
 
     if (!BOARD_SIZES.includes(size)) return false
+    if (!WIN_TILES[size].includes(winTile)) return false
 
     const restoredBoard = new Board(size)
 
@@ -64,6 +70,7 @@ export class Game {
     }
 
     this.#size = size
+    this.#winTile = winTile
     this.#board = restoredBoard
     this.#score = score
     this.#hasWon = hasWon
@@ -74,8 +81,9 @@ export class Game {
     return true
   }
 
-  start(size) {
+  start(size, winTile) {
     this.#size = size
+    this.#winTile = winTile
     this.#board = new Board(size)
     this.#score = 0
     this.#hasWon = false

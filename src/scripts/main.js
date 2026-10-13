@@ -1,6 +1,6 @@
 import '../styles/main.css'
 
-import { SETTING_NAMES, WIN_TILE } from './constants.js'
+import { SETTING_NAMES } from './constants.js'
 import { GameController } from './GameController.js'
 import { Game } from './game/Game.js'
 import { Settings } from './game/Settings.js'
@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     continueButton: document.querySelector('.continue-button'),
     winRestartButton: document.querySelector('.win-restart-button'),
     restartButton: document.querySelector('.restart-game-button'),
+    winMessage: document.querySelector('.win-message'),
     winNote: document.querySelector('.game-over-win-note'),
   })
 
@@ -52,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const controller = new GameController({
     game: new Game({
       size: settings.get(SETTING_NAMES.BOARD_SIZE),
-      winTile: WIN_TILE,
+      winTile: settings.get(SETTING_NAMES.WIN_TILE),
     }),
     gridView: new GridView(gridElement),
     scoreView,

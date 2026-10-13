@@ -9,7 +9,7 @@ added, removed, renamed, or moved.
 | File                       | What it does                                                                                                                                                                                                                                                     |
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/`                     | All sources: `index.html`, `favicon.svg`, `fonts/`, `scripts/`, `styles/`.                                                                                                                                                                                       |
-| `vite.config.js`           | `root: 'src'`, `publicDir: '../public'` (`public/` below), `outDir: '../dist'`; Vite default `build.target` (`baseline-widely-available`, no legacy plugin), a custom `minify-html` plugin (`html-minifier-terser`), terser with `drop_console`, no source maps. |
+| `vite.config.js`           | `root: 'src'`, `publicDir: '../public'` (`public/`), `outDir: '../dist'`; Vite default `build.target` (`baseline-widely-available`, no legacy plugin), custom `minify-html` plugin (`html-minifier-terser`, quotes kept), terser, `drop_console`, no sourcemaps. |
 | `public/`                  | Files that need a stable, unhashed URL, copied as they are to the root of `dist/`: `og-image.png`, the Open Graph image (1200×630). See "Link preview" below.                                                                                                    |
 | `postcss.config.js`        | Autoprefixer. Found by Vite upward from `src/`.                                                                                                                                                                                                                  |
 | `.prettierrc`              | `singleQuote`, no semicolons, `printWidth: 85`, LF.                                                                                                                                                                                                              |
@@ -249,34 +249,41 @@ PNG with no generator: `ai/decisions/2026-10-12-og-preview-image.md`.
   `og:image:width`, `og:image:height`, `og:image:alt`, `twitter:card` = `summary_large_image`, all
   URLs absolute on `https://2048-xi-three.vercel.app/` (crawlers do not resolve relative ones). No
   `twitter:image` or `twitter:title`: X falls back to `og:*`. A new domain means editing `og:url`
-  and `og:image`.
-- **Files:** `public/og-image.png` (1200×630, about 105 kB) is copied as it is to `dist/` and served at
-  `/og-image.png`; `.github/social-preview.png` (1280×640, about 98 kB) is the same picture for GitHub's
+  and `og:image`. The build keeps the attribute quotes (`removeAttributeQuotes: false` in
+  `vite.config.js`), so every tag reads `content="https://…"` in `dist/index.html`.
+- **Files:** `public/og-image.png` (1200×630, 76,590 bytes) is copied as it is to `dist/` and served at
+  `/og-image.png`; `.github/social-preview.png` (1280×640, 70,738 bytes) is the same picture for GitHub's
   Social preview, uploaded by hand in the repository settings and never deployed. The `size-limit`
   entries match only `dist/assets/*.js`, `*.css` and `*.woff2`, so the PNGs are outside every budget.
-- **The picture:** the background is cut by a straight line from the bottom-left to the top-right corner
-  (corner to corner at any size) into the dark page colour (top-left triangle) and the light one
-  (bottom-right). Top-left: the header logo scaled up and the tagline `Slide. Merge.` / `Reach 2048.`,
-  both entirely inside the dark triangle. Right: a 4x4 board, the only thing the line crosses, cut by the
-  same line (dark panel above it, light below). No toolbar, so a change of header buttons does not make it
-  stale.
+- **The picture:** the background is cut by a straight line from the bottom-left to the top-right
+  corner (corner to corner at any size) into the dark page colour (top-left triangle) and the light one
+  (bottom-right). The 4x4 board is in the middle of the image, its centre on the image's centre, so the
+  line crosses it through the middle: half of the panel and of the empty cells are the dark theme, half
+  the light one (the tiles look the same in both). Top-left, beside the board: the header logo scaled
+  down, entirely in the dark triangle. At the bottom, centred under the board: `Serhii Lisovyk`, entirely
+  in the light triangle. No tagline, no toolbar, so a change of header buttons does not make it stale.
 - **How it was made** (nothing of it is in the repo; remake it the same way). One HTML page holding the
   same scene twice, scoped to a wrapper with `theme.css`, `tiles.css` and `board.css` read from the repo
   (selectors `:root` to the wrapper, so the values are the real ones) and Rubik inlined from
   `src/fonts/`: a `light` copy filling the page and a `dark` copy on top, clipped with
-  `clip-path: polygon(0 0, 100% 0, 0 100%)`. Logo: `--logo-bg`, `--on-gold`, `--logo-shadow`, Rubik 700
-  at 132px, padding 14px 44px, radius 28px. Tagline: Rubik 400 at 48px in `--text`. Board: the game's own
-  structure at its largest size (`--cell-size: 100px`, `--cell-gap: 12px`, container and grid padding
-  equal to the gap), tiles from `tiles.css` as they are, laid out as a finished game's snake, rows top to
-  bottom `· · · 2`, `8 4 2 ·`, `16 32 64 128`, `2048 1024 512 256`. A third copy of just the tiles, not
-  clipped and without shadows, is laid over both so the line passes behind the tiles and never through
-  one (two clipped copies of a tile leave a hairline along the cut). Rendered in headless Chrome
-  (`--headless=new`, `--force-color-profile=srgb`) with `Page.captureScreenshot` at an exact viewport of
-  1200×630 and of 1280×640, then re-encoded losslessly with `node:zlib` (RGB, per-row filter search,
-  level 9: 125 kB to 105 kB).
+  `clip-path: polygon(0 0, 100% 0, 0 100%)`. Board: the game's own structure with `--cell-size: 92px`,
+  `--cell-gap: 12px` (container and grid padding equal to the gap, 452px in all), centred by absolute
+  position, tiles from `tiles.css` as they are: rows top to bottom `2048 1024 256 64`, `512 128 · ·`,
+  `· · 16 4`, `32 8 2 2`. The tiles run from the dark side to the light one in order of their distance
+  from the line, and the four empty cells are the ones the line cuts (each shows both themes). A third
+  copy of just the tiles, not clipped and without shadows, is laid over both so the line passes behind
+  the tiles and never through one (two clipped copies of a tile leave a hairline along the cut). Logo:
+  `--logo-bg`, `--on-gold`, `--logo-shadow`, Rubik 700 at 84px, padding 10px 28px, radius 20px, its right
+  edge 50px left of the board and its top level with the board's. Name: Rubik 500 at 30px, letter-spacing
+  0.06em, `--text-muted` of the light theme, 24px from the bottom edge, drawn in the light copy only.
+  Rendered in headless Chrome (`--headless=new`, `--force-color-profile=srgb`) with
+  `Page.captureScreenshot` at an exact viewport of 1200×630 and of 1280×640, then re-encoded losslessly
+  with `node:zlib` (RGB, per-row filter search, level 9: 88 kB to 77 kB and 84 kB to 71 kB).
 - **Remake both PNGs when** the tile palette, the logo gold, a page colour in `theme.css`, or the
-  tagline changes. Check the result by reading the corner pixels (top-left `#333333`, bottom-right
-  `#f4efe6`) and that the logo and the tagline boxes stay inside the dark triangle.
+  name changes. Check the result by reading the pixels: top-left `#333333`, bottom-right `#f4efe6`, the
+  two page colours 10px either side of the line away from the board, the dark empty cell (`#434343`) and
+  the light one (`#cec4b7`) in the cells on either side of the line, and that the logo box stays inside
+  the dark triangle and the name box inside the light one.
 - **After a deploy:** crawlers cache the card, the file name does not change. Refresh Telegram with
   `@WebpageBot` and LinkedIn with its Post Inspector; opengraph.xyz shows what a crawler reads.
 - **Favicon** (`src/favicon.svg`, hashed by Vite, not themed): the dark square (`--page-bg`), the board

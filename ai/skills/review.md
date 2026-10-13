@@ -79,7 +79,7 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   View Transitions API absent and under reduced motion, and shows no wrong-theme frame on
   load.
 - **Link preview**: a change to the tile palette, the logo gold, a page colour or the
-  tagline means `public/og-image.png`, `.github/social-preview.png` and `src/favicon.svg`
+  author's name means `public/og-image.png`, `.github/social-preview.png` and `src/favicon.svg`
   were remade by the recipe in `ai/map.md`; the `og:*` and `twitter:card` URLs in
   `index.html` are absolute, the declared width and height equal the file's, and no image
   went into `dist/assets/` or a `size-limit` entry.

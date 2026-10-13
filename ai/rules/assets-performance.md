@@ -12,7 +12,7 @@
   `tiles.css` values); when the palette changes, change them too.
 - The preview PNGs are finished files, not generated: no generator script and no image
   dependency (`ai/decisions/2026-10-12-og-preview-image.md`). Keep each well under 200 kB
-  (they are about 100 kB, re-encoded losslessly), keep them out of `dist/assets/` and out
+  (they are about 70 to 80 kB, re-encoded losslessly), keep them out of `dist/assets/` and out
   of every `size-limit` entry, and remake them by the recipe in `ai/map.md` when the palette,
   the logo or a page colour changes.
 - Fonts are self-hosted: a Latin-subset woff2 in `src/fonts/`, referenced by a relative

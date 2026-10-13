@@ -27,25 +27,28 @@ uploaded by hand.
   than redoing it by hand a few times in the life of the project, and `ai/rules/scope.md`
   says to leave out tooling that adds more maintenance than value. How it was made is in
   `ai/map.md` ("Link preview"), so it can be made again.
-- **The picture:** the gold `2048` logo, a short tagline and a board with tiles in the
-  tile palette, on a background cut corner to corner (bottom-left to top-right) into the
-  dark and the light theme, the top-left triangle dark. **No toolbar**: the header buttons
-  come and go and would make the picture stale. The colours are the real token values and
-  the font is the real Rubik file.
+- **The picture:** the gold `2048` logo (top-left), a board with tiles in the tile palette
+  in the middle and the author's name, `Serhii Lisovyk`, at the bottom, on a background cut
+  corner to corner (bottom-left to top-right) into the dark and the light theme, the
+  top-left triangle dark. The board is centred on the image so the line crosses it through
+  its middle: half of its panel and empty cells are dark and half light, with empty cells on
+  both sides. **No tagline** (the author dropped it in the review: the name is the only
+  text) and **no toolbar**: the header buttons come and go and would make the picture
+  stale. The colours are the real token values and the font is the real Rubik file.
 - **`.github/social-preview.png`, 1280×640**, the same picture for GitHub's Social
   preview. It is in `.github/` so it is not copied to `dist/` and not deployed; the author
   uploads it in the repository settings (GitHub has no file-based setting for it).
 - **The favicon was recoloured in the same change** (the cream 2 tile, the logo gold, the 64
   tile, the 2048 tile on the unchanged dark square), so the tab icon, the preview and the
   game share one palette. It stays unthemed (`2026-10-10-theme-tokens-and-head-script.md`).
-- **Weight:** both PNGs are about 100 kB (re-encoded losslessly, RGB). They are outside the
+- **Weight:** both PNGs are about 70 to 77 kB (re-encoded losslessly, RGB). They are outside the
   `size-limit` entries, which match `dist/assets/*.js`, `*.css` and `*.woff2` only, and
   nobody downloads them while playing: only link-preview crawlers request the file.
 
 ## Consequences
 
 - The picture does not follow the code. A change to the tile palette, the logo gold, the
-  two page colours or the tagline makes it stale, and nothing will tell: remake both PNGs
+  two page colours or the name makes it stale, and nothing will tell: remake both PNGs
   by the recipe in `ai/map.md`. The picture is meant to need that rarely, which is why it
   has no toolbar and shows no state that moves.
 - The URLs are fixed to the production domain. A branch preview deployment points at the
@@ -53,10 +56,12 @@ uploaded by hand.
   domain means editing `og:url` and `og:image`.
 - Crawlers cache the card. After the image changes, Telegram (`@WebpageBot`) and LinkedIn
   (Post Inspector) have to be asked to refresh it; the file name does not change.
-- `vite.config.js` is untouched: `publicDir: '../public'` was already set. The HTML minifier
-  writes attribute values without quotes (`content=https://2048-xi-three.vercel.app/ >`);
-  that is valid HTML and a browser reads them back as written (checked), but a crawler with
-  a naive parser is a risk to watch in the first real check.
+- `publicDir: '../public'` was already set in `vite.config.js`; the only change there is
+  `removeAttributeQuotes: false` on the `minify-html` plugin. The minifier used to write
+  attribute values without quotes (`content=https://2048-xi-three.vercel.app/ >`), which is
+  valid HTML and read back correctly by a browser, but the author does not want a crawler
+  with a naive parser to be the thing that breaks the card: every meta tag keeps
+  `content="https://…"`. The cost in `dist/index.html` is 271 bytes raw (5,373 to 5,644), 24 bytes gzipped.
 - Rejected: generating the image at build time (a dependency and a build stage for a file
   that changes a few times a year); the 1280×640 picture as the only image (Open Graph
   asks for 1.91:1, and 1200×630 is the usual size for it); a vertical

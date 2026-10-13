@@ -63,7 +63,7 @@ None is contradicted. Where this issue settles something it is in section 8.
 | `ui/OverlayView.js`          | `showWin({ winTile, summary })` and `showGameOver({ justWon, winTile, summary })` write the summary into their dialog                                                                                                                      |
 | `index.html`                 | A `.game-summary` list in the win and game-over dialogs; a third `.settings-section` (Statistics) with the four values and the reset button                                                                                                |
 | `main.js`                    | Creates `Statistics` and `StatisticsController`, hands the controller to `GameController` and `SettingsController`, the reset button to `SettingsView`, wires the button to `requestResetStatistics`, calls `statisticsController.start()` |
-| Styles                       | `overlays.css` (the lists), `controls.css` (the reset button joins the outlined secondary look). Tokens only, none new                                                                                                                     |
+| Styles                       | `overlays.css` (the lists), `controls.css` (the reset button joins the outlined secondary look), `theme.css` (one token, `--summary-bg`: the summary's dark tint). Tokens only                                                             |
 | `.size-limit.json`           | CSS 4 → 5 kB (certain: 0.04 kB is left); JS 8 → 10 kB if the new code crosses 8 kB                                                                                                                                                         |
 
 ## 2. The model
@@ -164,9 +164,10 @@ and your current game are not affected.`, confirm label `Reset`.
   reader reading in order.
 - Styles. One look for the "small label over a bold value" in both places: `.game-summary` and `.statistics`
   share the `dt` / `dd` rules (the label 13px, the value bold and larger, `clamp` for small screens). The
-  summary is a centred flex row; the statistics a two-column grid. **No opacity and no new colour on the
-  labels:** on the win card's gradient white at full opacity reaches about 3.7:1 at its lightest corner and
-  more below, so lowering it would fail 4.5:1 for small text; the label differs from the value by size and
+  summary is a centred flex row; the statistics a two-column grid. **No opacity on the
+  labels** (it would only lower the contrast). Building it showed that white on the win card's gradient is
+  3.66:1 at its lightest corner, too little for 13px text, so the summary sits on a dark tint, the one token
+  `--summary-bg` (5.33:1 there; section 12); the label differs from the value by size and
   weight. The reset button is added to the outlined secondary group in `controls.css` (the confirmation's
   `Reset`/`Cancel` pair and `.win-restart-button` have that look): its colours are the dialog tokens, which
   the light theme already re-points for the settings card. Nothing in `motion.css` (no animation).
@@ -270,3 +271,20 @@ bump of `STATISTICS_VERSION`, changing what a number means does. A new field of 
 
 - Everything under "Out of scope" in the spec: percentages, per-size numbers, history, share, a live update
   while the settings is open, syncing tabs.
+
+## 12. What building it found
+
+- **One new colour after all.** The plan kept the labels at the full text colour, but white on the win card's
+  gradient measured 3.66:1 at its lightest corner (`#667eea`), under the 4.5:1 small text needs. The summary got
+  a token, `--summary-bg: rgba(0, 0, 0, 0.2)`, the same in both themes (the two cards are), which gives 5.33:1 there,
+  8.59:1 at the other corner and 12.3 to 13.6:1 on the game-over card. It is part of the summary commit.
+- **The JS limit was not raised.** JS ended at 7.92 kB of 8 (0.08 kB left), so there is no `…-js-size-limit-10-kb`
+  record and commit 6 of the plan does not exist. CSS went from 3.96 to 4.07 kB under the new 5 kB limit.
+- **The counting needed no special case.** `GameController.#startNewGame` asking `Game.isInProgress` covers the
+  page button, the win dialog, a changed setting and the first start; a restored game (also a version 3 save with
+  0 moves) is in progress, a fresh board and a finished game are not.
+- **A fixup that touched two commits.** The tint above first came as a fixup on the summary commit, but the
+  stylesheet rules it edited had since been merged with the statistics' (`.game-summary` and `.statistics` share the
+  label and value rules), so it could not be autosquashed: each half went into the commit that owns it.
+- **Checked** (headless Chrome 155, dev server and production build): see the Consequences of
+  `ai/decisions/2026-10-13-statistics.md`. Not checked: Safari, Firefox, a real screen reader.

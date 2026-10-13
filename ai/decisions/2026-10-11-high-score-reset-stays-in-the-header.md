@@ -33,3 +33,4 @@ itself has no section yet, so a moved reset would have been the only thing in it
 - `ScoreView` keeps `onResetHighScore` and the `hidden` toggle; `GameController.requestResetHighScore`
   keeps its confirmation and its focus rule (back to the button on "no", to the board on "yes").
 - Reversing this needs a new dated record.
+- Carried out by `2026-10-13-statistics.md` (MY-130): the statistics reset is in the settings, in the Statistics section, and asks through the same confirmation.

@@ -25,12 +25,18 @@ conventions. `ai/map.md` lists every file.
   checks them against `SETTING_DEFINITIONS`; `ui/SettingsView.js` owns the dialog, its toolbar
   button and `Close`; the button is shown since the first section (Board size) exists
   (`ai/decisions/2026-10-11-settings-dialog-and-storage.md`).
+- `src/scripts/StatisticsController.js` owns the all-time numbers' use cases: loading and saving them (the
+  `statistics` key and its `version`), applying the events `GameController` reports (a move, a game left by a new
+  one) and the reset. `game/Statistics.js` holds the four numbers and counts what it is told
+  (`ai/decisions/2026-10-13-statistics.md`). The Statistics section of the settings is markup plus two
+  `SettingsView` methods; the numbers are not settings.
 - `src/scripts/GameController.js` owns the use cases and flow state: the single
   movement guard, the pause after a win, the high score of each board size (and whether
   the current game can still beat it, for the New record badge), and saving and
-  restoring the current game. It reads the shared `Settings` model to start a game.
-- `src/scripts/game/` is the model (`Board`, `Game`, `Settings`): rules, game state and the
-  settings values, no DOM, no storage, no timers.
+  restoring the current game. It reads the shared `Settings` model to start a game, tells the statistics
+  what happened and hands the win and game-over dialogs the summary of the game.
+- `src/scripts/game/` is the model (`Board`, `Game`, `Settings`, `Statistics`): rules, game state, the
+  settings values and the all-time numbers, no DOM, no storage, no timers.
 - `src/scripts/ui/` holds the views (`GridView`, `ScoreView`, `OverlayView`,
   `ConfirmDialogView`, `SettingsView`, `FooterView`): they own their elements and render what
   they are given; `GridView` draws the tiles and animates the model's move result;
@@ -53,6 +59,9 @@ conventions. `ai/map.md` lists every file.
 - The win tile is the `winTile` setting, three choices per board size (`WIN_TILES`):
   `GameController` hands it to `Game` with the size, the saved game carries it, and the win
   and game-over dialogs name it (`ai/decisions/2026-10-13-win-target-per-board-size.md`).
+- The game counts its moves (`Game.moves`, a press that changes nothing is not one) and the saved game carries them
+  (version 4); the summary in the win and game-over dialogs and the statistics read the game, never a copy
+  (`ai/decisions/2026-10-13-statistics.md`).
 - Generate grid cells from JavaScript instead of duplicating board structure in
   HTML. The cells are only the background; a tile is its own element over them
   (`ai/decisions/2026-10-10-tiles-over-the-grid.md`).

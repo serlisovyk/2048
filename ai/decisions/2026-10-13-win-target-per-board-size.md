@@ -91,3 +91,4 @@ moves: 0 })`. Nothing else in the reader changes. The statistics can read the ta
   size change resetting the target, a reload, versions 1 and 2 saves of every size, bad and newer versions, a save
   disagreeing with the settings, inconsistent and corrupted settings, blocked storage, keyboard (`Tab`, arrows,
   `Escape`), both themes at 1000, 375 and 320px. Not checked: Safari, Firefox, a real screen reader.
+- Carried out by `2026-10-13-statistics.md` (MY-130): the entry `3: (saved) => ({ ...saved, version: 4, moves: 0 })` was added and nothing else in the reader changed; JS ended at 7.92 kB of 8, so the limit stayed.

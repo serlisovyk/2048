@@ -47,6 +47,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Responsive layout for desktop, tablet, and small mobile screens, clear of notches
   and home indicators
 - Footer with the author's name and year, and a GitHub icon linking to the source
+- Game summary (score, moves, highest tile) in the win and game-over dialogs, and all-time statistics with a reset in the settings
 - Generated board cells and tiles for any board size
 - SVG favicon based on a compact 2x2 2048 board
 - Link preview image for social networks (Open Graph, Twitter card)
@@ -90,7 +91,8 @@ src/
     GameController.js    Movement guard, win pause, high score, saved game
     ThemeController.js   Current theme, its saved choice, following the system
     SettingsController.js  Loads, saves and applies the settings, asks before a new game
-    game/                Model: Board, Game and Settings (rules and values, no DOM)
+    StatisticsController.js  Loads, counts and saves the all-time statistics
+    game/                Model: Board, Game, Settings and Statistics (rules and values, no DOM)
     ui/                  Views: grid, score, dialogs, settings, theme switch, footer
     input/               Keyboard and swipe input
     storage/             Safe localStorage wrapper (numbers, strings, and JSON)

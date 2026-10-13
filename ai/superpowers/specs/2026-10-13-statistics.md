@@ -123,7 +123,8 @@ Statistics survive a reload; a reload never changes them (it does not end a game
 - The game rules, scoring, the high score of each size and the `New record!` badge, animations,
   the header, the board, the win and game-over flow, the existing sections of the settings, the
   confirmation dialog (its markup and view), the theme.
-- No new colour, no new animation, no new font weight.
+- No new animation, no new font weight; one new colour token, `--summary-bg` (a dark tint under the summary, the
+  same in both themes), because white on the win card's gradient is only 3.66:1 at its lightest corner.
 
 ## Out of scope
 

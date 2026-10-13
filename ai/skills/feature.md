@@ -37,7 +37,11 @@ reads or writes persisted data.
      A new field of the save is a version bump and **one entry in `GameController.#SAVE_UPGRADES`**
      (the step from the old version to the next, filling the field); the reader applies the steps in
      order, an unknown or newer version is no save, and the model stays strict
-     (`ai/decisions/2026-10-13-win-target-per-board-size.md`).
+     (`ai/decisions/2026-10-13-win-target-per-board-size.md`; the last one added `moves`, version 4,
+     `ai/decisions/2026-10-13-statistics.md`). Data that is not a setting and not the current game (the
+     all-time statistics) gets a key of its own, a model that holds the numbers (`Statistics`) and a controller
+     that loads and saves them and is the only writer (`StatisticsController`): it writes only when a number
+     changes, never at start, and a damaged blob costs a field or gives zeros.
    - **Styles** — the CSS file that owns that responsibility (see `ai/map.md`);
      motion overrides in `motion.css`. **Any new colour is a token**, never a literal:
      in `theme.css` for the UI, in `tiles.css` for tiles, with a dark value on `:root` and a
@@ -93,7 +97,10 @@ reads or writes persisted data.
      (`ai/decisions/2026-10-10-confirm-dialog.md`,
      `ai/decisions/2026-10-11-settings-dialog-and-storage.md`).
    - **Controller**: decides when to show which dialog and whether a pause flag is
-     needed; the model only reports (`justWon`, `isOver`).
+     needed; the model only reports (`justWon`, `isOver`). What a dialog says about the game (the
+     summary: score, moves, highest tile) is read off the game by the controller (`#getSummary()`) and
+     given to the view, which writes each number into the `[data-summary]` element of that name; the
+     markup holds the labels and no number.
    - **CSS** (`overlays.css`): `display` only on `dialog[open]`; `margin: auto`
      (the reset's `margin: 0` beats the browser's); dimming on `dialog::backdrop`;
      `::backdrop` listed in the reduced-motion selector in `motion.css`, since `*`
@@ -150,8 +157,15 @@ reads or writes persisted data.
      setting (the high score per size) gets a key per choice; an older single key is moved once
      on start (the larger value wins, then the old key is removed).
    - **An action inside a section** (the statistics reset): the same rule as `requestChange`:
-     close the settings, ask through `ConfirmDialogView`, reopen on "no". Extract that step into
-     a private method when the second caller arrives.
+     close the settings, ask through `ConfirmDialogView`, reopen on "no". That step is the private
+     `SettingsController.#askFromSettings(prompt)`; a new action calls it and then acts on "yes" (and
+     moves focus to the board).
+   - **A section that is not a radio group and not a setting** (Statistics, the worked example): markup
+     only (`<section class="settings-section">`, an `<h3>`, here a `<dl>` whose `<dd data-statistic="…">`
+     are named after the fields it shows) plus a `SettingsView` method that writes the values into those
+     elements (`renderStatistics`) and `on<Action>(handler)` for its button; `SettingsController.#render`
+     calls it on every render, so the numbers are current whenever the dialog opens. No entry in
+     `SETTING_DEFINITIONS`. A button that has nothing to do is `hidden`, as the reset is at zeros.
    - **Not here**: the high score reset (it stays by the high score,
      `ai/decisions/2026-10-11-high-score-reset-stays-in-the-header.md`) and a confirmation over
      the settings.

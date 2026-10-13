@@ -73,3 +73,4 @@ allowedValues }`. A value is accepted when it is, or reads as, an allowed one (t
   `GameController` takes the shared `Settings` model to read the board size, as this record said it would.
   CSS ended at 3.87 kB of 4 after MY-128, so the 5 kB limit is still waiting for the issue that crosses it.
 - Refined by `2026-10-13-win-target-per-board-size.md` (MY-129): the win target is the dependent setting this record planned, as data (`dependsOn` in the definition) rather than a hard-coded method; `SETTINGS_VERSION` stays 1. CSS stayed at 3.87 kB of 4.
+- Refined by `2026-10-13-statistics.md` (MY-130): the statistics reset is the action inside a section this record predicted, and the close-ask-reopen step is now one private method, `SettingsController.#askFromSettings`, that `requestChange` shares. The Statistics section is not a setting (no entry in `SETTING_DEFINITIONS`, no key in `settings`). CSS ended at 4.07 kB of the new 5 kB limit.

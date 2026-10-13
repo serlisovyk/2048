@@ -81,3 +81,4 @@ its own "no" handling.
 - Refined by `2026-10-11-settings-dialog-and-storage.md` (MY-127): the settings asks through `ask()` with
   its own wording and never stacks the confirmation over itself; it closes for the question and reopens
   on "no". The view, its markup and its styles are unchanged.
+- Refined by `2026-10-13-statistics.md` (MY-130): a move counter is wanted after all (the summary and the statistics show it), so `Game` counts moves; `isInProgress` keeps its flag beside the counter, because a restored older save has 0 moves and is still a game that had moves. The reset of the statistics asks through `ask()` with its own wording.

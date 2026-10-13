@@ -35,3 +35,4 @@ decided.
 - The dialog copy says `2048` literally, like the win dialog. When the win target
   becomes configurable, both texts follow it.
 - Carried out by `2026-10-13-win-target-per-board-size.md` (MY-129): the win dialog and this note name the target that was reached (`You've reached <target>!`), written by `OverlayView`; the precedence of game over is unchanged.
+- Refined by `2026-10-13-statistics.md` (MY-130): the game-over dialog of that move also carries the summary of the game (score, moves, highest tile), and the move adds a win and a played game to the statistics.

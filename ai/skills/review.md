@@ -15,6 +15,13 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   at the target tile, `Continue`, game over, high score — still correct? The New record
   badge shows once per game, only when the record was above 0, and starts over after
   `New Game`, `Restart Game`, and the high score reset.
+- **Statistics**: a game is counted as played once (a game over, or a game left by `New Game`, a size or a
+  target change after at least one move; a fresh board, a `Restart Game` after a game over and a reload add
+  nothing), a win once per game (`Continue Playing` does not count it again; a win that ends the game on the same
+  move adds a win and a played game), the bests are raised by the move and include the game in progress; the
+  summary in the win and game-over dialogs equals the header's score, the presses that changed the board and the
+  largest tile on it; the reset asks first, never shows two dialogs, reopens the settings on "no", and touches
+  neither the high scores nor the game.
 - **Input**: keyboard and swipe both still go through the single movement guard;
   nothing moves while a dialog is open or after game over; a press during an animation
   is applied at once (no lock, no queue, no dropped move).
@@ -37,10 +44,13 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   back to its default, a damaged or missing blob never stops the game, nothing is written until
   a setting changes. Board size: a record per size under its own key (the old `highScore` moved
   to the 4x4 one once, then removed), a save that disagrees with the stored setting wins and
-  nothing is written for it. Saved game: version 3 with its `size` and `winTile`, older versions
-  loaded through `#SAVE_UPGRADES` (version 1 as 4x4, version 2 with the middle target of its size),
-  an unknown or newer version, a bad size and a target the size does not offer all discard the
-  save. Win target: the choices of the current size only, the middle one after a size change, the
+  nothing is written for it. Saved game: version 4 with its `size`, `winTile` and `moves`, older versions
+  loaded through `#SAVE_UPGRADES` (version 1 as 4x4, version 2 with the middle target of its size,
+  version 3 with 0 moves, still a game in progress), an unknown or newer version, a bad size, a
+  target the size does not offer and a `moves` that is not a non-negative integer all discard the
+  save. Statistics: one `statistics` object with a `version`, four numbers, a broken field costs
+  only itself and anything unreadable is zeros, written only when a number changes and never at
+  start. Win target: the choices of the current size only, the middle one after a size change, the
   win dialog and the game-over note name the target, and the win fires on the tile equal to it,
   not before.
 - **Accessibility**: buttons have names (an icon-only button has an `aria-label` and a

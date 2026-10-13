@@ -76,3 +76,4 @@ they disagree, and how the game learns the size.
   starts, records stand in the session), a reload on each size, the badge per size and the reset per size. Not
   checked: Safari, Firefox, a real screen reader.
 - Carried out by `2026-10-13-win-target-per-board-size.md` (MY-129): the save is version 3 with `winTile`, a version 2 save loads with the middle target of its size, and the save wins over a disagreeing setting for the target as for the size.
+- Carried out by `2026-10-13-statistics.md` (MY-130): the statistics are shared by all sizes under a key of their own, and the move counter is one more field of the save (version 4) with one more upgrade step.

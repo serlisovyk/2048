@@ -44,3 +44,4 @@ outdated save must never stop the game from starting.
   its `size`; a version 1 save still loads, as 4x4, and a save that disagrees with the stored board-size
   setting wins.
 - Refined by `2026-10-13-win-target-per-board-size.md` (MY-129): the version is 3 and the save carries its `winTile`; older versions are read through an upgrade table instead of an `if` per version.
+- Refined by `2026-10-13-statistics.md` (MY-130): the version is 4 and the save carries its `moves`; a save of an older version loads with `moves: 0` through one more step of the upgrade table.

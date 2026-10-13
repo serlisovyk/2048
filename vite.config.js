@@ -22,7 +22,8 @@ function minifyHtml() {
               comments: false,
             },
           },
-          removeAttributeQuotes: true,
+          // Open Graph readers can be naive: keep content="https://…" quoted.
+          removeAttributeQuotes: false,
           removeComments: true,
           removeRedundantAttributes: true,
           removeScriptTypeAttributes: true,

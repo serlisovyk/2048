@@ -28,11 +28,16 @@ body {
 
 button {
   font: inherit;
+}
+
+button,
+a {
   outline: 3px none var(--focus-ring-color);
   outline-offset: 3px;
 }
 
-button:focus-visible {
+button:focus-visible,
+a:focus-visible {
   outline-style: solid;
 }
 

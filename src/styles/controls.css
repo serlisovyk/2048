@@ -122,9 +122,25 @@
     background-color 0.2s ease;
 }
 
-.reset-high-score-button:hover {
+.reset-high-score-button:hover,
+.github-link:hover {
   background-color: var(--icon-hover-bg);
   color: var(--icon-hover);
+}
+
+/* The GitHub mark in a 44px target. A flex item of body, so it has a row of its own at
+   the top right of the page and never shares a line with the header; the bottom margin
+   keeps its focus ring (3px and a 3px offset) off the header. */
+.github-link {
+  display: flex;
+  align-self: flex-end;
+  margin-bottom: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  color: var(--icon-muted);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .toolbar-button {

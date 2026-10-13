@@ -4,10 +4,12 @@ import { SETTING_NAMES } from './constants.js'
 import { GameController } from './GameController.js'
 import { Game } from './game/Game.js'
 import { Settings } from './game/Settings.js'
+import { Statistics } from './game/Statistics.js'
 import { KeyboardInput } from './input/KeyboardInput.js'
 import { SwipeInput } from './input/SwipeInput.js'
 import { SafeStorage } from './storage/SafeStorage.js'
 import { SettingsController } from './SettingsController.js'
+import { StatisticsController } from './StatisticsController.js'
 import { ThemeController } from './ThemeController.js'
 import { ConfirmDialogView } from './ui/ConfirmDialogView.js'
 import { FooterView } from './ui/FooterView.js'
@@ -50,6 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   const settings = new Settings()
+  const statisticsController = new StatisticsController({
+    statistics: new Statistics(),
+    storage,
+  })
 
   const controller = new GameController({
     game: new Game({
@@ -61,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     overlayView,
     confirmDialogView,
     settings,
+    statisticsController,
     storage,
   })
 
@@ -113,5 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
   footerView.renderYear(new Date().getFullYear())
   themeController.start()
   settingsController.start()
+  statisticsController.start()
   controller.start()
 })

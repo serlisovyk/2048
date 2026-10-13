@@ -41,6 +41,7 @@ export class GameController {
   #overlayView
   #confirmDialogView
   #settings
+  #statisticsController
   #storage
   #highScores = new Map()
   #hasRecordToBeat = false
@@ -53,6 +54,7 @@ export class GameController {
     overlayView,
     confirmDialogView,
     settings,
+    statisticsController,
     storage,
   }) {
     this.#game = game
@@ -61,6 +63,7 @@ export class GameController {
     this.#overlayView = overlayView
     this.#confirmDialogView = confirmDialogView
     this.#settings = settings
+    this.#statisticsController = statisticsController
     this.#storage = storage
   }
 
@@ -121,6 +124,12 @@ export class GameController {
     this.#renderScore()
     this.#scoreView.showScoreGain(result.scoreGained)
     this.#gridView.animateMove(result)
+    this.#statisticsController.recordMove({
+      score: this.#game.score,
+      highestTile: this.#game.highestTile,
+      justWon: result.justWon,
+      isOver: result.isOver,
+    })
 
     if (result.isOver) {
       this.#overlayView.showGameOver({
@@ -158,7 +167,12 @@ export class GameController {
     return isConfirmed
   }
 
+  // Every way to a new game ends here (the page button, the dialogs, a changed setting), so
+  // this is where a game left after a move is counted as played. A game over has been
+  // counted already and a fresh board has had no move.
   #startNewGame() {
+    if (this.#game.isInProgress) this.#statisticsController.recordRestart()
+
     this.#clearSavedGame()
 
     const { spawnedTiles } = this.#game.start(

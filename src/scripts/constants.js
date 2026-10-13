@@ -44,6 +44,7 @@ export const STORAGE_KEYS = Object.freeze({
   LEGACY_HIGH_SCORE: 'highScore',
   SAVED_GAME: 'savedGame',
   SETTINGS: 'settings',
+  STATISTICS: 'statistics',
   // The inline script in index.html reads this key by its literal, before any module runs.
   THEME: 'theme',
 })
@@ -60,6 +61,8 @@ export const SAVED_GAME_VERSION = 4
 export const LEGACY_BOARD_SIZE = 4
 
 export const SETTINGS_VERSION = 1
+
+export const STATISTICS_VERSION = 1
 
 export const SETTING_NAMES = Object.freeze({
   // The inputs of the settings dialog are named after these (`name` in index.html).

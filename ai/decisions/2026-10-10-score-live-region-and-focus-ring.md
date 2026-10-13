@@ -74,3 +74,5 @@ The obvious fix is `aria-live="polite"` on the visible score. Two things stand i
   which capped a held key at ten moves a second, is gone, so a held key changes the score up
   to the keyboard's repeat rate (about thirty a second). The debounce is what keeps that to
   one announcement, and it is unchanged.
+- Refined by `2026-10-13-footer-and-github-link.md` (MY-135): the ring rule's selector also covers links
+  (`button, a`, `button:focus-visible, a:focus-visible`), so the GitHub icon shows the same ring.

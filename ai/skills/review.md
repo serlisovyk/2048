@@ -46,7 +46,8 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
 - **Accessibility**: buttons have names (an icon-only button has an `aria-label` and a
   `title`; its icon is inline SVG with `aria-hidden="true"`), focus is visible and returns to the board
   after dialogs, `prefers-reduced-motion` respected for new animation (including
-  `::backdrop`). Every button shows the one shared focus ring on keyboard focus and
+  `::backdrop`). Every button and link (the GitHub icon: `rel="noopener"`, a label that says
+  it opens a new tab) shows the one shared focus ring on keyboard focus and
   none on a mouse click (no per-button `outline` override), the board shows none, and
   a changing value is announced once through a polite live region, not on every
   update. A decoration that repeats that value (the score `+N` pop) is `aria-hidden`,
@@ -60,7 +61,9 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   section is never an empty placeholder; a choice among a few options keeps real radio inputs
   (arrows, `Tab`, a named group) with a focus ring on the drawn segment.
 - **Responsive**: 320px wide to desktop on every board size, no horizontal scroll, swipes work
-  on touch; the cell size of 4x4 is unchanged (it is the reference for the others).
+  on touch; the cell size of 4x4 is unchanged (it is the reference for the others). The GitHub icon
+  row and the footer never overlap the header or the board, the footer is as wide as the board,
+  and with no spare height the footer follows the board (the page scrolls).
 - **Tile colours**: only tokens in `tiles.css` (no literals in the per-value rules),
   the base `.tile[data-value]` rule first and no `:not()` chain, text at least
   3:1 on both ends of the gradient for every value, the widest number (six digits)

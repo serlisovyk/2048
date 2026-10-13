@@ -46,6 +46,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
   stays inside, and focus returns to the board when the win and game-over dialogs close
 - Responsive layout for desktop, tablet, and small mobile screens, clear of notches
   and home indicators
+- Footer with the author's name and year, and a GitHub icon linking to the source
 - Generated board cells and tiles for any board size
 - SVG favicon based on a compact 2x2 2048 board
 - Basic metadata and Open Graph title/description
@@ -90,7 +91,7 @@ src/
     ThemeController.js   Current theme, its saved choice, following the system
     SettingsController.js  Loads, saves and applies the settings, asks before a new game
     game/                Model: Board, Game and Settings (rules and values, no DOM)
-    ui/                  Views: grid, score, dialogs, settings, theme switch
+    ui/                  Views: grid, score, dialogs, settings, theme switch, footer
     input/               Keyboard and swipe input
     storage/             Safe localStorage wrapper (numbers, strings, and JSON)
   styles/

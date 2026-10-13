@@ -11,7 +11,9 @@
 ## HTML
 
 - Use semantic elements for major regions.
-- Use buttons for actions.
+- Use buttons for actions. A link is only for going to another address (the GitHub icon): one
+  that opens a new tab has `target="_blank"` and `rel="noopener"`, and an icon-only one has an
+  `aria-label` and a `title` with the same text, which says so (`… (opens in a new tab)`).
 - Give interactive controls clear accessible names when visible text is not
   enough.
 - Icons are inline SVG written in the markup: `viewBox`, `stroke="currentColor"` (or
@@ -90,14 +92,14 @@
 - When CSS needs a number defined in `src/scripts/constants.js` (board size,
   durations), the owning view sets it as a custom property and the CSS reads it with
   a fallback: `var(--board-size, 4)`.
-- Focus: one generic `button:focus-visible` rule in `base.css` draws the ring for
-  every button, in the colour of `--focus-ring-color` (a token: white in the dark theme, ink in
-  the light one; the dialogs keep their own backgrounds and re-point it with `--dialog-ring`).
-  Do not add per-button focus
-  styles or `outline: none` / `outline: 0` on a button; a new button gets the ring
-  without any CSS. The ring is an `outline`, not a `box-shadow`: the buttons' hover
+- Focus: one generic `button:focus-visible, a:focus-visible` rule in `base.css` draws the ring
+  for every button and link, in the colour of `--focus-ring-color` (a token: white in the dark
+  theme, ink in the light one; the dialogs keep their own backgrounds and re-point it with
+  `--dialog-ring`). Do not add per-button focus
+  styles or `outline: none` / `outline: 0` on a button or a link; a new button or link gets the
+  ring without any CSS. The ring is an `outline`, not a `box-shadow`: the buttons' hover
   rules set their own `box-shadow` and would hide it.
-- The ring's width, gap, and colour sit on the base `button` rule and only the
+- The ring's width, gap, and colour sit on the base `button, a` rule and only the
   `outline-style` flips on `:focus-visible`, because buttons use `transition: all`
   and would otherwise animate the ring in.
 - An element focused only from script (`tabindex="-1"`, like the board) gets

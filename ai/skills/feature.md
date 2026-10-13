@@ -156,11 +156,17 @@ reads or writes persisted data.
      `ai/decisions/2026-10-11-high-score-reset-stays-in-the-header.md`) and a confirmation over
      the settings.
 7. Controls: real `<button>`s with an accessible name; icon-only buttons get
-   `aria-label` and `title`. Do not style focus: the generic `button:focus-visible`
-   rule in `base.css` gives every button the same ring, so keep hover and active
-   styles off `outline` and never set `outline: none` on a button. Something that is
-   not a button but is focused from script (`tabindex="-1"`) gets
+   `aria-label` and `title`. Do not style focus: the generic `button:focus-visible,
+a:focus-visible` rule in `base.css` gives every button and link the same ring, so keep
+   hover and active styles off `outline` and never set `outline: none` on a button or a link.
+   Something that is not a button but is focused from script (`tabindex="-1"`) gets
    `:focus-visible { outline: none }`.
+   A link out of the page (the GitHub icon, `.github-link`) is an `<a>` with `target="_blank"`,
+   `rel="noopener"` and an `aria-label` and a `title` that say it opens a new tab. It is a flex
+   item of `body` with a row of its own at the top right, not a toolbar button
+   (`ai/decisions/2026-10-13-footer-and-github-link.md`); the footer is the last child of
+   `.game-layout`, so it is as wide as the board, and a text in it that comes from the code
+   (the year) is written by a view (`FooterView`), never in the markup.
    An action that belongs in the header (the theme toggle and the settings button are the
    worked examples) is a `.toolbar-button` in the header's `.toolbar`: copy the `New Game` button,
    give it an inline SVG icon (24px, `currentColor`, `aria-hidden="true"`,
@@ -229,7 +235,7 @@ reads or writes persisted data.
   on a path other than `SettingsController`; the high score reset moved into the settings.
 - A second confirmation dialog, or a copy of the confirmation markup, for a new
   "are you sure?" — use `ConfirmDialogView.ask`.
-- Per-button focus styles, `outline: none` on a button, or a focus ring built from
+- Per-button focus styles, `outline: none` on a button or a link, or a focus ring built from
   `box-shadow`.
 - An icon font, an icon library, or an image file for an icon; a placeholder button for
   a feature that does not exist yet; an icon-only button without an `aria-label` and a

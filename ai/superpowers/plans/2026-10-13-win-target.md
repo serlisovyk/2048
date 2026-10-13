@@ -126,7 +126,8 @@ version: 4, moves: 0 })`) and bumps `SAVED_GAME_VERSION`; nothing else in the re
 - `index.html`: a second `<section class="settings-section">` after Board size, with
   `<h3 id="settings-win-tile-title">Win target</h3>` and a `role="radiogroup"`
   `aria-labelledby="settings-win-tile-title"` holding three `.segment` labels with radios named `winTile`.
-  The markup carries the 4x4 choices (1024 / 2048 / 4096) so nothing is empty before JS runs.
+  The markup holds three radios with empty values and labels and a comment: the numbers live only in
+  `WIN_TILES` (no duplicated literals), and the dialog is only ever shown after `open()` has rendered it.
 - The choices change with the size, so the markup cannot hold them. `SettingsView.render(values, choices)`:
   for every `name` in `choices` the radios named so take, in order, `choices[name][i]` as their `value` and as
   the text of the `<span>` beside them; then the checked state is set as today. A group not in `choices`
@@ -230,4 +231,25 @@ A fixup goes into the commit that introduced the fault (`--fixup` + autosquash b
 
 ## 12. What building it found
 
-_Filled in while building._
+- **No deviation from the design.** The upgrade table, `dependsOn`, `render(values, choices)` and the
+  render after a change came out as planned; no CSS was needed, so the 5 kB CSS limit was not touched.
+- **Size.** JS 6.67 → 7.13 kB of 8 (the model and the table 0.37 kB, the picker 0.09 kB); CSS unchanged at
+  3.87 kB of 4. About 0.9 kB of JS is left for MY-130.
+- **The game-over note carried a second literal 2048**, in `index.html` next to the win dialog's. The brief
+  named only the win dialog, but a 3x3 game that wins and ends on one move would have said 2048; both texts
+  are now written by `OverlayView`, as `2026-10-10-win-and-game-over-same-move.md` said they would be.
+- **The radios are not drawn until the dialog opens** (`open()` renders the values and the choices), so the
+  markup holds empty placeholders (my first version carried the 4x4 numbers, a second copy of `WIN_TILES`; the
+  review of the diff removed it) and a test has to open the dialog to read the checked segment.
+- **A guard clause that Prettier wrapped** (`if (!BOARD_SIZES.includes(size) || !WIN_TILES[size]…) return`)
+  became two one-line guards in `Game.restore`.
+- **1024 on 3x3 is the board's ceiling** (2^10). It is the author's list and stays; the decision record says
+  so, and that the lists are data.
+- **Natural play.** A plain corner strategy never reached 256 on 3x3 in 12 games (all ended in game over, no
+  false win dialog), so the exact-target checks use saved near-win boards, which exercise the same merge path.
+- **Checked** (headless Chrome 155, dev server and production build): the nine size and target cases, win and
+  game over on one move for all three 3x3 targets, the picker on fresh, restored and finished games, cancel and
+  `Escape`, the size change resetting the target, reload, saves of versions 1 and 2 on every size, bad, newer and
+  string versions, a save against the settings, inconsistent and corrupted settings, blocked storage, keyboard
+  in the settings, 1000 / 375 / 320px in both themes, a swipe at 375px. Not checked: Safari, Firefox, a real
+  screen reader.

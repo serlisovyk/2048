@@ -14,6 +14,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 ## ✨ Features
 
 - Board sizes 3×3, 4×4 and 5×5 from the settings dialog, with a high score for each
+- A win target of your choice, three per board size (4×4: 1024, 2048 or 4096), saved with the game
 - Keyboard controls for desktop: arrow keys or WASD, on any keyboard layout
 - Swipe controls for touch screens: a swipe works anywhere on the board area, with
   no pull-to-refresh and no double-tap zoom
@@ -37,7 +38,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
   reduced motion)
 - The game in progress is saved in the browser and restored after a reload
 - Win dialog: keep playing or start a new game (`Escape` keeps playing)
-- Game-over dialog when no moves remain; if the same move reaches 2048, it says so
+- Game-over dialog when no moves remain; if the same move reaches the target, it says so
 - The `New Game` icon button in the header, in the middle of a game, asks for
   confirmation first (`Cancel` is focused, `Escape` cancels and focus returns to the
   button); a fresh or finished game starts over at once
@@ -84,7 +85,7 @@ src/
   fonts/                 Self-hosted Rubik (Latin woff2)
   scripts/
     main.js              Composition root: finds DOM elements, wires the objects
-    constants.js         Board sizes, win tile, timings, storage keys, settings table
+    constants.js         Board sizes, win tiles, timings, storage keys, settings table
     GameController.js    Movement guard, win pause, high score, saved game
     ThemeController.js   Current theme, its saved choice, following the system
     SettingsController.js  Loads, saves and applies the settings, asks before a new game

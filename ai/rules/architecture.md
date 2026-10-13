@@ -49,6 +49,9 @@ conventions. `ai/map.md` lists every file.
   reads it from `Settings` when a game starts and hands it to `Game` and `GridView.resize`; CSS
   gets it as `--board-size`. A saved game carries its own size
   (`ai/decisions/2026-10-12-board-size-records-and-saved-game.md`).
+- The win tile is the `winTile` setting, three choices per board size (`WIN_TILES`):
+  `GameController` hands it to `Game` with the size, the saved game carries it, and the win
+  and game-over dialogs name it (`ai/decisions/2026-10-13-win-target-per-board-size.md`).
 - Generate grid cells from JavaScript instead of duplicating board structure in
   HTML. The cells are only the background; a tile is its own element over them
   (`ai/decisions/2026-10-10-tiles-over-the-grid.md`).

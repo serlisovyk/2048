@@ -36,8 +36,13 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
   is safely discarded. Settings: one `settings` object with a `version`, a broken field falls
   back to its default, a damaged or missing blob never stops the game, nothing is written until
   a setting changes. Board size: a record per size under its own key (the old `highScore` moved
-  to the 4x4 one once, then removed), a saved game of version 2 with its `size` (version 1 loads
-  as 4x4), a save that disagrees with the stored setting wins and nothing is written for it.
+  to the 4x4 one once, then removed), a save that disagrees with the stored setting wins and
+  nothing is written for it. Saved game: version 3 with its `size` and `winTile`, older versions
+  loaded through `#SAVE_UPGRADES` (version 1 as 4x4, version 2 with the middle target of its size),
+  an unknown or newer version, a bad size and a target the size does not offer all discard the
+  save. Win target: the choices of the current size only, the middle one after a size change, the
+  win dialog and the game-over note name the target, and the win fires on the tile equal to it,
+  not before.
 - **Accessibility**: buttons have names (an icon-only button has an `aria-label` and a
   `title`; its icon is inline SVG with `aria-hidden="true"`), focus is visible and returns to the board
   after dialogs, `prefers-reduced-motion` respected for new animation (including

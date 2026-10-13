@@ -59,3 +59,4 @@ Not decisions: one-off task details, plain current-state facts, or anything
 - [2026-10-11 — the settings dialog is built before its first section; one dialog at a time; one `settings` object](2026-10-11-settings-dialog-and-storage.md)
 - [2026-10-12 — the board size is a setting; a record per size; the saved game stores its size and wins over a disagreeing setting](2026-10-12-board-size-records-and-saved-game.md)
 - [2026-10-12 — the cell size follows the board size and the viewport; tile text is a share of the cell; the size picker is a segmented control over radios](2026-10-12-board-geometry-per-size.md)
+- [2026-10-13 — the win target is a setting with three choices per board size; the saved game is version 3 and is brought up to date step by step](2026-10-13-win-target-per-board-size.md)

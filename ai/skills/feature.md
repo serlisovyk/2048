@@ -34,6 +34,10 @@ reads or writes persisted data.
      a `version` when its shape can evolve. Game state is exported and validated by
      the model (`Game.toState` / `Game.restore`); the controller owns the `version`
      envelope and when to save or delete (`ai/decisions/2026-10-10-saved-game-format.md`).
+     A new field of the save is a version bump and **one entry in `GameController.#SAVE_UPGRADES`**
+     (the step from the old version to the next, filling the field); the reader applies the steps in
+     order, an unknown or newer version is no save, and the model stays strict
+     (`ai/decisions/2026-10-13-win-target-per-board-size.md`).
    - **Styles** — the CSS file that owns that responsibility (see `ai/map.md`);
      motion overrides in `motion.css`. **Any new colour is a token**, never a literal:
      in `theme.css` for the UI, in `tiles.css` for tiles, with a dark value on `:root` and a
@@ -127,14 +131,21 @@ reads or writes persisted data.
      revert), then saves and calls `GameController.restart()`. The game has to read the value
      where it builds the game: `GameController` takes the same `Settings` object (`main.js`
      creates one and hands it to both controllers) and reads it in `#startNewGame`;
-     `settingsController.start()` runs before `controller.start()`. A setting that depends on
-     another (the win target on the board size)
-     is a method of `Settings`; fields are read in the order of the table, so a later one may
-     depend on an earlier one.
-   - **A setting that is also part of a saved game** (the board size): the save stores what the
+     `settingsController.start()` runs before `controller.start()`.
+   - **A setting whose choices depend on another** (the win target on the board size, the second
+     worked example): its definition has `dependsOn: <name>` and an `allowedValues` map from the
+     other's value to the choices, and no `defaultValue` (the middle choice). It is listed after the
+     setting it depends on (fields are read in table order); `Settings` accepts only the choices in
+     force (`getAllowedValues(name)`) and `set` sends it back to its default when the other value
+     really changes. The markup is the `.segmented` one with as many radios as choices, but the
+     radios' values and labels are filled by `SettingsView.render(values, choices)`, so
+     `SettingsController.#render` passes the choices each time (on `open()` and again after a
+     change, because the dialog stays open when no game is in progress).
+   - **A setting that is also part of a saved game** (the board size, the win target): the save stores what the
      game was built with and the model validates it (`Game.restore`); a save that disagrees with
      the stored setting wins, because it is the game the player was in, and `GameController` sets
-     the in-memory setting from it (never written: `SettingsController` stays the only writer;
+     the in-memory setting from it, the one others depend on first (never written:
+     `SettingsController` stays the only writer;
      `ai/decisions/2026-10-12-board-size-records-and-saved-game.md`). Data kept per choice of a
      setting (the high score per size) gets a key per choice; an older single key is moved once
      on start (the larger value wins, then the old key is removed).

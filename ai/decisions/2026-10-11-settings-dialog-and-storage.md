@@ -72,3 +72,4 @@ allowedValues }`. A value is accepted when it is, or reads as, an allowed one (t
 - Refined by `2026-10-12-board-size-records-and-saved-game.md` (MY-128): the settings button is on and the
   `GameController` takes the shared `Settings` model to read the board size, as this record said it would.
   CSS ended at 3.87 kB of 4 after MY-128, so the 5 kB limit is still waiting for the issue that crosses it.
+- Refined by `2026-10-13-win-target-per-board-size.md` (MY-129): the win target is the dependent setting this record planned, as data (`dependsOn` in the definition) rather than a hard-coded method; `SETTINGS_VERSION` stays 1. CSS stayed at 3.87 kB of 4.

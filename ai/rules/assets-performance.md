@@ -34,10 +34,12 @@
   `prefers-color-scheme`, and each must equal the `--page-bg` of its theme in
   `src/styles/theme.css` (HTML cannot read CSS, so this is the one duplicated colour);
   `ThemeView` rewrites both with the token value of the theme in force.
-- The link preview is `og:url`, `og:image` (with `:type`, `:width`, `:height`, `:alt`) and
-  `twitter:card` in `index.html`. Their URLs are absolute, on the production domain
+- The link preview is `og:site_name`, `og:url`, `og:image` (with `:type`, `:width`, `:height`,
+  `:alt`), `twitter:card` and `twitter:title` / `twitter:description` / `twitter:image` in
+  `index.html`. Their URLs are absolute, on the production domain
   (`https://2048-xi-three.vercel.app/`): a crawler does not resolve a relative one. The size
-  and the alt text must match the file. No `twitter:image` (X reads `og:image`).
+  and the alt text must match the file. Each `twitter:*` tag repeats its `og:*` twin: change
+  them together.
 - Keep metadata truthful to the visible game and current tech stack.
 - Do not add larger SEO infrastructure such as `robots.txt`, `sitemap.xml`, or
   web app manifests unless the user asks for it.

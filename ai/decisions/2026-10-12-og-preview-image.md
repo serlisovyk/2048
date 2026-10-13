@@ -1,6 +1,6 @@
 # The link preview image is a hand-made PNG in `public/`, with no generator
 
-Date: 2026-10-12 · Status: accepted
+Date: 2026-10-12 · Status: accepted · Refined by `2026-10-13-complete-link-preview-tags.md` (the `twitter:*` tags are added after all)
 
 ## Context
 

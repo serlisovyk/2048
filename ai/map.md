@@ -245,10 +245,11 @@ Fontsource release.
 What a chat or a social network shows for the link, and the tab icon. Why it is a hand-made
 PNG with no generator: `ai/decisions/2026-10-12-og-preview-image.md`.
 
-- **Meta tags** (`src/index.html`, after `og:type`): `og:url`, `og:image`, `og:image:type`,
-  `og:image:width`, `og:image:height`, `og:image:alt`, `twitter:card` = `summary_large_image`, all
-  URLs absolute on `https://2048-xi-three.vercel.app/` (crawlers do not resolve relative ones). No
-  `twitter:image` or `twitter:title`: X falls back to `og:*`. A new domain means editing `og:url`
+- **Meta tags** (`src/index.html`, after `og:type`): `og:site_name` (`2048`), `og:url`, `og:image`,
+  `og:image:type`, `og:image:width`, `og:image:height`, `og:image:alt`, `twitter:card` =
+  `summary_large_image`, and `twitter:title` / `twitter:description` / `twitter:image`, which repeat
+  `og:title` / `og:description` / `og:image` (keep each pair equal). All URLs absolute on
+  `https://2048-xi-three.vercel.app/` (crawlers do not resolve relative ones). A new domain means editing `og:url`
   and `og:image`. The build keeps the attribute quotes (`removeAttributeQuotes: false` in
   `vite.config.js`), so every tag reads `content="https://…"` in `dist/index.html`.
 - **Files:** `public/og-image.png` (1200×630, 76,590 bytes) is copied as it is to `dist/` and served at

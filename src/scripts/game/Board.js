@@ -67,6 +67,12 @@ export class Board {
     }
   }
 
+  // The largest tile on the board, 0 when it is empty. A tile only ever merges into a
+  // larger one, so this is also the highest tile the game has reached.
+  getHighestTile() {
+    return Math.max(0, ...this.toArray().flat())
+  }
+
   hasTile(value) {
     return this.#cells.some((row) => row.some((tile) => tile?.value === value))
   }

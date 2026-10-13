@@ -6,6 +6,7 @@ export class Game {
   #winTile
   #board
   #score = 0
+  #moves = 0
   #hasWon = false
   #isOver = false
   #hasMoved = false
@@ -33,6 +34,15 @@ export class Game {
     return this.#score
   }
 
+  // The moves that changed the board; a press that changes nothing is not a move.
+  get moves() {
+    return this.#moves
+  }
+
+  get highestTile() {
+    return this.#board.getHighestTile()
+  }
+
   get isOver() {
     return this.#isOver
   }
@@ -47,12 +57,13 @@ export class Game {
       winTile: this.#winTile,
       board: this.#board.toArray(),
       score: this.#score,
+      moves: this.#moves,
       hasWon: this.#hasWon,
     }
   }
 
   restore(state) {
-    const { size, winTile, board, score, hasWon } = state ?? {}
+    const { size, winTile, board, score, moves, hasWon } = state ?? {}
 
     if (!BOARD_SIZES.includes(size)) return false
     if (!WIN_TILES[size].includes(winTile)) return false
@@ -61,8 +72,8 @@ export class Game {
 
     if (
       !restoredBoard.restore(board) ||
-      !Number.isSafeInteger(score) ||
-      score < 0 ||
+      !Game.#isCount(score) ||
+      !Game.#isCount(moves) ||
       typeof hasWon !== 'boolean' ||
       !restoredBoard.hasAvailableMoves()
     ) {
@@ -73,9 +84,11 @@ export class Game {
     this.#winTile = winTile
     this.#board = restoredBoard
     this.#score = score
+    this.#moves = moves
     this.#hasWon = hasWon
     this.#isOver = false
-    // A game is only saved after its first successful move.
+    // A game is only saved after its first successful move, also when an older save
+    // brought no move count (it is 0 then).
     this.#hasMoved = true
 
     return true
@@ -86,6 +99,7 @@ export class Game {
     this.#winTile = winTile
     this.#board = new Board(size)
     this.#score = 0
+    this.#moves = 0
     this.#hasWon = false
     this.#isOver = false
     this.#hasMoved = false
@@ -114,6 +128,7 @@ export class Game {
     }
 
     this.#hasMoved = true
+    this.#moves += 1
     this.#score += scoreGained
 
     const spawnedTile = this.#board.spawnRandomTile()
@@ -132,5 +147,9 @@ export class Game {
       justWon,
       isOver: this.#isOver,
     }
+  }
+
+  static #isCount(value) {
+    return Number.isSafeInteger(value) && value >= 0
   }
 }

@@ -53,7 +53,7 @@ export const THEMES = Object.freeze({
   DARK: 'dark',
 })
 
-export const SAVED_GAME_VERSION = 3
+export const SAVED_GAME_VERSION = 4
 
 // Before the board size became a setting there was one size, the classic one: version 1
 // saves have no `size` and the one record (`STORAGE_KEYS.LEGACY_HIGH_SCORE`) belongs to it.

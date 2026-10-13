@@ -23,7 +23,8 @@ export class GameController {
 
   // Brings a saved game to the next version; the key is the version a step starts from, so
   // a new version adds one entry and raises SAVED_GAME_VERSION. Version 1 has no size (the
-  // classic board), version 2 has no win tile (the middle choice of its size).
+  // classic board), version 2 has no win tile (the middle choice of its size), version 3
+  // has no move count (it starts from 0).
   static #SAVE_UPGRADES = Object.freeze({
     1: (saved) => ({ ...saved, version: 2, size: LEGACY_BOARD_SIZE }),
     2: (saved) => ({
@@ -31,6 +32,7 @@ export class GameController {
       version: 3,
       winTile: WIN_TILES[saved.size]?.[MIDDLE_CHOICE_INDEX],
     }),
+    3: (saved) => ({ ...saved, version: 4, moves: 0 }),
   })
 
   #game

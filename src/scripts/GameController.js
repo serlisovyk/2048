@@ -126,13 +126,24 @@ export class GameController {
       this.#overlayView.showGameOver({
         justWon: result.justWon,
         winTile: this.#game.winTile,
+        summary: this.#getSummary(),
       })
     } else if (result.justWon) {
       this.#isPausedAfterWin = true
-      this.#overlayView.showWin(this.#game.winTile)
+      this.#overlayView.showWin({
+        winTile: this.#game.winTile,
+        summary: this.#getSummary(),
+      })
     }
 
     this.#persistGame()
+  }
+
+  // What the win and game-over dialogs say about the game as it stands.
+  #getSummary() {
+    const { score, moves, highestTile } = this.#game
+
+    return { score, moves, highestTile }
   }
 
   // "No" puts focus back where the question came from, the board if that is gone;

@@ -47,15 +47,17 @@ export class OverlayView {
     this.#gameOverDialog.addEventListener('close', handler)
   }
 
-  showWin(winTile) {
+  showWin({ winTile, summary }) {
     this.#winMessage.textContent = OverlayView.#getReachedMessage(winTile)
+    OverlayView.#renderSummary(this.#winDialog, summary)
     this.#gameOverDialog.close()
     this.#winDialog.showModal()
   }
 
-  showGameOver({ justWon = false, winTile } = {}) {
+  showGameOver({ justWon = false, winTile, summary }) {
     this.#winNote.textContent = OverlayView.#getReachedMessage(winTile)
     this.#winNote.hidden = !justWon
+    OverlayView.#renderSummary(this.#gameOverDialog, summary)
     this.#winDialog.close()
     this.#gameOverDialog.showModal()
   }
@@ -71,5 +73,12 @@ export class OverlayView {
 
   static #getReachedMessage(winTile) {
     return `You've reached ${winTile}!`
+  }
+
+  // Each number of the summary goes into the element named after it, in the dialog's markup.
+  static #renderSummary(dialog, summary) {
+    dialog.querySelectorAll('[data-summary]').forEach((element) => {
+      element.textContent = summary[element.dataset.summary]
+    })
   }
 }

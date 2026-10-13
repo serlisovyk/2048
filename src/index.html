@@ -242,6 +242,20 @@
     <dialog class="win-overlay" aria-labelledby="win-title">
       <h2 id="win-title">You Won!</h2>
       <p class="win-message"></p>
+      <dl class="game-summary">
+        <div>
+          <dt>Score</dt>
+          <dd data-summary="score"></dd>
+        </div>
+        <div>
+          <dt>Moves</dt>
+          <dd data-summary="moves"></dd>
+        </div>
+        <div>
+          <dt>Highest tile</dt>
+          <dd data-summary="highestTile"></dd>
+        </div>
+      </dl>
       <div class="dialog-actions">
         <button class="continue-button" autofocus>Continue Playing</button>
         <button class="win-restart-button">New Game</button>
@@ -252,6 +266,20 @@
       <h2 id="game-over-title">Game Over!</h2>
       <p class="game-over-win-note" hidden></p>
       <p>No more moves available</p>
+      <dl class="game-summary">
+        <div>
+          <dt>Score</dt>
+          <dd data-summary="score"></dd>
+        </div>
+        <div>
+          <dt>Moves</dt>
+          <dd data-summary="moves"></dd>
+        </div>
+        <div>
+          <dt>Highest tile</dt>
+          <dd data-summary="highestTile"></dd>
+        </div>
+      </dl>
       <button class="restart-game-button" autofocus>Restart Game</button>
     </dialog>
 

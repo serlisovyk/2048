@@ -12,6 +12,9 @@ change.
 - [feature](feature.md) — how a game feature flows through state, rendering, input,
   and storage.
 
+- [og-image](og-image.md) — remaking the link preview image and the favicon when the palette, the logo
+  gold, a page colour or the author's name changes.
+
 ## Review
 
 - [review](review.md) — regressions, scope creep, accessibility, docs drift.

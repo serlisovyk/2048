@@ -11,8 +11,9 @@ change over for approval.
   and game-over states stay consistent.
 - Movement rules stay deterministic except for new tile placement.
 - Shared values (board size, thresholds, timings, storage keys, the win tile) come from
-  their single source — no duplicated literals. A duration that CSS needs goes from JS to
-  CSS as a custom property.
+  their single source — no duplicated literals (the theme script's key and theme names are
+  the one documented exception, `ai/rules/oop.md`). A duration that CSS needs goes from JS
+  to CSS as a custom property.
 - No inline styles (except CSS custom properties that pass numbers from JS to CSS),
   no inline event handlers in HTML, no game state on `window`.
 - Every `localStorage` read and write tolerates failure (blocked or full storage,

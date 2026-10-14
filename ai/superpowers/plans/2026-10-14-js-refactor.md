@@ -27,8 +27,8 @@ before it was acted on.
   for future versions. Only version 4 saves load. A new decision record supersedes the relevant parts of the old
   ones (their `Status` line only).
 - The theme head script moves to its own file in `src/scripts/`; a small Vite plugin inlines it into `<head>` in
-  `yarn dev` and `yarn build`, and it imports `STORAGE_KEYS` and `THEMES`, so the key literal and the paired
-  comments go. A short decision record (it reverses the "plugin declined" note of the theme record).
+  `yarn dev` and `yarn build`. A short decision record. (Reworked on 2026-10-14, see the end of this plan: the
+  script stays a plain file with literals, no bundler.)
 - The JS size limit goes to 10 kB gzip, with a short record.
 - `ai/skills/feature.md` is cut to at most 12 KB while its paths are updated.
 
@@ -65,10 +65,9 @@ New Game button gets a view (`NewGameView.onNewGame`) so `main.js` only wires. `
 **`main.js`.** No `DOMContentLoaded`; objects grouped by feature; the `start()` order is written out (theme,
 settings, statistics, game): settings and statistics load before the game reads and counts into them.
 
-**Theme head script.** `vite.config.js` gets `inlineThemeScript()`: `transformIndexHtml` bundles
-`themeHead.js` with esbuild (a new explicit dev dependency: Vite already depends on it), minifies it with terser
-(already a dev dependency; `Object.freeze` marked pure so the unused constants fall out) and injects it as an
-inline `<script>` at the start of `<head>`, in dev and in build. The "only through `SafeStorage`" exception for
+**Theme head script.** `vite.config.js` gets `inlineThemeScript()`: `transformIndexHtml` reads
+`themeHead.js` (a plain script with literals, no imports), minifies it with terser (already a dev dependency) and
+injects it as an inline `<script>` at the start of `<head>`, in dev and in build. The "only through `SafeStorage`" exception for
 this script stays.
 
 ## Where the "why" of the comments goes
@@ -105,8 +104,8 @@ Most of it is already in a decision record or a skill; the rest gets a line wher
   commits (rules, paths, the feature skill, the two records) and a naming tweak followed the review.
 - `SafeStorage.#attempt(action)` has no `fallback` parameter: every call would have passed `null`, and
   `getNumber` became `Number(getString(key))` with a finite check. `setJson` lost its own `try/catch`.
-- The head script plugin also needs `pure_getters` for terser; the script lands before `<meta charset>`
-  (`head-prepend`, as Vite's own client does in dev), well inside the first 1024 bytes.
+- The script lands before `<meta charset>` (`head-prepend`, as Vite's own client does in dev), well inside the
+  first 1024 bytes.
 - `Board.spawnRandomTile` no longer returns `null` (a move that changes the board always leaves a free cell),
   `OverlayView` no longer closes the dialog that cannot be open, `Game.restore` also rejects an empty board.
 - `#settle` of `GridView` is split into `#finish` and `#appendTilesInReadingOrder`, so the name carries the why.
@@ -114,11 +113,14 @@ Most of it is already in a decision record or a skill; the rest gets a line wher
   `ThemeController` and `ThemeView` (audit JS-14, JS-15), the placeholder size and target `Game` is built with.
 - Not touched, to keep the rebase onto MY-139 small: the CSS part of `ai/rules/style.md`; one sentence there
   (the theme is set by "the inline script in `index.html`") is now stale.
+- Rework (author, 2026-10-14): no `esbuild` dependency. `themeHead.js` is a plain script with the literals
+  `'theme'`, `'light'`, `'dark'` in one block (no leaks, no imports); the plugin only reads and minifies it with
+  terser; `oop.md` says to change the key or a theme value in both places; `package.json` and `yarn.lock` are
+  back to those of `main`.
 
 ## Verification
 
-`yarn lint`, `yarn format:check`, `yarn build`, `yarn size`; `yarn install --frozen-lockfile` after the new
-dev dependency. Then play it in headless Chrome (own profile, debugging port 9431) on `yarn dev` (port 5191) and
+`yarn lint`, `yarn format:check`, `yarn build`, `yarn size`; `yarn install --frozen-lockfile`. Then play it in headless Chrome (own profile, debugging port 9431) on `yarn dev` (port 5191) and
 `yarn build && yarn preview` (port 5195) at 1000, 375 and 320px in both themes: moves and animations, merges,
 the win and `Continue`, game over, new game with its confirmation, settings (size and target, confirmations),
 statistics and their reset, the record per size and its reset, a save restored after a reload (a version 4 save

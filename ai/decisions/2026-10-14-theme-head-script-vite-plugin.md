@@ -6,30 +6,31 @@ Date: 2026-10-14 · Status: accepted · Supersedes the head-script paragraph of
 ## Context
 
 The script that sets `<html data-theme>` before the first paint was inline code in `index.html`: the key was a
-literal `'theme'`, with a comment pointing at `STORAGE_KEYS.THEME` and a comment there pointing back. The first
-theme record declined a Vite plugin for it ("simplicity over a build step for one string"). The JS refactor has
-no comments in `src/scripts/` or `index.html`, and inline code is outside lint and imports, so the answer changes.
+literal `'theme'`, with a comment pointing at `STORAGE_KEYS.THEME` and a comment there pointing back. The JS
+refactor has no comments in `src/scripts/` or `index.html`, and inline code is outside lint, so the script moves
+to a file. Importing the constants into it needs a bundler (esbuild, which Vite uses but the repo does not
+declare); the author declined that dependency (2026-10-14).
 
 ## Decision
 
-- **The script is `src/scripts/themeHead.js`**, a module that imports `STORAGE_KEYS` and `THEMES` from
-  `constants.js`: no key literal, no paired comments, no inline code in `index.html`.
-- **A small plugin in `vite.config.js` (`inline-theme-script`)** bundles it with esbuild, minifies it with terser
-  and injects it as an inline `<script>` at the start of `<head>` through `transformIndexHtml`, the same in
-  `yarn dev` and `yarn build`. `Object.freeze` is marked pure for terser: bundlers keep those calls, and without
-  it every constant of `constants.js` would be inlined into the page.
+- **The script is `src/scripts/themeHead.js`**, a plain script with no imports, written as one block so its
+  variables stay local. The key `'theme'` and the values `'light'` / `'dark'` are **literals on purpose**, the
+  same as `STORAGE_KEYS.THEME` and `THEMES` in `constants.js`. The link is a written rule, not comments:
+  `ai/rules/oop.md` says to change the key or a theme value in both places.
+- **A small plugin in `vite.config.js` (`inline-theme-script`)** reads the file, minifies it with terser (already
+  a dev dependency) and injects it as an inline `<script>` at the start of `<head>` through
+  `transformIndexHtml`, the same in `yarn dev` and `yarn build`.
 - **What stays from the first record:** it is classic inline code because it runs before any module; it reads
   `localStorage` itself inside `try/catch`, only reads, falls back to `prefers-color-scheme`, and is the one read
   that skips `SafeStorage`. Not a precedent: any other early read needs its own record. After load
   `ThemeController` is the authority and resolves the theme by the same rule.
-- **`esbuild` is an explicit dev dependency** (Vite already depends on it; the plugin imports it directly).
-- Rejected: a nested Vite build per page load, stripping the `import` by hand (breaks the day the script imports
-  anything else), keeping the literal and the paired comments, and a second constants file for the theme only.
+- Rejected: a bundler in the plugin (a new dependency for two strings), a nested Vite build per page load,
+  and stripping an `import` by hand (breaks the day the script imports anything else).
 
 ## Consequences
 
-- Renaming the key or a theme value in `constants.js` reaches the head script by itself.
-- The inline script blocks parsing and must stay tiny: anything it imports ships inline, so it imports only
-  what it reads.
-- Each dev page load runs esbuild and terser on the file (milliseconds); an edit to the plugin needs a restart
-  of the dev server.
+- Renaming the key or a theme value means editing `constants.js` and `themeHead.js`; if the script is
+  forgotten the page shows the wrong theme for a frame and `ThemeController` corrects it, never a broken page.
+- The inline script blocks parsing and stays tiny (a few hundred bytes); it imports nothing.
+- Each dev page load minifies the file with terser (milliseconds); an edit to the plugin needs a restart of the
+  dev server.

@@ -24,7 +24,7 @@ Root:
 
 - `main.js` — the composition root: imports the styles, finds the DOM, creates and wires every object, starts them.
 - `constants.js` — every shared number and key, and the `SETTING_DEFINITIONS` table.
-- `themeHead.js` — sets `<html data-theme>` before the first paint; not imported by `main.js`, the plugin inlines it.
+- `themeHead.js` — plain script, no imports: sets `<html data-theme>` before the first paint; a plugin inlines it. Literals as in `constants.js`.
 
 Model (`game/`) — rules and values; no DOM, storage or timers:
 

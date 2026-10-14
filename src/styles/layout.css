@@ -21,10 +21,14 @@
 
   @media (height <= 570px) and (width >= 540px) and (orientation: landscape) {
     --rows-height: calc(2 * var(--page-padding) + 50px);
-    --side-width: calc(276px + var(--header-gap));
+    --side-width: clamp(
+      276px + var(--header-gap),
+      100vw - 2 * var(--page-padding) - (100svh - var(--rows-height)),
+      360px
+    );
 
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: calc(var(--side-width) - var(--header-gap)) auto;
     grid-template-rows: auto auto;
     align-content: center;
     justify-content: center;

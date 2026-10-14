@@ -15,7 +15,7 @@
 html,
 body {
   overscroll-behavior-y: none;
-  touch-action: manipulation;
+  touch-action: pinch-zoom;
 }
 
 body {

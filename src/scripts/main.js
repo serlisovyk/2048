@@ -79,7 +79,7 @@ new KeyboardInput({
   onDirection: (direction) => gameController.requestMove(direction),
 }).bind()
 new SwipeInput({
-  element: document.querySelector('.game-container'),
+  target: document,
   onDirection: (direction) => gameController.requestMove(direction),
 }).bind()
 

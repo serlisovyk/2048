@@ -58,9 +58,10 @@
   custom property and the CSS reads it with no fallback; a default needed before the view runs is
   declared once where it is used (`--board-size: 4` on `.game-grid`).
 - **The board fits the window.** `--cell-size` follows the window's width and height, up to a board of
-  about 600px. `--rows-height` (`layout.css`) is the height of everything but the board: change the
-  height of the GitHub row, the header or the footer and you change that number
-  (`ai/decisions/2026-10-14-board-fits-the-window.md`).
+  about 600px. `--rows-height` (`layout.css`) is a measured constant, the height of everything but the
+  board: change the height of the GitHub row, the header or the footer and you change that number. Not a
+  container query: the header and the footer take the board's width by shrink-wrapping around it, and a
+  size container has no intrinsic width (`ai/decisions/2026-10-14-board-fits-the-window.md`).
 - **A label over a number** is `.label` (the header's Score, the game summary, the statistics): small,
   bold, uppercase by CSS, the markup in sentence case. Its colour is `--text-muted` on the page and
   `--summary-label` in the dialogs.
@@ -114,21 +115,18 @@
   `transition` lives only on `.is-sliding .tile` (a standing one makes tiles trail the grid while the
   window is resized). A tile never changes its `data-value`; a merge makes a new tile. `.new-tile`,
   `.merged-tile` and `.retired-tile` start after CSS delays, in the order slide, merge pop, new tile.
-- The base rule `.tile[data-value]` is first in `tiles.css` and the fallback for every value
-  without a rule of its own; per-value rules follow and win by order (never a `:not()` chain).
-- Adding a tile value is a token plus one rule after the base rule, in value order:
-  `background-color`, `color` (`--tile-text-dark` or `--tile-text-light`) and `font-size`
-  as a share of the cell, `calc(var(--cell-size) * x)`: 1-2 digits 0.4, 3 digits 0.35,
-  4 digits 0.3, 5 digits 0.25, the fallback 0.2. No pixel floor: it overflows a small tile
-  on the 5x5 board (`ai/decisions/2026-10-12-board-geometry-per-size.md`).
-- A new tile colour keeps the order of the two ramps and stays clearly different from its
-  neighbours; its text reaches 4.5:1 against **both** ends of the gradient, computed with the
-  WCAG formula (axe does not check gradients) (`ai/decisions/2026-10-14-tile-text-contrast.md`).
-- **Typography** lives in `base.css`: one family (Rubik, Arial fallback) set once on `body` and
-  inherited (buttons through `font: inherit`), two weights (400 and `bold`),
-  `font-variant-numeric: tabular-nums` once on `body` so numbers keep their width, and
-  `line-height: 1.15` so box heights do not depend on the face. A new weight, italic, script or
-  face needs a decision record (`ai/decisions/2026-10-10-self-hosted-font.md`).
+- Adding a tile value is a token plus one rule after the base rule `.tile[data-value]` (first in `tiles.css`, the
+  fallback for every value without a rule; per-value rules win by order, never a `:not()` chain), in value order:
+  `background-color`, `color` (`--tile-text-dark` or `--tile-text-light`) and `font-size` as a share of the cell,
+  `calc(var(--cell-size) * x)`: 1-2 digits 0.4, 3 digits 0.35, 4 digits 0.3, 5 digits 0.25, the fallback 0.2. No pixel
+  floor: it overflows a small tile on the 5x5 board (`ai/decisions/2026-10-12-board-geometry-per-size.md`).
+- A new tile colour keeps the order of the two ramps and stays clearly different from its neighbours; its text reaches
+  4.5:1 against **both** ends of the gradient, by the WCAG formula (axe does not check gradients)
+  (`ai/decisions/2026-10-14-tile-text-contrast.md`).
+- **Typography** lives in `base.css`: one family (Rubik, Arial fallback) set once on `body` and inherited (buttons
+  through `font: inherit`), two weights (400 and `bold`), `font-variant-numeric: tabular-nums` once on `body`, and
+  `line-height: 1.15` so box heights do not depend on the face. A new weight, italic, script or face needs a decision
+  record (`ai/decisions/2026-10-10-self-hosted-font.md`).
 - The swipe surface is the whole page: `SwipeInput` listens on `document`; `html`, `body` carry
   `touch-action: pinch-zoom` (no single-finger pan, pinch zoom stays) and `user-select: none` (`dialog`: `text`);
   never `touch-action: none` or a viewport zoom lock (`ai/decisions/2026-10-14-swipe-on-the-whole-page.md`).

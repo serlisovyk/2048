@@ -44,6 +44,7 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [License in `package.json` only, no `LICENSE` file](2026-10-10-license-in-package-json.md)
 - [Features the author rejected](2026-10-10-rejected-features.md)
 - [The CSS size limit goes from 4 kB to 5 kB](2026-10-13-css-size-limit-5-kb.md)
+- [The JavaScript size limit goes from 8 kB to 10 kB](2026-10-14-js-size-limit-10-kb.md)
 - [Line endings are left to git and Prettier, no `.gitattributes`](2026-10-14-line-endings-left-to-git.md)
 - [No `browserslist`, Autoprefixer and the build use their defaults](2026-10-14-no-browserslist.md)
 

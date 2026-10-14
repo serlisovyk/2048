@@ -24,11 +24,4 @@
     animation-name: record-badge-static;
     animation-duration: var(--record-badge-duration) !important;
   }
-
-  @keyframes record-badge-static {
-    from,
-    to {
-      opacity: 1;
-    }
-  }
 }

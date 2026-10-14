@@ -78,22 +78,6 @@
   animation: score-pop var(--score-pop-duration) ease-out forwards;
 }
 
-@keyframes score-pop {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  60% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(var(--score-pop-rise, -6px));
-  }
-}
-
 .record-badge {
   --record-badge-duration: 4000ms;
 
@@ -112,32 +96,6 @@
   white-space: nowrap;
   pointer-events: none;
   animation: record-badge var(--record-badge-duration) ease-out forwards;
-}
-
-@keyframes record-badge {
-  0% {
-    opacity: 0;
-    scale: 0.6;
-  }
-
-  8% {
-    opacity: 1;
-    scale: 1.08;
-  }
-
-  14% {
-    scale: 1;
-  }
-
-  90% {
-    opacity: 1;
-    scale: 1;
-  }
-
-  100% {
-    opacity: 0;
-    scale: 1;
-  }
 }
 
 .score-label {

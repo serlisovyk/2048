@@ -94,15 +94,3 @@
 ::view-transition-new(root) {
   animation: theme-reveal var(--theme-reveal-duration) ease-in-out;
 }
-
-@keyframes theme-reveal {
-  from {
-    clip-path: circle(0 at var(--theme-reveal-x) var(--theme-reveal-y));
-  }
-
-  to {
-    clip-path: circle(
-      var(--theme-reveal-radius) at var(--theme-reveal-x) var(--theme-reveal-y)
-    );
-  }
-}

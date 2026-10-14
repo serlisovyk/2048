@@ -171,7 +171,7 @@
         </div>
         <div class="score-container">
           <div class="score-box">
-            <span class="score-label">Score</span>
+            <span class="label score-label">Score</span>
             <span class="current-score" aria-hidden="true">0</span>
             <span
               class="score-announcement visually-hidden"
@@ -181,7 +181,7 @@
             <span class="score-pops" aria-hidden="true"></span>
           </div>
           <div class="score-box">
-            <span class="score-label">High score</span>
+            <span class="label score-label">High score</span>
             <span class="high-score">0</span>
             <button
               class="icon-button reset-high-score-button"
@@ -223,15 +223,15 @@
       <p class="win-message"></p>
       <dl class="game-summary">
         <div>
-          <dt>Score</dt>
+          <dt class="label">Score</dt>
           <dd data-summary="score"></dd>
         </div>
         <div>
-          <dt>Moves</dt>
+          <dt class="label">Moves</dt>
           <dd data-summary="moves"></dd>
         </div>
         <div>
-          <dt>Best tile</dt>
+          <dt class="label">Best tile</dt>
           <dd data-summary="highestTile"></dd>
         </div>
       </dl>
@@ -247,15 +247,15 @@
       <p>No more moves available</p>
       <dl class="game-summary">
         <div>
-          <dt>Score</dt>
+          <dt class="label">Score</dt>
           <dd data-summary="score"></dd>
         </div>
         <div>
-          <dt>Moves</dt>
+          <dt class="label">Moves</dt>
           <dd data-summary="moves"></dd>
         </div>
         <div>
-          <dt>Best tile</dt>
+          <dt class="label">Best tile</dt>
           <dd data-summary="highestTile"></dd>
         </div>
       </dl>
@@ -327,28 +327,53 @@
         </div>
       </section>
       <section class="settings-section">
-        <h3 id="settings-statistics-title">Statistics</h3>
+        <div class="section-heading">
+          <div>
+            <h3 id="settings-statistics-title">Statistics</h3>
+            <p class="section-note">All board sizes</p>
+          </div>
+          <button
+            class="icon-button reset-statistics-button"
+            aria-label="Reset statistics"
+            title="Reset statistics"
+            hidden
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                d="M4 7h16M9 7V4h6v3M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M10 11v6M14 11v6"
+              />
+            </svg>
+          </button>
+        </div>
         <dl class="statistics">
           <div>
-            <dt>Games played</dt>
+            <dt class="label">Games played</dt>
             <dd data-statistic="played">0</dd>
           </div>
           <div>
-            <dt>Wins</dt>
+            <dt class="label">Wins</dt>
             <dd data-statistic="wins">0</dd>
           </div>
           <div>
-            <dt>Best score</dt>
+            <dt class="label">Best score</dt>
             <dd data-statistic="bestScore">0</dd>
           </div>
           <div>
-            <dt>Best tile</dt>
+            <dt class="label">Best tile</dt>
             <dd data-statistic="bestTile">0</dd>
           </div>
         </dl>
-        <button class="button button-outline reset-statistics-button">
-          Reset statistics
-        </button>
       </section>
       <button class="button settings-close-button">Close</button>
     </dialog>

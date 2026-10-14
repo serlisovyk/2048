@@ -54,6 +54,13 @@ a {
   }
 }
 
+.label {
+  font-size: var(--font-label);
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

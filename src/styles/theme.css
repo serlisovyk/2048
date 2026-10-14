@@ -7,8 +7,10 @@
   --font-control: clamp(0.875rem, 2.5vw, 1.125rem);
   --font-text: clamp(0.875rem, 3vw, 1.125rem);
   --font-pop: clamp(0.875rem, 4vw, 1.125rem);
+  --font-section: clamp(1.125rem, 4.5vw, 1.25rem);
   --font-stat: clamp(1.25rem, 5vw, 1.625rem);
   --font-score: clamp(1.25rem, 5.5vw, 1.75rem);
+  --font-heading: clamp(1.5rem, 6vw, 1.75rem);
   --font-title: clamp(1.5rem, 5vw, 2.5rem);
   --font-logo: clamp(1.625rem, 7vw, 2.25rem);
 
@@ -69,6 +71,7 @@
   --win-bg: linear-gradient(135deg, #576dd7 0%, #764ba2 100%);
   --win-shadow: rgba(87, 109, 215, 0.5);
   --summary-bg: rgba(0, 0, 0, 0.2);
+  --summary-label: #e0e0e0;
 
   --button-bg: #ffffff;
   --button-text: #000000;
@@ -114,6 +117,8 @@
       --button-hover-bg: #4a3f36;
       --button-outline: rgba(46, 38, 32, 0.85);
       --button-outline-hover-bg: rgba(46, 38, 32, 0.08);
+      --summary-bg: rgba(46, 38, 32, 0.07);
+      --summary-label: #6b6055;
     }
   }
 }

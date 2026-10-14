@@ -88,10 +88,6 @@
   grid-row: 1;
   grid-column: 1 / -1;
   color: var(--text-muted);
-  font-size: var(--font-label);
-  font-weight: bold;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
 .current-score,

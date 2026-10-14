@@ -6,6 +6,7 @@
 }
 
 .button {
+  min-height: 44px;
   margin-top: 10px;
   padding: 10px 22px;
   border: 2px solid transparent;

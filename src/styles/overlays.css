@@ -54,6 +54,10 @@ dialog {
 .confirm-dialog,
 .settings-dialog {
   background-color: var(--surface);
+
+  h2 {
+    font-size: var(--font-heading);
+  }
 }
 
 .settings-dialog {
@@ -73,15 +77,37 @@ dialog {
 
     h3 {
       margin-bottom: 8px;
-      font-size: var(--font-text);
+      font-size: var(--font-section);
     }
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+
+    h3 {
+      margin-bottom: 0;
+    }
+
+    .icon-button {
+      margin-right: -4px;
+    }
+  }
+
+  .section-note {
+    margin: 2px 0 0;
+    color: var(--text-muted);
+    font-size: var(--font-caption);
   }
 }
 
 .game-summary,
 .statistics {
   dt {
-    font-size: var(--font-caption);
+    color: var(--summary-label);
   }
 
   dd {
@@ -104,6 +130,11 @@ dialog {
 .statistics {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px 16px;
-  margin-bottom: 6px;
+  gap: 8px;
+
+  & > div {
+    padding: 10px 12px;
+    background-color: var(--summary-bg);
+    border-radius: var(--radius-lg);
+  }
 }

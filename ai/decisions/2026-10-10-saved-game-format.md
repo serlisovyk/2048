@@ -1,6 +1,6 @@
 # Saved-game format, and a finished game is not stored
 
-Date: 2026-10-10 · Status: accepted
+Date: 2026-10-10 · Status: accepted · partly superseded by `2026-10-14-no-migration-of-old-saves.md` (older saves and the old `highScore` key are no longer read)
 
 ## Context
 

@@ -1,6 +1,6 @@
 # The win target is a setting with three choices per board size; the saved game is version 3 and is brought up to date step by step
 
-Date: 2026-10-13 · Status: accepted
+Date: 2026-10-13 · Status: accepted · partly superseded by `2026-10-14-no-migration-of-old-saves.md` (older saves and the old `highScore` key are no longer read)
 
 ## Context
 

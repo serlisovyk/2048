@@ -1,6 +1,6 @@
 # The theme is a `data-theme` attribute set by a head script, with colour tokens in two files; the head script is the one direct `localStorage` read
 
-Date: 2026-10-10 · Status: accepted
+Date: 2026-10-10 · Status: accepted · partly superseded by `2026-10-14-theme-head-script-vite-plugin.md` (the head script is a file inlined by a plugin, the key is imported)
 
 ## Context
 

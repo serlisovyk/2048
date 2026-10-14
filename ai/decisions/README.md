@@ -58,6 +58,7 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [Board size is a setting; a record per size; the saved game stores its size](2026-10-12-board-size-records-and-saved-game.md)
 - [Win target is a setting, three choices per board size; saves upgraded step by step](2026-10-13-win-target-per-board-size.md)
 - [Statistics: what is counted and when, the move count (save version 4), the game summary](2026-10-13-statistics.md)
+- [Saves older than version 4 and the old `highScore` key are no longer read; the upgrade table stays](2026-10-14-no-migration-of-old-saves.md)
 
 ### Dialogs, controls and accessibility
 
@@ -76,6 +77,7 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 
 - [JS passes shared numbers to CSS through custom properties](2026-10-10-css-custom-properties-from-js.md)
 - [Theme is `data-theme` set by a head script, colour tokens in two files](2026-10-10-theme-tokens-and-head-script.md)
+- [The head script is its own file, inlined into `<head>` by a Vite plugin](2026-10-14-theme-head-script-vite-plugin.md)
 - [The theme reveal is a View Transition, a progressive enhancement](2026-10-10-view-transitions-progressive-enhancement.md)
 - [One tile palette in two ramps, a shared sheen, a base-rule fallback](2026-10-10-tile-palette.md)
 - [Rubik, self-hosted, Latin only, with tabular digits](2026-10-10-self-hosted-font.md)

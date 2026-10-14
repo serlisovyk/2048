@@ -1,6 +1,6 @@
 # Statistics: what is counted and when, the stored numbers, the move count in the save (version 4), and the summary of a game
 
-Date: 2026-10-13 · Status: accepted
+Date: 2026-10-13 · Status: accepted · partly superseded by `2026-10-14-no-migration-of-old-saves.md` (older saves and the old `highScore` key are no longer read)
 
 ## Context
 

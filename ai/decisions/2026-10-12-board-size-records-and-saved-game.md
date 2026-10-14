@@ -1,6 +1,6 @@
 # The board size is a setting; each size has its own record; the saved game stores its size and wins over a disagreeing setting
 
-Date: 2026-10-12 · Status: accepted
+Date: 2026-10-12 · Status: accepted · partly superseded by `2026-10-14-no-migration-of-old-saves.md` (older saves and the old `highScore` key are no longer read)
 
 ## Context
 

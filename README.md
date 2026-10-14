@@ -18,7 +18,8 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Keyboard controls for desktop: arrow keys or WASD, on any keyboard layout
 - Swipe controls for touch screens: a swipe works anywhere on the page (not on buttons or
   links, not under a dialog), with no pull-to-refresh and no double-tap zoom; pinch zoom still works
-- A header above the board, as wide as the board: the `2048` logo, the score and the
+- A header above the board, as wide as the board (beside it on a short landscape window):
+  the `2048` logo, the score and the
   persisted high score in two boxes, and a toolbar of icon buttons (inline SVG, each
   with a label and a tooltip). A small trash icon in the high score box resets it after a
   confirmation (the current game is not affected)

@@ -134,6 +134,7 @@
 
 .github-link {
   display: flex;
+  order: -1;
   align-self: flex-end;
   margin-bottom: 6px;
   padding: 10px;

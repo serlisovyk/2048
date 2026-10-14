@@ -17,11 +17,12 @@ export class GridView {
     this.#element.focus()
   }
 
-  render({ size, tiles, spawnedTiles }) {
+  render({ size, winTile, tiles, spawnedTiles }) {
     const spawnedIds = new Set(spawnedTiles.map(({ id }) => id))
 
     this.#clearTiles()
     this.#element.style.setProperty('--board-size', size)
+    this.#element.setAttribute('aria-label', GridView.#getLabel(size, winTile))
     this.#createCells(size)
 
     tiles.forEach((tile) => {
@@ -51,6 +52,10 @@ export class GridView {
     })
 
     this.#scheduleSettle()
+  }
+
+  static #getLabel(size, winTile) {
+    return `2048 board, ${size}×${size}, goal ${winTile}`
   }
 
   #createCells(size) {

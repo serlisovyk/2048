@@ -196,6 +196,7 @@ export class GameController {
   #renderBoard(spawnedTiles) {
     this.#gridView.render({
       size: this.#game.size,
+      winTile: this.#game.winTile,
       tiles: this.#game.tiles,
       spawnedTiles,
     })

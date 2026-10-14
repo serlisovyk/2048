@@ -21,9 +21,11 @@ place without changing the look.
 - **Fonts are in `rem`**: the same at the default 16px root, and they follow the browser's font size.
 - **A shadow is a geometry token and a colour token**: `var(--shadow-md) var(--button-shadow)`. The
   colours stay in the theme files, the geometry is shared.
-- **The tile slide and pop durations** come from `constants.js` through `GridView`: no CSS token and
-  no `var()` fallback. **`--board-size` has one default, `4`, on `.game-grid`**: the board is drawn
-  once before `GridView` sets the size, and without a default it would collapse and then jump.
+- **Numbers from JS** still come from `constants.js`, set by the view on the element that owns them
+  (`2026-10-10-css-custom-properties-from-js.md`), but CSS reads them with no `var()` fallback: the
+  tile slide and pop durations exist only after `GridView` set them. The one value drawn before the
+  view runs, **`--board-size`, has its default `4` once on `.game-grid`**, so the empty board does not
+  collapse and then jump.
 
 ## Consequences
 

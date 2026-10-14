@@ -1,6 +1,6 @@
 # JS passes shared numbers to CSS through custom properties
 
-Date: 2026-10-10 · Status: accepted
+Date: 2026-10-10 · Status: accepted; the `var()` fallbacks are replaced by one default, see 2026-10-14-css-token-scales.md
 
 ## Context
 

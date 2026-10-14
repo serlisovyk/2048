@@ -5,29 +5,23 @@
   gap: 0 12px;
 }
 
-.restart-game-button,
-.continue-button,
-.win-restart-button,
-.confirm-cancel-button,
-.confirm-accept-button,
-.settings-close-button,
-.reset-statistics-button {
-  padding: 12px 24px;
-  cursor: pointer;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
+.button {
+  margin-top: 10px;
+  padding: 10px 22px;
+  border: 2px solid transparent;
   border-radius: var(--radius-md);
+  background-color: var(--button-bg);
+  box-shadow: var(--shadow-md) var(--button-shadow);
+  color: var(--button-text);
   font-size: var(--font-control);
   font-weight: bold;
+  cursor: pointer;
   transition: all var(--duration-base) ease;
-  box-shadow: var(--shadow-md) var(--button-shadow);
-  margin-top: 10px;
 
   &:hover {
     background-color: var(--button-hover-bg);
-    transform: translateY(-2px);
     box-shadow: var(--shadow-lg) var(--button-hover-shadow);
+    transform: translateY(-2px);
   }
 
   &:active {
@@ -35,13 +29,10 @@
   }
 }
 
-.win-restart-button,
-.confirm-accept-button,
-.reset-statistics-button {
-  padding: 10px 22px;
+.button-outline {
   background-color: transparent;
+  border-color: var(--button-outline);
   color: var(--dialog-text);
-  border: 2px solid var(--button-outline);
 
   &:hover {
     background-color: var(--button-outline-hover-bg);

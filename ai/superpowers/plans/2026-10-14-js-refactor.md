@@ -99,6 +99,22 @@ Most of it is already in a decision record or a skill; the rest gets a line wher
 11. Docs: conventions and vocabulary (`style.md`, `oop.md`), paths and classes (`map.md`, `architecture.md`,
     `feature.md` cut to 12 KB, `review.md`, README paths), the two other decision records and the index.
 
+## What changed while implementing
+
+- `Validation` got its own commit before the split (`HighScoreController` needs it); the docs went in four
+  commits (rules, paths, the feature skill, the two records) and a naming tweak followed the review.
+- `SafeStorage.#attempt(action)` has no `fallback` parameter: every call would have passed `null`, and
+  `getNumber` became `Number(getString(key))` with a finite check. `setJson` lost its own `try/catch`.
+- The head script plugin also needs `pure_getters` for terser; the script lands before `<meta charset>`
+  (`head-prepend`, as Vite's own client does in dev), well inside the first 1024 bytes.
+- `Board.spawnRandomTile` no longer returns `null` (a move that changes the board always leaves a free cell),
+  `OverlayView` no longer closes the dialog that cannot be open, `Game.restore` also rejects an empty board.
+- `#settle` of `GridView` is split into `#finish` and `#appendTilesInReadingOrder`, so the name carries the why.
+- Left alone on purpose: the class-name literals of `GridView` and the repeated "the other theme" of
+  `ThemeController` and `ThemeView` (audit JS-14, JS-15), the placeholder size and target `Game` is built with.
+- Not touched, to keep the rebase onto MY-139 small: the CSS part of `ai/rules/style.md`; one sentence there
+  (the theme is set by "the inline script in `index.html`") is now stale.
+
 ## Verification
 
 `yarn lint`, `yarn format:check`, `yarn build`, `yarn size`; `yarn install --frozen-lockfile` after the new

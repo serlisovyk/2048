@@ -1,53 +1,25 @@
-body {
-  --page-padding: 20px;
+.game-layout {
+  --header-gap: clamp(10px, 2.5vw, 16px);
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  min-height: 100dvh;
-  overflow-x: hidden;
-  padding: max(var(--page-padding), env(safe-area-inset-top, 0px))
-    max(var(--page-padding), env(safe-area-inset-right, 0px))
-    max(var(--page-padding), env(safe-area-inset-bottom, 0px))
-    max(var(--page-padding), env(safe-area-inset-left, 0px));
+  flex-grow: 1;
+  gap: var(--header-gap);
 }
 
-.game-container {
-  --cell-gap: clamp(8px, 2vw, 12px);
-
-  background-color: var(--board-bg);
-  padding: var(--cell-gap);
-  border-radius: clamp(8px, 2vw, 15px);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px var(--board-shadow);
-  touch-action: none;
-  user-select: none;
-}
-
+.game-header,
 .site-footer {
   width: min-content;
   min-width: 100%;
   margin-top: auto;
+}
+
+.site-footer {
   padding-top: 12px;
   border-top: 1px solid var(--divider);
   color: var(--text-muted);
   font-size: 13px;
   text-align: center;
-}
-
-.game-grid {
-  --cell-size: min(
-    clamp(
-      60px,
-      72vw / var(--board-size, 4),
-      min(100px, 400px / var(--board-size, 4))
-    ),
-    (
-        100vw - 2 * var(--page-padding) - (var(--board-size, 4) + 3) *
-          var(--cell-gap)
-      ) /
-      var(--board-size, 4)
-  );
 }
 
 @media (max-width: 768px) {
@@ -63,5 +35,9 @@ body {
 @media (max-height: 600px) {
   body {
     --page-padding: 10px;
+  }
+
+  .game-layout {
+    --header-gap: 10px;
   }
 }

@@ -1,20 +1,8 @@
-.game-layout {
-  --header-gap: clamp(10px, 2.5vw, 16px);
-
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: var(--header-gap);
-}
-
 .game-header {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: var(--header-gap);
-  width: min-content;
-  min-width: 100%;
-  margin-top: auto;
 }
 
 .logo {
@@ -27,11 +15,6 @@
   font-size: clamp(26px, 7vw, 36px);
   letter-spacing: -0.02em;
   line-height: 1.1;
-}
-
-.toolbar {
-  display: flex;
-  gap: 8px;
 }
 
 .score-container {
@@ -114,10 +97,4 @@
   font-size: clamp(20px, 5.5vw, 28px);
   font-weight: bold;
   line-height: 1.2;
-}
-
-@media (max-height: 600px) {
-  .game-layout {
-    --header-gap: 10px;
-  }
 }

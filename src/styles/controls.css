@@ -142,6 +142,11 @@
     background-color 0.2s ease;
 }
 
+.toolbar {
+  display: flex;
+  gap: 8px;
+}
+
 .toolbar-button {
   padding: 9px;
   background-color: var(--surface);

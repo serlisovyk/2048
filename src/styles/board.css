@@ -1,4 +1,29 @@
+.game-container {
+  --cell-gap: clamp(8px, 2vw, 12px);
+
+  background-color: var(--board-bg);
+  padding: var(--cell-gap);
+  border-radius: clamp(8px, 2vw, 15px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px var(--board-shadow);
+  touch-action: none;
+  user-select: none;
+}
+
 .game-grid {
+  --cell-size: min(
+    clamp(
+      60px,
+      72vw / var(--board-size, 4),
+      min(100px, 400px / var(--board-size, 4))
+    ),
+    (
+        100vw - 2 * var(--page-padding) - (var(--board-size, 4) + 3) *
+          var(--cell-gap)
+      ) /
+      var(--board-size, 4)
+  );
+
   position: relative;
   display: grid;
   grid-template-columns: repeat(var(--board-size, 4), var(--cell-size));

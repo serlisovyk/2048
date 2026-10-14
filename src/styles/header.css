@@ -8,11 +8,11 @@
 .logo {
   justify-self: start;
   padding: 4px 12px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--logo-bg);
-  box-shadow: 0 4px 12px var(--logo-shadow);
+  box-shadow: var(--shadow-sm) var(--logo-shadow);
   color: var(--on-gold);
-  font-size: clamp(26px, 7vw, 36px);
+  font-size: var(--font-logo);
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
@@ -33,12 +33,10 @@
   padding: 8px 12px;
   background-color: var(--surface);
   border: 1px solid var(--surface-border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 }
 
 .score-pops {
-  --score-pop-duration: 600ms;
-
   position: relative;
   grid-row: 1;
   grid-column: 2;
@@ -53,7 +51,7 @@
     right: 0;
     bottom: 2px;
     color: var(--accent);
-    font-size: clamp(14px, 4vw, 18px);
+    font-size: var(--font-pop);
     font-weight: bold;
     line-height: 1;
     white-space: nowrap;
@@ -62,18 +60,16 @@
 }
 
 .record-badge {
-  --record-badge-duration: 4000ms;
-
   position: absolute;
   top: 0;
   right: 8px;
   translate: 0 -50%;
   padding: 2px 8px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background-color: var(--record-badge-bg);
-  box-shadow: 0 2px 6px var(--record-badge-shadow);
+  box-shadow: var(--shadow-2xs) var(--record-badge-shadow);
   color: var(--on-gold);
-  font-size: clamp(11px, 2.8vw, 12px);
+  font-size: var(--font-badge);
   font-weight: bold;
   white-space: nowrap;
   pointer-events: none;
@@ -84,7 +80,7 @@
   grid-row: 1;
   grid-column: 1 / -1;
   color: var(--text-muted);
-  font-size: clamp(11px, 2.8vw, 13px);
+  font-size: var(--font-label);
   font-weight: bold;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -93,7 +89,7 @@
 .current-score,
 .high-score {
   color: var(--accent);
-  font-size: clamp(20px, 5.5vw, 28px);
+  font-size: var(--font-score);
   font-weight: bold;
   line-height: 1.2;
 }

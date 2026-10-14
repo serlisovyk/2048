@@ -16,7 +16,7 @@ larger application template.
 - Server state libraries
 - Test frameworks or automated tests
 
-Tooling that **is** in scope (planned in Linear): ESLint, a Husky + lint-staged
+Tooling that **is** in scope, and already in the repo: ESLint, a Husky + lint-staged
 pre-commit hook, and GitHub Actions CI with a bundle size check.
 
 Features the author already rejected are listed in

@@ -35,16 +35,14 @@ Each class has one reason to change:
 | Composition root (`main.js`) | Finding DOM elements, creating and wiring objects | Hold game logic                    |
 
 - The model reports results instead of reaching into other objects: `Game.move()`
-  returns `{ moved, scoreGained, slides, merges, spawnedTiles, justWon, isOver }` (every
-  tile has an id, so a view can animate what moved), and the controller decides what to
-  render.
+  returns what happened (every tile has an id, so a view can animate what moved), and the
+  controller decides what to render.
 - Randomness lives only in tile spawning.
 - All reading and writing of `localStorage` goes through `SafeStorage`. The one exception is
-  the inline script in the `<head>` of `index.html` that applies the saved theme before the
-  first paint: it runs before any module exists, so it cannot import the class. It only
-  reads, inside `try/catch`, with the key as a literal that has a comment pointing at
-  `STORAGE_KEYS.THEME` (and a comment there pointing back). It is not a precedent: any other
-  early read needs its own decision record
+  the inline theme script in the `<head>` of `index.html`: it runs before any module exists,
+  so it only reads, inside `try/catch`, with the key as a literal that has a comment pointing
+  at `STORAGE_KEYS.THEME` (and a comment there pointing back). It is not a precedent: any
+  other early read needs its own decision record
   (`ai/decisions/2026-10-10-theme-tokens-and-head-script.md`).
 
 ## Dependencies

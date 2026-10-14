@@ -57,28 +57,6 @@
       type="font/woff2"
       crossorigin
     />
-    <script>
-      ;(() => {
-        let stored = null
-
-        try {
-          // The same key as STORAGE_KEYS.THEME in src/scripts/constants.js. This is the one
-          // read of storage that skips SafeStorage: it has to run before any module.
-          stored = localStorage.getItem('theme')
-        } catch {
-          // Storage is blocked: the system setting decides.
-        }
-
-        const theme =
-          stored === 'light' || stored === 'dark'
-            ? stored
-            : matchMedia('(prefers-color-scheme: light)').matches
-              ? 'light'
-              : 'dark'
-
-        document.documentElement.dataset.theme = theme
-      })()
-    </script>
     <script type="module" src="./scripts/main.js"></script>
     <title>2048</title>
   </head>

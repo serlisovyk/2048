@@ -1,5 +1,32 @@
+import { build } from 'esbuild'
 import { minify } from 'html-minifier-terser'
+import { resolve } from 'node:path'
+import { minify as minifyScript } from 'terser'
 import { defineConfig } from 'vite'
+
+function inlineThemeScript() {
+  let entryPoint
+
+  return {
+    name: 'inline-theme-script',
+    configResolved(config) {
+      entryPoint = resolve(config.root, 'scripts/themeHead.js')
+    },
+    async transformIndexHtml() {
+      const { outputFiles } = await build({
+        entryPoints: [entryPoint],
+        bundle: true,
+        format: 'iife',
+        write: false,
+      })
+      const { code } = await minifyScript(outputFiles[0].text, {
+        compress: { pure_funcs: ['Object.freeze'], pure_getters: true, passes: 2 },
+      })
+
+      return [{ tag: 'script', children: code, injectTo: 'head-prepend' }]
+    },
+  }
+}
 
 function minifyHtml() {
   return {
@@ -38,7 +65,7 @@ function minifyHtml() {
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
-  plugins: [minifyHtml()],
+  plugins: [inlineThemeScript(), minifyHtml()],
   build: {
     outDir: '../dist',
     assetsDir: 'assets',

@@ -33,10 +33,10 @@ the rules do not cover:
   reload), slide then merge pop then new tile, no tile trails its cell while the window is
   resized, no stray or hidden tile element after a burst of presses, reduced motion changes
   the board at once, and the tiles stay in row-major order in the DOM once a move settles.
-- **Storage**: old saved data still loads (through `GameController.#SAVE_UPGRADES`) or is
-  safely discarded (an unknown or newer version, a bad size, a target the size does not
-  offer, a bad `moves`); a broken settings or statistics field costs only itself and a
-  damaged blob never stops the game; nothing is written until something changes.
+- **Storage**: a saved game of the current version loads; anything else (another version, a
+  bad size, a target the size does not offer, a bad `moves`, an empty board) is safely
+  discarded (`SavedGameController`); a broken settings or statistics field costs only itself
+  and a damaged blob never stops the game; nothing is written until something changes.
 - **In the browser** (a green build proves none of it): both themes at desktop and 320px,
   including the dialogs, the badge and the `+N` pop; every board size at 320px (5x5 has the
   smallest cell, so the widest number must fit its tile) with no horizontal scroll; swipes

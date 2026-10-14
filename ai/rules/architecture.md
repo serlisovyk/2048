@@ -8,7 +8,7 @@ conventions. `ai/map.md` says where every file and class lives.
 
 - The board size and the win tile are settings (`boardSize`, `winTile`). `GameController`
   reads them from the shared `Settings` when a game starts and hands them to `Game` and
-  `GridView.resize`; CSS gets the size as `--board-size`. A saved game carries its own size
+  `GridView.render`; CSS gets the size as `--board-size`. A saved game carries its own size
   and win tile (`ai/decisions/2026-10-12-board-size-records-and-saved-game.md`,
   `ai/decisions/2026-10-13-win-target-per-board-size.md`).
 - The game counts its moves; the summary in the win and game-over dialogs and the

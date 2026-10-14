@@ -88,10 +88,7 @@ src/
   scripts/
     main.js              Composition root: finds DOM elements, wires the objects
     constants.js         Board sizes, win tiles, timings, storage keys, settings table
-    GameController.js    Movement guard, win pause, high score, saved game
-    ThemeController.js   Current theme, its saved choice, following the system
-    SettingsController.js  Loads, saves and applies the settings, asks before a new game
-    StatisticsController.js  Loads, counts and saves the all-time statistics
+    controllers/         Use cases and flow state: game, high score, saved game, settings, statistics, theme
     game/                Model: Board, Game, Settings and Statistics (rules and values, no DOM)
     ui/                  Views: grid, score, dialogs, settings, theme switch, footer
     input/               Keyboard and swipe input

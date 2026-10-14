@@ -8,6 +8,7 @@ dialog {
   --focus-ring-color: var(--dialog-text);
   max-width: 90vw;
   text-align: center;
+  user-select: text;
 
   &[open] {
     display: flex;

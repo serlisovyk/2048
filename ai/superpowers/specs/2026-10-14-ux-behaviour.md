@@ -78,6 +78,8 @@ and the board's accessible name are MY-140's.
   nothing.
 - Direction and the 30px threshold are as before; every move still goes through
   `GameController.requestMove`.
+- A mouse drag on the page selects no text (the page is `user-select: none`); the text inside a
+  dialog stays selectable.
 - `touch-action`: the page and the board give no single-finger pan, so a swipe is not turned into a
   scroll (`pointercancel`); pinch zoom stays allowed everywhere, the board included; double-tap zoom
   stays off. A dialog still scrolls with one finger. Pinch zoom is not locked

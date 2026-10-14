@@ -124,9 +124,9 @@
   `line-height: 1.15` so box heights do not depend on which face is active. A new weight, an
   italic, another script or another face needs a decision record
   (`ai/decisions/2026-10-10-self-hosted-font.md`).
-- The swipe surface is the whole page: `SwipeInput` listens on `document` and `html`, `body` carry
-  `touch-action: pinch-zoom` (no single-finger pan, pinch zoom stays); nothing else sets it, and never
-  `none` or a viewport zoom lock (`ai/decisions/2026-10-14-swipe-on-the-whole-page.md`).
+- The swipe surface is the whole page: `SwipeInput` listens on `document`; `html`, `body` carry
+  `touch-action: pinch-zoom` (no single-finger pan, pinch zoom stays) and `user-select: none` (`dialog`: `text`);
+  never `touch-action: none` or a viewport zoom lock (`ai/decisions/2026-10-14-swipe-on-the-whole-page.md`).
 - Avoid one-off visual effects that do not improve the game UI.
 
 ## JavaScript

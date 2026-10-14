@@ -118,8 +118,11 @@ with focus on `Close`, the last element. With the first option focused there is 
 
 ### What the mouse does
 
-A left-button drag anywhere on the page is a swipe too (it was on the board before). Text under the drag may get selected;
-`user-select: none` stays on the board only. Not changed: a mouse drag is not a feature to extend.
+A left-button drag anywhere on the page is a swipe too (it was on the board before). The author's follow-up: a drag must not
+select the text under it, so `user-select: none` moves from the board to `html, body` (`base.css`, beside `touch-action`),
+and `dialog` gets `user-select: text` so the text of the dialogs stays selectable. Autoprefixer emits
+`-webkit-user-select` and `-moz-user-select` for both (checked in the built CSS). The page's own text (the logo, the score
+labels, the footer) can no longer be copied.
 
 ## 2. Where each part lives
 

@@ -44,7 +44,9 @@ and the board's accessible name are MY-140's.
 
 - **Opening** (the gear): the first focus is the chosen option of `Board size` (the first group),
   not `Close`. The dialog starts at its top on every screen, at 667x375, 568x320 and 320x480 too
-  (`scrollTop` is 0). It still scrolls inside itself when it is taller than the screen.
+  (`scrollTop` is 0 and the title is the first thing seen, not cut off above the dialog). It still
+  scrolls inside itself when it is taller than the screen. Whenever the settings come back with a
+  focused control, that control is fully in view.
 - **The note** `Changing the board size or win target starts a new game.` is one paragraph between the
   title and the first section; a screen reader reads it as the dialog's description.
 - **A change on a fresh or finished board** is as before: it applies at once, the board starts over

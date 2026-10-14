@@ -21,10 +21,12 @@
     box-shadow var(--duration-base) ease,
     transform var(--duration-base) ease;
 
-  &:hover {
-    background-color: var(--button-hover-bg);
-    box-shadow: var(--shadow-lg) var(--button-hover-shadow);
-    transform: translateY(-2px);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--button-hover-bg);
+      box-shadow: var(--shadow-lg) var(--button-hover-shadow);
+      transform: translateY(-2px);
+    }
   }
 
   &:active {
@@ -37,8 +39,10 @@
   border-color: var(--button-outline);
   color: var(--dialog-text);
 
-  &:hover {
-    background-color: var(--button-outline-hover-bg);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--button-outline-hover-bg);
+    }
   }
 }
 
@@ -74,8 +78,10 @@
       border-radius: 0 var(--radius-md) var(--radius-md) 0;
     }
 
-    &:hover span {
-      background-color: var(--button-outline-hover-bg);
+    @media (hover: hover) {
+      &:hover span {
+        background-color: var(--button-outline-hover-bg);
+      }
     }
 
     input:checked + span {
@@ -98,9 +104,11 @@
     color var(--duration-fast) ease,
     background-color var(--duration-fast) ease;
 
-  &:hover {
-    background-color: var(--icon-hover-bg);
-    color: var(--icon-hover);
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--icon-hover-bg);
+      color: var(--icon-hover);
+    }
   }
 }
 
@@ -139,7 +147,13 @@
   cursor: pointer;
   transition: background-color var(--duration-fast) ease;
 
-  &:hover {
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--surface-hover);
+    }
+  }
+
+  &:active {
     background-color: var(--surface-hover);
   }
 

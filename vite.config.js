@@ -1,27 +1,19 @@
-import { build } from 'esbuild'
 import { minify } from 'html-minifier-terser'
+import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { minify as minifyScript } from 'terser'
 import { defineConfig } from 'vite'
 
 function inlineThemeScript() {
-  let entryPoint
+  let scriptPath
 
   return {
     name: 'inline-theme-script',
     configResolved(config) {
-      entryPoint = resolve(config.root, 'scripts/themeHead.js')
+      scriptPath = resolve(config.root, 'scripts/themeHead.js')
     },
     async transformIndexHtml() {
-      const { outputFiles } = await build({
-        entryPoints: [entryPoint],
-        bundle: true,
-        format: 'iife',
-        write: false,
-      })
-      const { code } = await minifyScript(outputFiles[0].text, {
-        compress: { pure_funcs: ['Object.freeze'], pure_getters: true, passes: 2 },
-      })
+      const { code } = await minifyScript(await readFile(scriptPath, 'utf8'))
 
       return [{ tag: 'script', children: code, injectTo: 'head-prepend' }]
     },

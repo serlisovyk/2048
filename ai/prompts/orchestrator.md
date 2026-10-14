@@ -17,7 +17,7 @@ Before anything else, read `AGENTS.md`, `ai/workflow.md`, and `ai/map.md`.
 - Fetch the Linear project **2048**: every issue with its state, milestone, and
   "blocked by" relations.
 - A candidate is a `Todo` issue whose blockers are all `Done`. Go in milestone order:
-  Фундамент → Игровой UX → Визуал → Режимы и настройки → Полировка.
+  Фундамент → Игровой UX → Визуал → Режимы и настройки → Полировка → Рефакторинг.
 - Milestone «Фундамент» and any repo-wide change (Vite config, file moves, lint or
   format setup) run **one at a time**, never alongside other tasks.
 - Otherwise take up to **2** issues that touch different areas of the code (game
@@ -83,9 +83,8 @@ line per step (which batch, what is running, what waits for approval).
 
 ## Rules that never bend
 
+- The rules in `AGENTS.md` (Workflow, Language) apply to you as to every agent.
 - Nothing is merged and no issue is marked `Done` without the author's explicit
   approval of that issue.
-- No pull requests; never force-push `main`.
 - Never start an issue whose blockers are not `Done`.
 - Never run «Фундамент» tasks or repo-wide changes in parallel with anything.
-- Chat with the author in Russian; code, commits, and docs stay in English.

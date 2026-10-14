@@ -22,23 +22,21 @@ First, set up the environment:
   enter it (`EnterWorktree` with that `path` in Claude Code), and run `yarn install`
   there.
 
-Then follow `ai/workflow.md` end to end for this issue:
+Then follow `ai/workflow.md` end to end for this issue, from `In Progress` to the
+author-approval gate. In particular:
 
-- Read `AGENTS.md`, orient via `ai/map.md`, the relevant `ai/rules/*`, the decision
-  records in `ai/decisions/`, and the `feature` skill.
-- Move the issue to `In Progress`.
+- Orient via `ai/map.md`, the rules of the area you touch, the decision records of the
+  files you touch (index in `ai/decisions/README.md`) and the `feature` skill.
 - Write spec (if behavior changes) + plan under `ai/superpowers/` and commit them
   together, one commit, before any code, with the author's answers in the plan. If
   something is still to be decided in the plan («решить в плане») and has no answer
   yet, stop after that commit and report the plan with the open questions — do not
   implement until the author approves.
-- Implement in logical commits (Conventional Commits, English).
-- Update docs in the same change (`README.md`, `ai/map.md`, `ai/rules/*`,
-  `ai/skills/*`, `ai/decisions/` — whichever applies).
-- Verify: `yarn lint`, `yarn format:check`, `yarn build`, `yarn size`, and actually play the change in
-  `yarn dev` on desktop and at mobile width.
-- Walk `ai/rules/definition-of-done.md` point by point.
-- Self-review with the `review` skill.
+- Update docs in the same change: only what the change made wrong, within the limits of
+  `ai/rules/docs.md`.
+- Verify (`AGENTS.md`, and actually play the change in `yarn dev` on desktop and at
+  mobile width), walk `ai/rules/definition-of-done.md` point by point, self-review with
+  the `review` skill.
 
 Constraints:
 
@@ -52,12 +50,6 @@ Constraints:
 - If the scope is ambiguous or conflicts with a rule or decision record, stop and
   ask — don't guess.
 
-Report back at the end, in Russian:
-
-- **what was done** — a short plain-language bullet list, readable without opening
-  the diff;
-- branch and worktree path;
-- commit list, what each one does;
-- check output, and what was played in the browser;
-- self-review findings and what was done about each;
-- anything deliberately left out of scope.
+Report back at the end, in Russian, as in `ai/workflow.md` step 12: what was done in
+plain language, branch and worktree path, the commits, check output and what was played
+in the browser, self-review findings, anything deliberately left out of scope.

@@ -15,29 +15,26 @@ clean, practical, accessible, and proportional to the project size.
 
 ## Read First
 
+- `ai/map.md` — where files and classes live, the storage keys, what the project
+  deliberately does **not** have. Read it before exploring the code from scratch.
+- The rules of the area you touch, in `ai/rules/`: `oop.md` and `architecture.md` for
+  scripts, `style.md` for HTML, CSS and JavaScript, `assets-performance.md` for assets and
+  metadata, `scope.md` for what not to add without an explicit request.
+- `ai/rules/definition-of-done.md` — the gate before a change is handed over;
+  `ai/rules/docs.md` — one fact one home, size limits, no history in docs.
 - `README.md` — setup, scripts, features.
-- `ai/map.md` — repo map: files, responsibilities, storage keys, and what the
-  project deliberately does **not** have. Read it before exploring the code from
-  scratch.
-- `ai/rules/architecture.md` — file responsibilities and boundaries.
-- `ai/rules/oop.md` — the project is object-oriented: classes, encapsulation,
-  layers, constructor-injected dependencies.
-- `ai/rules/style.md` — HTML, CSS, JavaScript, and formatting conventions.
-- `ai/rules/scope.md` — what not to add without an explicit request.
-- `ai/rules/assets-performance.md` — assets, metadata, build output.
-- `ai/rules/definition-of-done.md` — the gate before a change is handed over: code,
-  docs, required checks and reporting.
+- `ai/superpowers/` is the archive of past plans and specs: read only the plan or spec of
+  the feature you change.
 
 ## Decisions
 
-`ai/decisions/` records durable decisions and **why** they were made. Read it before
-proposing to change or "restore" anything — rules say what to do now, decisions say
-why. Reversing one means adding a new dated record, not editing the old one.
+`ai/decisions/` records durable decisions and **why** they were made. Start from its
+`README.md` index and read the records of what you touch, before proposing to change or
+"restore" anything — rules say what to do now, decisions say why. Reversing one means a
+new dated record, not editing the old one.
 
-Capture new decisions as they surface, without being asked: a standing constraint
-("we will not do X"), a feature the author deliberately rejected, a tradeoff accepted
-over a named alternative, or a target agreed now and implemented later. One-off task
-details and plain current-state facts are not decisions.
+Propose a new record, without being asked, when a decision meets the criteria in that
+`README.md`.
 
 ## Workflow
 
@@ -52,7 +49,9 @@ The parts that never bend:
   changes, under `ai/superpowers/` — one commit, before any code.
 - Nothing is merged and no issue is marked `Done` without the author's explicit
   approval.
-- Merges happen locally into `main`, then `main` is pushed. No pull requests.
+- Merges happen locally into `main`, then `main` is pushed. No pull requests, and never
+  a force-push of `main`.
+- Never bypass the pre-commit hook (`--no-verify`).
 - No automated tests — do not add them unless explicitly asked.
 
 Prompts to start agent sessions live in `ai/prompts/` (index in
@@ -67,9 +66,10 @@ Skill playbooks live in `ai/skills/` (tool-agnostic Markdown, index in
 - `feature` — which class in which layer owns a game feature's state, rendering,
   input, and storage.
 - `review` — self-review for regressions, scope creep, and docs drift.
+- `og-image` — remaking the link preview image and the favicon.
 
 If a change materially reshapes a pattern, update the matching skill in the same
-change.
+change (`ai/rules/docs.md`).
 
 ## Working Principles
 
@@ -89,19 +89,16 @@ change.
 
 - Package manager: `yarn` (v1), never npm or pnpm; keep `yarn.lock`, no `package-lock.json`,
   and do not edit the lockfile by hand unless there is no safer option
-- Runtime: Browser + Node.js build tooling
-- Build tool: Vite
-- Languages: HTML, CSS, and JavaScript ESM (ES classes, OOP)
-- Sources: everything in `src/` (`index.html`, `scripts/`, `styles/`), Vite
-  `root: 'src'`, output in `dist/`
-- Styling: modular plain CSS imported from `src/styles/main.css`
-- Browsers: Vite's default `baseline-widely-available` target, no legacy chunks
+- Stack: the browser plus Node.js build tooling; Vite; HTML, modular plain CSS imported
+  from `src/styles/main.css`, and JavaScript ESM (ES classes, OOP)
+- Sources: everything in `src/` (`index.html`, `favicon.svg`, `fonts/`, `scripts/`,
+  `styles/`), Vite `root: 'src'`; files that need an unhashed URL in `public/`; output
+  in `dist/`
 - CI: GitHub Actions runs lint, format check, build, and size check on every push —
   a post-push signal; a red `main` is fixed right away
-- Formatting: Prettier; line endings are LF (`.gitattributes`)
-- Linting: ESLint 10 flat config (`eslint.config.js`), including rules that enforce
-  `ai/rules/oop.md`
-- Pre-commit: Husky + lint-staged lint and format staged files; never `--no-verify`
+- Formatting: Prettier (`.prettierrc`, `yarn format`). Linting: ESLint 10 flat config
+  (`eslint.config.js`), including rules that enforce `ai/rules/oop.md`
+- Pre-commit: Husky + lint-staged lint and format staged files
 
 ## Language
 

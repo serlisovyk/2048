@@ -34,15 +34,19 @@ is merely planned.
 Read in this order, stopping once you have what the task needs:
 
 1. `ai/map.md` — where things live and what the project deliberately lacks.
-2. The applicable `ai/rules/*`.
+2. The `ai/rules/*` of the area you touch, and the decision records of the files you
+   touch (index in `ai/decisions/README.md`).
 3. The matching skill in `ai/skills/` — `feature` for anything game-facing.
 
 Do not explore the code from scratch when the map answers the question.
+`ai/superpowers/` is the archive of past tasks: read only the plan or spec of the feature
+you change.
 
 ## 5. Spec + plan — one commit, before code
 
 - **Plan** — for anything touching more than one or two files, or with more than one
-  reasonable approach. Say what will change and how it will be verified.
+  reasonable approach. Say what will change and how it will be verified; cite decision
+  records, do not retell them (`ai/rules/docs.md`).
 - **Spec** — when the task changes observable behavior (gameplay, controls, saved
   data, UI flows).
 - Write them under `ai/superpowers/plans/` and `ai/superpowers/specs/` as
@@ -69,22 +73,22 @@ Do not explore the code from scratch when the map answers the question.
 
 ## 7. Keep docs in the same change
 
-- `README.md` when features, controls, scripts, or project structure changed.
-- `ai/map.md` when a file, module, storage key, or script was added, removed,
-  renamed, or moved.
-- `ai/rules/*` or `ai/skills/*` when the change reshaped a pattern.
-- `ai/decisions/` — a new dated record when the change settled or reversed a durable
-  decision.
+Only what the change made wrong, within the limits of `ai/rules/docs.md`:
+
+- `README.md` — one line, when what a player sees or how to run the game changed.
+- `ai/map.md` — when a file, class, storage key, or script was added, removed, renamed,
+  or moved.
+- `ai/rules/*` or `ai/skills/*` — when the change reshaped a pattern.
+- `ai/decisions/` — a new dated record when the change meets the criteria in its
+  `README.md`.
+- A doc that crosses its size limit is trimmed in this same change.
 
 ## 8. Verify
 
-- `yarn lint`
-- `yarn format:check`
-- `yarn build`
-- `yarn size` (after the build)
-- Play the change in `yarn dev`: desktop (keyboard, mouse) and mobile width (swipes).
-  Check `prefers-reduced-motion` for anything animated. A green build does not prove
-  a UI change works.
+- The four checks in `AGENTS.md` (Verification); `yarn size` needs a fresh `yarn build`.
+- Play a code or UI change in `yarn dev`: desktop (keyboard, mouse) and mobile width
+  (swipes). Check `prefers-reduced-motion` for anything animated. A green build does not
+  prove a UI change works.
 - For changes that can affect the build or deployment (Vite config, file moves),
   push the branch so Vercel builds a preview deployment, and check the preview
   before merging. No pull request is needed for that.
@@ -164,10 +168,4 @@ my-<n>-<slug> main`, then `yarn install` inside it. In Claude Code, enter it wit
 
 ## Rules that never bend
 
-- Never work directly on `main`.
-- Never skip the spec + plan commit for a behavior change.
-- Never merge or close an issue without explicit author approval.
-- Never open pull requests — merge locally.
-- Never force-push `main`.
-- Never bypass the pre-commit hook (`--no-verify`).
-- Never add tests unless explicitly asked.
+Listed in `AGENTS.md` (Workflow).

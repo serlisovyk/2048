@@ -47,6 +47,8 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [The JavaScript size limit goes from 8 kB to 10 kB](2026-10-14-js-size-limit-10-kb.md)
 - [Line endings are left to git and Prettier, no `.gitattributes`](2026-10-14-line-endings-left-to-git.md)
 - [No `browserslist`, Autoprefixer and the build use their defaults](2026-10-14-no-browserslist.md)
+- [Webpack 5 instead of Vite as the build tool](2026-10-14-webpack-instead-of-vite.md)
+- [The Vercel build is pinned in `vercel.json`](2026-10-14-vercel-config-in-repo.md)
 
 ### Game, saves and statistics
 
@@ -83,6 +85,7 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [JS passes shared numbers to CSS through custom properties](2026-10-10-css-custom-properties-from-js.md)
 - [Theme is `data-theme` set by a head script, colour tokens in two files](2026-10-10-theme-tokens-and-head-script.md)
 - [The head script is its own file, inlined into `<head>` by a Vite plugin](2026-10-14-theme-head-script-vite-plugin.md)
+- [The head script is inlined into `<head>` by a plugin on `html-webpack-plugin`](2026-10-14-theme-head-script-html-plugin.md)
 - [The theme reveal is a View Transition, a progressive enhancement](2026-10-10-view-transitions-progressive-enhancement.md)
 - [One tile palette in two ramps, a shared sheen, a base-rule fallback](2026-10-10-tile-palette.md)
 - [Rubik, self-hosted, Latin only, with tabular digits](2026-10-10-self-hosted-font.md)

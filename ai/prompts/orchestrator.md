@@ -18,7 +18,7 @@ Before anything else, read `AGENTS.md`, `ai/workflow.md`, and `ai/map.md`.
   "blocked by" relations.
 - A candidate is a `Todo` issue whose blockers are all `Done`. Go in milestone order:
   Фундамент → Игровой UX → Визуал → Режимы и настройки → Полировка → Рефакторинг.
-- Milestone «Фундамент» and any repo-wide change (Vite config, file moves, lint or
+- Milestone «Фундамент» and any repo-wide change (build config, file moves, lint or
   format setup) run **one at a time**, never alongside other tasks.
 - Otherwise take up to **2** issues that touch different areas of the code (game
   logic, rendering/styles, input, storage). Issues that change the same data format
@@ -45,8 +45,9 @@ Before anything else, read `AGENTS.md`, `ai/workflow.md`, and `ai/map.md`.
 - The subagent's prompt is `ai/prompts/task.md` with `{ISSUE}` filled in, the
   author's answers, plus: "You are already in a dedicated worktree — create branch
   `my-<n>-<slug>` off `main` there and run `yarn install`."
-- Give each subagent its own dev-server port (never 5173 — the author's own server)
-  and its own headless-browser profile; tell it to stop its servers by PID when done.
+- Give each subagent its own ports (`yarn dev --port <n>`, `yarn preview --port <n>`;
+  never the author's own server, which is `yarn dev` on its default 8080) and its own
+  headless-browser profile; tell it to stop its servers by PID when done.
 
 ## 4. Questions during the work
 

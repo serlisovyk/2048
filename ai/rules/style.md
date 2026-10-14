@@ -45,9 +45,9 @@
   `.button-outline:hover` over `.button:hover`, `.game-over .game-over-win-note` over `dialog p`).
 - Keep CSS split by responsibility through the files imported in `src/styles/main.css`; every
   `@keyframes` is in `animations.css`. A media query sits inside the selector it changes, as a
-  range with `<=` or `>=` (`(width <= 768px)`, `(height <= 600px)`): the build makes it `max-width`
-  or `min-width`, while a `<` becomes `not (min-width: …)` with another boundary. Read the built
-  CSS in `dist/`.
+  range with `<=` or `>=` (`(width <= 768px)`, `(height <= 600px)`): Lightning CSS makes it
+  `max-width` or `min-width`, while a `<` becomes `not (min-width: …)` with another boundary. Read
+  the built CSS in `dist/`.
 - **Scales** at the top of `theme.css`: font sizes (`--font-*`, `rem`), radii, shadow geometry
   (`--shadow-*`, then the colour token: `var(--shadow-sm) var(--button-shadow)`), durations
   (`--duration-*`, `ms`) and the focus ring (`--focus-ring-width`, `--focus-ring-offset`). Other

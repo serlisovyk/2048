@@ -1,7 +1,6 @@
 # Architecture Rules
 
-All sources live in `src/`; Vite builds with `root: 'src'` into `dist/` at the repo
-root. The JavaScript is object-oriented — see `ai/rules/oop.md` for the class
+All sources live in `src/`; Webpack builds them into `dist/` at the repo root. The JavaScript is object-oriented — see `ai/rules/oop.md` for the class
 conventions. `ai/map.md` says where every file and class lives.
 
 ## Game Structure

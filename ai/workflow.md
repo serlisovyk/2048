@@ -89,7 +89,7 @@ Only what the change made wrong, within the limits of `ai/rules/docs.md`:
 - Play a code or UI change in `yarn dev`: desktop (keyboard, mouse) and mobile width
   (swipes). Check `prefers-reduced-motion` for anything animated. A green build does not
   prove a UI change works.
-- For changes that can affect the build or deployment (Vite config, file moves),
+- For changes that can affect the build or deployment (build config, file moves),
   push the branch so Vercel builds a preview deployment, and check the preview
   before merging. No pull request is needed for that.
 - No automated tests exist. Do not add them, and do not report their absence as a
@@ -163,7 +163,7 @@ my-<n>-<slug> main`, then `yarn install` inside it. In Claude Code, enter it wit
   plan straight to the code (`ai/prompts/orchestrator.md`).
 - Merge one branch at a time, rebasing the next one onto the updated `main` before
   its merge.
-- Repo-wide changes (Vite config, file moves, lint/format setup) run alone, never
+- Repo-wide changes (build config, file moves, lint/format setup) run alone, never
   alongside other branches.
 
 ## Rules that never bend

@@ -2,11 +2,11 @@
 
 ## Assets
 
-- Keep the favicon next to `index.html` (`src/favicon.svg`) so Vite hashes it. Files
-  that need a stable, unhashed URL go into `public/` in the repo root
-  (`publicDir: '../public'`, copied as they are to the root of `dist/`): today only the Open
-  Graph image, `public/og-image.png` (1200×630). The 1280×640 GitHub social preview is not
-  kept in the repo: it is uploaded by hand in the repository settings.
+- Keep the favicon next to `index.html` (`src/favicon.svg`) so the build hashes it. Files
+  that need a stable, unhashed URL go into `public/` in the repo root (copied as they are
+  to the root of `dist/`): today only the Open Graph image, `public/og-image.png`
+  (1200×630). The 1280×640 GitHub social preview is not kept in the repo: it is uploaded
+  by hand in the repository settings.
 - Keep the favicon visually readable at small sizes. Prefer simple tile shapes
   over tiny text. Its tile colours are taken from the palette (the logo gold and
   `tiles.css` values); when the palette changes, change them too.
@@ -15,14 +15,15 @@
   keep them out of `dist/assets/` and out of every `size-limit` entry, and remake them with
   `ai/skills/og-image.md` when the palette, the logo or a page colour changes.
 - Fonts are self-hosted: a Latin-subset woff2 in `src/fonts/`, referenced by a relative
-  URL in `@font-face` so Vite hashes it and serves it from the game's own origin. Never a
+  URL in `@font-face` so the build hashes it and serves it from the game's own origin. Never a
   font CDN (Google Fonts or any other third-party host). The file keeps its copyright notice
   and license reference in its own metadata, so there is no separate license file: use the
   file as downloaded and do not strip its `name` table. Only the main file gets
-  `<link rel="preload" as="font" type="font/woff2" crossorigin>` in `index.html`
+  `<link rel="preload" as="font" type="font/woff2" crossorigin>` in `index.html`, its
+  `href` the same relative path as the `@font-face` `url()` so both name one hashed file
   (`crossorigin` is required or the file is fetched twice). Use `font-display: swap`.
   Why: `ai/decisions/2026-10-10-self-hosted-font.md`.
-- Let Vite hash and copy assets into `dist/` during `yarn build`. Do not manually edit
+- Let Webpack hash and copy assets into `dist/` during `yarn build`. Do not manually edit
   generated assets in `dist/`.
 
 ## Metadata
@@ -55,11 +56,11 @@
 ## Build Output
 
 - Keep HTML, CSS, and JavaScript minified in production.
-- CSS is prefixed by Autoprefixer through `postcss.config.js`. The project has no
-  `browserslist` config and none is added: Autoprefixer uses its defaults
-  (`ai/decisions/2026-10-14-no-browserslist.md`).
-- Build for Vite's default `baseline-widely-available` target. No legacy chunks or
-  polyfills — see `ai/decisions/2026-10-10-no-legacy-plugin.md`.
+- CSS is lowered (nesting, ranges) and prefixed by Lightning CSS for the browser targets,
+  one object in `webpack.config.js`. The project has no `browserslist` config and none is
+  added (`ai/decisions/2026-10-14-webpack-instead-of-vite.md`).
+- The JavaScript is not transpiled: no Babel, no legacy chunks or polyfills, one bundle
+  (same record).
 - Keep the gzipped bundle within the `size-limit` budget (`.size-limit.json`); raise
   the budget only on purpose, in the change that needs it. The font has its own `Font`
   entry on the raw woff2 (it is already compressed) and never counts against the JS or

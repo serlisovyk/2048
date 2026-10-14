@@ -7,7 +7,7 @@ in `ai/`, not duplicated per tool.
 ## Project
 
 A compact 2048 browser game built with HTML, modular plain CSS, vanilla JavaScript
-(ESM), and Vite. No UI framework, no TypeScript, no automated tests. Keep the code
+(ESM), and Webpack. No UI framework, no TypeScript, no automated tests. Keep the code
 clean, practical, accessible, and proportional to the project size.
 
 - Live demo: <https://2048-xi-three.vercel.app/> (Vercel)
@@ -89,11 +89,11 @@ change (`ai/rules/docs.md`).
 
 - Package manager: `yarn` (v1), never npm or pnpm; keep `yarn.lock`, no `package-lock.json`,
   and do not edit the lockfile by hand unless there is no safer option
-- Stack: the browser plus Node.js build tooling; Vite; HTML, modular plain CSS imported
-  from `src/styles/main.css`, and JavaScript ESM (ES classes, OOP)
+- Stack: the browser plus Node.js build tooling; Webpack 5 (`webpack.config.js`); HTML,
+  modular plain CSS imported from `src/styles/main.css`, and JavaScript ESM (ES classes,
+  OOP)
 - Sources: everything in `src/` (`index.html`, `favicon.svg`, `fonts/`, `scripts/`,
-  `styles/`), Vite `root: 'src'`; files that need an unhashed URL in `public/`; output
-  in `dist/`
+  `styles/`); files that need an unhashed URL in `public/`; output in `dist/`
 - CI: GitHub Actions runs lint, format check, build, and size check on every push —
   a post-push signal; a red `main` is fixed right away
 - Formatting: Prettier (`.prettierrc`, `yarn format`). Linting: ESLint 10 flat config

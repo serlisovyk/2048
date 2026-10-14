@@ -1,6 +1,6 @@
 # No `@vitejs/plugin-legacy` — Vite's default browser target
 
-Date: 2026-10-10 · Status: accepted
+Date: 2026-10-10 · Status: superseded by `2026-10-14-webpack-instead-of-vite.md`
 
 ## Context
 

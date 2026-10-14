@@ -1,7 +1,7 @@
 # The theme head script is its own file, inlined into `<head>` by a Vite plugin
 
-Date: 2026-10-14 · Status: accepted · Supersedes the head-script paragraph of
-`2026-10-10-theme-tokens-and-head-script.md`
+Date: 2026-10-14 · Status: superseded by `2026-10-14-theme-head-script-html-plugin.md` ·
+Supersedes the head-script paragraph of `2026-10-10-theme-tokens-and-head-script.md`
 
 ## Context
 

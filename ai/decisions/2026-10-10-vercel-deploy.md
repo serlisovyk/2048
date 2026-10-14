@@ -1,6 +1,6 @@
 # Deployed on Vercel through its Git integration
 
-Date: 2026-10-10 · Status: accepted
+Date: 2026-10-10 · Status: superseded by `2026-10-14-vercel-config-in-repo.md`
 
 ## Context
 

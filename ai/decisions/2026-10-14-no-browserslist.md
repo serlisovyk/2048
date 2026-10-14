@@ -1,6 +1,6 @@
 # No `browserslist` — Autoprefixer and the build use their defaults
 
-Date: 2026-10-14 · Status: accepted
+Date: 2026-10-14 · Status: superseded by `2026-10-14-webpack-instead-of-vite.md`
 
 ## Context
 

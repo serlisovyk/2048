@@ -21,7 +21,7 @@ stale. A change of header buttons does not: the picture has no toolbar on purpos
   `size-limit` entry; keep it well under 200 kB.
 - The social preview, 1280×640, for GitHub → Settings → Social preview: the same scene, rendered at that size
   and uploaded by hand. It is not kept in the repo.
-- `src/favicon.svg`: hashed by Vite, not themed. A dark square (`--page-bg`), the board (`--surface-border`)
+- `src/favicon.svg`: hashed by the build, not themed. A dark square (`--page-bg`), the board (`--surface-border`)
   and four tiles in reading order: the 2 tile, the logo gold, the 64 tile and the 2048 tile (`--tile-2`,
   `--tile-64`, `--tile-2048`, the end of `--logo-bg`). An SVG cannot read the CSS tokens, so the literals
   are copies: change them with the palette. Four colours that stay distinct at 16px.

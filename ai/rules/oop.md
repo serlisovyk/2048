@@ -39,12 +39,12 @@ Each class has one reason to change:
   controller decides what to render.
 - Randomness lives only in tile spawning.
 - All reading and writing of `localStorage` goes through `SafeStorage`. The one exception is
-  the theme script (`themeHead.js`, inlined into `<head>` by a Vite plugin): it runs before
+  the theme script (`themeHead.js`, inlined into `<head>` by a build plugin): it runs before
   any module exists, so it is a plain script with no imports that only reads, inside
   `try/catch`. Its key `'theme'` and values `'light'` / `'dark'` are literals, the same as
   `STORAGE_KEYS.THEME` and `THEMES` in `constants.js`: **change the key or a theme value in
   both places.** It is not a precedent: any other early read needs its own decision record
-  (`ai/decisions/2026-10-14-theme-head-script-vite-plugin.md`).
+  (`ai/decisions/2026-10-14-theme-head-script-html-plugin.md`).
 
 ## Dependencies
 

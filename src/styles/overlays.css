@@ -30,7 +30,6 @@ dialog {
   p {
     font-size: var(--font-text);
     margin-bottom: 25px;
-    opacity: 0.95;
   }
 
   @media (width <= 768px) {

@@ -65,9 +65,9 @@
   --backdrop: rgba(0, 0, 0, 0.5);
   --dialog-text: #ffffff;
   --dialog-shadow: rgba(0, 0, 0, 0.5);
-  --game-over-bg: rgba(80, 50, 50, 0.95);
-  --win-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --win-shadow: rgba(102, 126, 234, 0.5);
+  --game-over-bg: #503232;
+  --win-bg: linear-gradient(135deg, #576dd7 0%, #764ba2 100%);
+  --win-shadow: rgba(87, 109, 215, 0.5);
   --summary-bg: rgba(0, 0, 0, 0.2);
 
   --button-bg: #ffffff;

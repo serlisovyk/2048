@@ -15,14 +15,14 @@
   --tile-16: #f2ab35;
   --tile-32: #f48815;
   --tile-64: #f0621d;
-  --tile-128: #db392d;
-  --tile-256: #cf2848;
-  --tile-512: #bd1359;
-  --tile-1024: #ad0468;
-  --tile-2048: #99007a;
+  --tile-128: #c41d16;
+  --tile-256: #ba033d;
+  --tile-512: #ac0157;
+  --tile-1024: #9c026a;
+  --tile-2048: #8a027c;
   --tile-4096: #c0a1e4;
-  --tile-8192: #9575e2;
-  --tile-16384: #6359d2;
+  --tile-8192: #9b7be9;
+  --tile-16384: #564ac2;
   --tile-fallback: #3049a4;
 
   &[data-theme='light'] {

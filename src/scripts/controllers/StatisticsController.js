@@ -1,4 +1,4 @@
-import { STATISTICS_VERSION, STORAGE_KEYS } from './constants.js'
+import { STATISTICS_VERSION, STORAGE_KEYS } from '../constants.js'
 
 export class StatisticsController {
   #statistics

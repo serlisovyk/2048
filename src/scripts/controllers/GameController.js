@@ -5,7 +5,7 @@ import {
   SETTING_NAMES,
   STORAGE_KEYS,
   WIN_TILES,
-} from './constants.js'
+} from '../constants.js'
 
 export class GameController {
   static #NEW_GAME_PROMPT = Object.freeze({

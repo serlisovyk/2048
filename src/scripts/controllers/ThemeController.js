@@ -1,4 +1,4 @@
-import { STORAGE_KEYS, THEMES } from './constants.js'
+import { STORAGE_KEYS, THEMES } from '../constants.js'
 
 export class ThemeController {
   #view

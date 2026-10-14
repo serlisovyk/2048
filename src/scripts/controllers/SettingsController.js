@@ -1,4 +1,4 @@
-import { SETTING_NAMES, SETTINGS_VERSION, STORAGE_KEYS } from './constants.js'
+import { SETTING_NAMES, SETTINGS_VERSION, STORAGE_KEYS } from '../constants.js'
 
 export class SettingsController {
   static #CHANGE_PROMPT = Object.freeze({

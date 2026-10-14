@@ -9,7 +9,7 @@ Every task starts by reading the docs, so they stay short. The code is the sourc
   they belong to commits, plans and reports. A rule says what holds now; a decision says why.
 - **Name classes and folders, not file paths,** where that is enough: the paths change, the names last.
 - **Limits.** `ai/map.md`: at most 150 lines and 12 KB, a list item at most about 150 characters, a table
-  cell at most 80. A rules file: about 100 lines. A skill: about 8 KB. A decision record: about 30 lines.
+  cell at most 80. A rules file: about 150 lines. A skill: about 8 KB. A decision record: about 30 lines.
   README Features: about 15 one-line items. A plan or a spec cites decisions, it does not retell them.
 - **A task adds a line or two per doc, and cuts when a limit is crossed** — in the same change, from the
   doc that went over.

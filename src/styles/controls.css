@@ -97,7 +97,7 @@
   }
 }
 
-.reset-high-score-button,
+.icon-button,
 .github-link {
   color: var(--icon-muted);
   transition:
@@ -112,9 +112,9 @@
   }
 }
 
-.reset-high-score-button {
-  margin: -4px -6px -4px 0;
-  padding: 8px;
+.icon-button {
+  position: relative;
+  padding: 3px;
   background-color: transparent;
   border: none;
   border-radius: var(--radius-round);
@@ -122,6 +122,12 @@
 
   svg {
     display: block;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -7px;
   }
 }
 

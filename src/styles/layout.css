@@ -1,5 +1,6 @@
 .game-layout {
   --header-gap: clamp(10px, 2.5vw, 16px);
+  --rows-height: calc(2 * var(--page-padding) + 3 * var(--header-gap) + 193px);
 
   display: flex;
   flex-direction: column;

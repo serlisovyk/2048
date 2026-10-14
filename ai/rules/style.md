@@ -125,6 +125,19 @@
 - Imports include the `.js` extension.
 - Keep game logic simple and event-driven.
 - Do not add utility-heavy abstractions for one-use logic.
+- **No comments in `src/scripts/` or `index.html`.** A name or a small method says what the code does; a
+  durable "why" goes to a rule, a skill or a decision record (`ai/rules/docs.md`). An empty `catch {}` fails
+  ESLint `no-empty`: let it return a fallback.
+- **A clean `return`:** a name, a literal, one call or a boolean of names (`return isNewBest || isOver`). A
+  ternary, `??`, a chain or a call inside an object literal is computed into a `const` first.
+- **Named conditions.** A long or compound condition is a `const` (`canMove`) or early returns; no nested
+  ternaries; no side effect (an `await`, a call that changes something) inside a condition.
+- **Booleans** are `is`, `has` or `can` (fields, results, options too): `hasMoved`, `isOver`, `canAnimate`.
+- **Early `return`** instead of `if` / `else` when a branch ends the method.
+- **Handlers.** A private arrow-function field only for a function that is both added and removed; any other
+  handler is a private method called from an inline arrow: `addEventListener('click', () => this.#handleClick())`.
+- **Blank lines group steps** (guards, work, result). A guard block of one or two lines has none inside it.
+- **Parameter names say what they are** (`isConfirmed`, `spawnedTiles`, `size`), not a bare `result` or `x`.
 
 ## Formatting
 

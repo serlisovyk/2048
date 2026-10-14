@@ -7,11 +7,11 @@ The project is object-oriented. These rules apply to every JavaScript file in
 
 - One class per file, the file named after the class in PascalCase: `Board.js`
   exports `Board`.
-- The only non-class modules are `main.js` (composition root) and `constants.js`;
-  they use camelCase file names.
+- The only non-class modules are `main.js` (composition root), `constants.js` and
+  `themeHead.js` (the theme script inlined into `<head>`); they use camelCase file names.
 - Named exports only, no default exports.
-- Folders by responsibility: `game/` (model), `ui/` (views), `input/`, `storage/`.
-  `GameController.js` sits in the `scripts/` root.
+- Folders by responsibility: `game/` (model), `ui/` (views), `input/`, `storage/`,
+  `controllers/`.
 
 ## Encapsulation
 
@@ -25,34 +25,43 @@ The project is object-oriented. These rules apply to every JavaScript file in
 
 Each class has one reason to change:
 
-| Layer                        | Owns                                              | Must not                           |
-| ---------------------------- | ------------------------------------------------- | ---------------------------------- |
-| Model (`game/`)              | Rules and game state                              | Touch the DOM, storage, or timers  |
-| Views (`ui/`)                | Their DOM elements and how data looks             | Contain game rules or read storage |
-| Input (`input/`)             | Turning DOM events into directions                | Decide whether a move is allowed   |
-| Storage (`storage/`)         | Persistence behind an API that never throws       | Know about the game                |
-| Controller                   | Use cases and flow state (guards, pauses)         | Query the DOM or render directly   |
-| Composition root (`main.js`) | Finding DOM elements, creating and wiring objects | Hold game logic                    |
+| Layer                        | Owns                                                | Must not                           |
+| ---------------------------- | --------------------------------------------------- | ---------------------------------- |
+| Model (`game/`)              | Rules and game state                                | Touch the DOM, storage, or timers  |
+| Views (`ui/`)                | Their DOM elements and how data looks               | Contain game rules or read storage |
+| Input (`input/`)             | Turning DOM events into directions                  | Decide whether a move is allowed   |
+| Storage (`storage/`)         | Persistence behind an API that never throws         | Know about the game                |
+| Controllers (`controllers/`) | One role each: use cases, flow state, what is saved | Query the DOM or render directly   |
+| Composition root (`main.js`) | Finding DOM elements, creating and wiring objects   | Hold game logic                    |
 
 - The model reports results instead of reaching into other objects: `Game.move()`
   returns what happened (every tile has an id, so a view can animate what moved), and the
   controller decides what to render.
 - Randomness lives only in tile spawning.
 - All reading and writing of `localStorage` goes through `SafeStorage`. The one exception is
-  the inline theme script in the `<head>` of `index.html`: it runs before any module exists,
-  so it only reads, inside `try/catch`, with the key as a literal that has a comment pointing
-  at `STORAGE_KEYS.THEME` (and a comment there pointing back). It is not a precedent: any
-  other early read needs its own decision record
-  (`ai/decisions/2026-10-10-theme-tokens-and-head-script.md`).
+  the theme script (`themeHead.js`, inlined into `<head>`): it runs before any module exists,
+  so it only reads, inside `try/catch`, with the key from `STORAGE_KEYS.THEME`. It is not a
+  precedent: any other early read needs its own decision record
+  (`ai/decisions/2026-10-14-theme-head-script-vite-plugin.md`).
 
 ## Dependencies
 
 - Every dependency comes in through the constructor: DOM elements, other objects,
-  callbacks. Use an options object when there are three or more.
+  callbacks. Views, inputs and controllers take one options object (`{ element, … }`);
+  only a plain value class takes its value (`Board(size)`).
 - `document.querySelector` and wiring with `new` happen only in `main.js`. Views may
   create their own child elements (e.g. grid cells).
-- Views expose user actions as `on<Action>(handler)` methods; input classes take an
-  `onDirection` callback. No global event buses or singletons.
+- No global event buses or singletons.
+
+## Views and inputs: one vocabulary
+
+- `render*` puts state into the DOM (`renderScore`, `GridView.render`).
+- `show*` / `hide*` is a transient decoration (`showScoreGain`, `showNewRecord`).
+- `open*` / `close*` is a native `<dialog>` (`openWin`, `closeAll`, `SettingsView.open`);
+  `ConfirmDialogView.ask()` answers a `Promise<boolean>`.
+- `on<Action>(handler)` reports a user action of a view. A view attaches the listeners it
+  handles itself in its constructor; an input class takes `onDirection` in its options and
+  listens after `bind()`.
 
 ## Design
 
@@ -60,14 +69,14 @@ Each class has one reason to change:
   factories, or DI containers until a second real implementation needs them.
 - Pure helpers that belong to one class are private static methods
   (`static #slideLine`).
-- DOM event handlers that need `this` are private arrow-function fields
-  (`#handleKeydown = (event) => { … }`), so they keep their binding and can be
-  removed later.
+- A DOM event handler is a private method, attached through an inline arrow
+  (`(event) => this.#handleKeydown(event)`). Only a function that is also removed later is an
+  arrow-function field, so the same function is added and removed.
 - Methods do one thing and stay short; split a method rather than comment its parts.
 
 ## Naming
 
 - Classes: PascalCase nouns (`GridView`, `SafeStorage`).
 - Methods: camelCase verbs (`render`, `requestMove`, `spawnRandomTile`).
-- Booleans: `is` / `has` prefix (`isOver`, `hasAvailableMoves`).
+- Booleans: `is` / `has` / `can` prefix (`isOver`, `hasAvailableMoves`, `canMove`).
 - Constants: `UPPER_SNAKE_CASE`.

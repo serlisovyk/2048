@@ -3,7 +3,7 @@ dialog {
   padding: 40px 30px;
   border: none;
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-2xl) var(--dialog-shadow);
+  box-shadow: var(--shadow-xl) var(--dialog-shadow);
   color: var(--dialog-text);
   --focus-ring-color: var(--dialog-text);
   max-width: 90vw;

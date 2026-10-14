@@ -4,9 +4,7 @@
   --font-caption: 0.8125rem;
   --font-badge: clamp(0.6875rem, 2.8vw, 0.75rem);
   --font-label: clamp(0.6875rem, 2.8vw, 0.8125rem);
-  --font-control: clamp(0.875rem, 2.5vw, 1.125rem);
   --font-text: clamp(0.875rem, 3vw, 1.125rem);
-  --font-pop: clamp(0.875rem, 4vw, 1.125rem);
   --font-section: clamp(1.125rem, 4.5vw, 1.25rem);
   --font-stat: clamp(1.25rem, 5vw, 1.625rem);
   --font-score: clamp(1.25rem, 5.5vw, 1.75rem);
@@ -21,13 +19,11 @@
   --radius-round: 50%;
   --radius-pill: 999px;
 
-  --shadow-2xs: 0 2px 6px;
-  --shadow-xs: 0 4px 8px;
+  --shadow-xs: 0 2px 6px;
   --shadow-sm: 0 4px 12px;
-  --shadow-md: 0 4px 15px;
-  --shadow-lg: 0 6px 20px;
-  --shadow-xl: 0 8px 32px;
-  --shadow-2xl: 0 10px 40px;
+  --shadow-md: 0 6px 20px;
+  --shadow-lg: 0 8px 32px;
+  --shadow-xl: 0 10px 40px;
   --shadow-glow: 0 0 20px;
 
   --duration-fast: 200ms;

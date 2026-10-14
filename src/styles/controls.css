@@ -12,9 +12,9 @@
   border: 2px solid transparent;
   border-radius: var(--radius-md);
   background-color: var(--button-bg);
-  box-shadow: var(--shadow-md) var(--button-shadow);
+  box-shadow: var(--shadow-sm) var(--button-shadow);
   color: var(--button-text);
-  font-size: var(--font-control);
+  font-size: var(--font-text);
   font-weight: bold;
   cursor: pointer;
   transition:
@@ -25,7 +25,7 @@
   @media (hover: hover) {
     &:hover {
       background-color: var(--button-hover-bg);
-      box-shadow: var(--shadow-lg) var(--button-hover-shadow);
+      box-shadow: var(--shadow-md) var(--button-hover-shadow);
       transform: translateY(-2px);
     }
   }
@@ -65,7 +65,7 @@
       background-color: transparent;
       color: var(--dialog-text);
       border: 2px solid var(--button-outline);
-      font-size: var(--font-control);
+      font-size: var(--font-text);
       font-weight: bold;
       transition: background-color var(--duration-fast) ease;
     }

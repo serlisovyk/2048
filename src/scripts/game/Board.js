@@ -68,8 +68,6 @@ export class Board {
     return { hasMoved, scoreGained, slides, merges }
   }
 
-  // The largest tile on the board, 0 when it is empty. A tile only ever merges into a
-  // larger one, so this is also the highest tile the game has reached.
   getHighestTile() {
     return Math.max(0, ...this.toArray().flat())
   }
@@ -174,8 +172,6 @@ export class Board {
     return hasSize && row.every((value) => Validation.isTile(value))
   }
 
-  // Where each tile of a line lands, in sliding order: `sources` are the line
-  // positions of the one or two tiles that end up in that cell.
   static #planSlide(line, isTowardsStart) {
     const positions = [...line.keys()].filter((position) => line[position])
     const plan = []

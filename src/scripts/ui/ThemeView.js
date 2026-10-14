@@ -23,9 +23,6 @@ export class ThemeView {
     this.#renderThemeColor()
   }
 
-  // Progressive enhancement: where the View Transitions API exists and motion is not
-  // reduced, the new theme spreads from the button as a circle (the CSS is in theme.css);
-  // everywhere else it is the same instant render.
   transitionTo(theme) {
     const isSupported = typeof document.startViewTransition === 'function'
     const canAnimate = isSupported && !this.#reducedMotionQuery.matches
@@ -39,12 +36,9 @@ export class ThemeView {
 
     const transition = document.startViewTransition(() => this.render(theme))
 
-    // A transition replaced by a newer one rejects `ready`; there is nothing to undo.
     transition.ready.catch(() => {})
   }
 
-  // The circle starts at the button's centre (not the pointer, so a key press works too)
-  // and ends past the farthest corner of the window.
   #placeReveal() {
     const { left, top, width, height } = this.#button.getBoundingClientRect()
     const x = left + width / 2
@@ -59,7 +53,6 @@ export class ThemeView {
     this.#root.style.setProperty('--theme-reveal-radius', `${radius}px`)
   }
 
-  // The button names the action: the theme it switches to, not the one that is shown.
   #renderButton(theme) {
     const nextTheme = theme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT
     const label = `Switch to ${nextTheme} theme`
@@ -68,8 +61,6 @@ export class ThemeView {
     this.#button.title = label
   }
 
-  // The address bar takes the page colour of the theme in force, read from the token so
-  // no colour is written twice. Both metas are set, whichever one the system picks.
   #renderThemeColor() {
     const pageColor = getComputedStyle(this.#root)
       .getPropertyValue('--page-bg')

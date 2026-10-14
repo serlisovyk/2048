@@ -12,7 +12,6 @@ export class Game {
   #isOver = false
   #hasBeenPlayed = false
 
-  // `size` and `winTile` are what the game holds until its first start() or restore().
   constructor({ size, winTile }) {
     this.#size = size
     this.#winTile = winTile
@@ -35,7 +34,6 @@ export class Game {
     return this.#score
   }
 
-  // The moves that changed the board; a press that changes nothing is not a move.
   get moves() {
     return this.#moves
   }

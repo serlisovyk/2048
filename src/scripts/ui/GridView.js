@@ -17,8 +17,6 @@ export class GridView {
     this.#element.focus()
   }
 
-  // The whole board at once, with no slide: a new game (its tiles pop in) or a
-  // restored one (nothing animates). The background cells are rebuilt and CSS gets the size.
   render({ size, tiles, spawnedTiles }) {
     const spawnedIds = new Set(spawnedTiles.map(({ id }) => id))
 
@@ -35,9 +33,6 @@ export class GridView {
     this.#scheduleSettle()
   }
 
-  // Slide, then the merge pop, then the new tile; the order and the waits are CSS
-  // delays. A running move is finished at once, so the next one starts from a settled
-  // board and no press is ever queued or dropped.
   animateMove({ slides, merges, spawnedTiles }) {
     this.#finish()
     this.#element.classList.add('is-sliding')
@@ -109,12 +104,12 @@ export class GridView {
     this.#settleTimeoutId = setTimeout(() => this.#settle(), TILE_CLEANUP_MS)
   }
 
-  // The move is over: tidy up, then put the tiles in the DOM row by row, so a screen
-  // reader keeps reading the numbers in the order of the board. Re-inserting a tile
-  // drops its transition, so this only runs when nothing is about to slide.
   #settle() {
     this.#finish()
+    this.#appendTilesInReadingOrder()
+  }
 
+  #appendTilesInReadingOrder() {
     const tiles = [...this.#tiles.values()].sort(
       (a, b) => a.row - b.row || a.col - b.col,
     )
@@ -122,8 +117,6 @@ export class GridView {
     this.#element.append(...tiles.map(({ element }) => element))
   }
 
-  // Jumps whatever is still running to its end and tidies up. Safe to call at any
-  // time and as often as needed; the next move starts from the board it leaves.
   #finish() {
     clearTimeout(this.#settleTimeoutId)
 

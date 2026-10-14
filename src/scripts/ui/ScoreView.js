@@ -46,8 +46,6 @@ export class ScoreView {
     this.#scheduleAnnouncement(score)
   }
 
-  // Decoration only: the container is aria-hidden and sits outside the live region.
-  // One pop at a time, so a burst of moves never draws numbers over one another.
   showScoreGain(points) {
     if (points <= 0) return
 
@@ -60,8 +58,6 @@ export class ScoreView {
     this.#popsElement.replaceChildren(pop)
   }
 
-  // Decoration only (aria-hidden). The record is spoken once, with the next score
-  // announcement, so a screen reader hears `New record! <score>` and no second message.
   showNewRecord() {
     this.#recordBadgeElement.hidden = false
     this.#isRecordPending = true

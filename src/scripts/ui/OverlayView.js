@@ -73,7 +73,6 @@ export class OverlayView {
     return `You've reached ${winTile}!`
   }
 
-  // Each number of the summary goes into the element named after it, in the dialog's markup.
   static #renderSummary(dialog, summary) {
     dialog.querySelectorAll('[data-summary]').forEach((element) => {
       element.textContent = summary[element.dataset.summary]

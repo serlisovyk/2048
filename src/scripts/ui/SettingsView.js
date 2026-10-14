@@ -22,15 +22,12 @@ export class SettingsView {
     this.#resetStatisticsButton.addEventListener('click', handler)
   }
 
-  // One delegated listener: a section is markup only, a control named after its setting.
   onChange(handler) {
     this.#dialog.addEventListener('change', ({ target }) => {
       if (target.name) handler(target.name, target.value)
     })
   }
 
-  // Checks the radio button of every named group whose value is the setting's. A group
-  // listed in `choices` (a setting whose options change) takes them first.
   render(values, choices) {
     Object.entries(choices).forEach(([name, options]) =>
       this.#renderChoices(name, options),
@@ -41,8 +38,6 @@ export class SettingsView {
     })
   }
 
-  // Each number goes into the element named after it (`data-statistic`). With nothing
-  // counted there is nothing to reset, so the button is hidden, as the high score's is.
   renderStatistics(values) {
     this.#dialog.querySelectorAll('[data-statistic]').forEach((element) => {
       element.textContent = values[element.dataset.statistic]
@@ -60,8 +55,6 @@ export class SettingsView {
     this.#dialog.close()
   }
 
-  // The radios of the group, in order, get an option each as their value and as the text
-  // of the `<span>` drawn beside the input.
   #renderChoices(name, options) {
     this.#dialog
       .querySelectorAll(`input[name="${name}"]`)
@@ -71,7 +64,6 @@ export class SettingsView {
       })
   }
 
-  // Escape and Close: the dialog was opened by a button, so focus goes back to it.
   #dismiss() {
     this.close()
     this.#openButton.focus()

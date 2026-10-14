@@ -7,7 +7,6 @@ export class Settings {
     return this.#values[name]
   }
 
-  // The choices in force now: those of a setting that depends on another follow its value.
   getAllowedValues(name) {
     return [...Settings.#getAllowedValues(name, this.#values)]
   }
@@ -18,7 +17,6 @@ export class Settings {
     return allowedValue !== undefined && allowedValue !== this.#values[name]
   }
 
-  // A value that changes sends the settings that depend on it back to their defaults.
   set(name, value) {
     if (!this.isNewValue(name, value)) return
 
@@ -30,9 +28,6 @@ export class Settings {
     return { ...this.#values }
   }
 
-  // Starts from the defaults and takes every field of `state` that passes `set`, in the
-  // order of the table, so a broken or missing field costs only itself and a field that
-  // depends on another is checked against it. Any value of `state` is safe.
   restore(state) {
     this.#values = Settings.#getDefaults()
 
@@ -47,7 +42,6 @@ export class Settings {
       })
   }
 
-  // A value counts when it is, or reads as, an allowed one: the form hands over strings.
   #findAllowedValue(name, value) {
     if (!Object.hasOwn(SETTING_DEFINITIONS, name)) return undefined
 

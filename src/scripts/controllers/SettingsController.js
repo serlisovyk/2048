@@ -38,7 +38,6 @@ export class SettingsController {
     this.#storage = storage
   }
 
-  // Runs before GameController.start(), so a game built from a setting sees the stored one.
   start() {
     const saved = this.#storage.getJson(STORAGE_KEYS.SETTINGS)
 
@@ -50,8 +49,6 @@ export class SettingsController {
     this.#view.open()
   }
 
-  // A setting starts a new game, so a game in progress is asked about first (the settings
-  // returns on "no", showing the stored value again).
   async requestChange(name, value) {
     if (!this.#settings.isNewValue(name, value)) {
       this.#render()
@@ -75,7 +72,6 @@ export class SettingsController {
     this.#gameController.restartAndFocus()
   }
 
-  // The reset only touches the statistics: the high scores and the current game stay.
   async requestResetStatistics() {
     const isConfirmed = await this.#askFromSettings(
       SettingsController.#RESET_STATISTICS_PROMPT,
@@ -87,8 +83,6 @@ export class SettingsController {
     this.#gameController.returnFocusToBoard()
   }
 
-  // Only one dialog is ever open: the settings closes for the question and opens again on
-  // "no", rendered from the stored values, so a refused action needs no revert.
   async #askFromSettings(prompt) {
     this.#view.close()
 
@@ -99,7 +93,6 @@ export class SettingsController {
     return isConfirmed
   }
 
-  // The win target's choices follow the board size, so the view is given them each time.
   #render() {
     this.#view.render(this.#settings.toState(), {
       [SETTING_NAMES.WIN_TILE]: this.#settings.getAllowedValues(

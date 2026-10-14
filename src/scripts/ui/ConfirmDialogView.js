@@ -39,9 +39,6 @@ export class ConfirmDialogView {
     })
   }
 
-  // Call after ask() resolved to false: gives focus back to the element that was
-  // focused when the question was asked. Returns false when there is no such element
-  // (or the dialog is open again), so the caller can pick another place.
   restoreFocus() {
     const opener = this.#opener
 
@@ -77,8 +74,6 @@ export class ConfirmDialogView {
     resolve?.(isConfirmed)
   }
 
-  // Escape and a close forced by the browser end up here: both mean "no". The
-  // event can arrive late, after a new question has already opened the dialog.
   #handleClose() {
     const isClosed = !this.#dialog.open
 

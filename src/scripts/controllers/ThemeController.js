@@ -29,7 +29,6 @@ export class ThemeController {
     this.#view.transitionTo(this.#theme)
   }
 
-  // The system setting only counts while the player has not chosen a theme.
   #handleSystemChange() {
     if (this.#isChosen) return
 

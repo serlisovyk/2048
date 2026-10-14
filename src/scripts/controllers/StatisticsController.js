@@ -9,12 +9,10 @@ export class StatisticsController {
     this.#storage = storage
   }
 
-  // The numbers as the settings shows them.
   get values() {
     return this.#statistics.toState()
   }
 
-  // Another version, or nothing stored, leaves the four zeros. Nothing is written.
   start() {
     const saved = this.#storage.getJson(STORAGE_KEYS.STATISTICS)
 

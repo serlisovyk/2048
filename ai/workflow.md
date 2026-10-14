@@ -58,7 +58,8 @@ Do not explore the code from scratch when the map answers the question.
 
 ## 6. Implement
 
-- Follow the plan; commit in logical units, not one giant snapshot.
+- Follow the plan; commit in logical units, not one giant snapshot. Inspect `git status`
+  and `git diff` before each commit.
 - Every commit goes through the pre-commit hook (lint-staged: ESLint + Prettier on
   staged files). Never bypass it with `--no-verify`; fix what it reports.
 - Conventional Commit messages in English (`feat:`, `fix:`, `refactor:`, `docs:`,

@@ -25,8 +25,8 @@ clean, practical, accessible, and proportional to the project size.
 - `ai/rules/style.md` — HTML, CSS, JavaScript, and formatting conventions.
 - `ai/rules/scope.md` — what not to add without an explicit request.
 - `ai/rules/assets-performance.md` — assets, metadata, build output.
-- `ai/rules/verification.md` — required checks and reporting.
-- `ai/rules/definition-of-done.md` — the gate before a change is handed over.
+- `ai/rules/definition-of-done.md` — the gate before a change is handed over: code,
+  docs, required checks and reporting.
 
 ## Decisions
 
@@ -87,7 +87,8 @@ change.
 
 ## Project Defaults
 
-- Package manager: `yarn` (v1)
+- Package manager: `yarn` (v1), never npm or pnpm; keep `yarn.lock`, no `package-lock.json`,
+  and do not edit the lockfile by hand unless there is no safer option
 - Runtime: Browser + Node.js build tooling
 - Build tool: Vite
 - Languages: HTML, CSS, and JavaScript ESM (ES classes, OOP)

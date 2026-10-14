@@ -4,8 +4,8 @@
 
 - Prefer readable HTML, CSS, and JavaScript over clever tricks.
 - Keep changes close to the feature or file section they affect.
-- Avoid unnecessary comments. Add comments only when they explain non-obvious
-  reasoning.
+- **No comments in `src/`** (HTML, CSS, JavaScript). Names and structure say what the code does; a
+  durable "why" goes to a rule, a skill or a decision record (`ai/rules/docs.md`).
 - Use existing naming and spacing patterns before introducing new ones.
 
 ## HTML
@@ -38,8 +38,6 @@
   children go inside their rule (`&:hover`, `&[open]`, `.is-sliding &`). Nesting adds the parent's
   specificity: keep what has to win (`input:checked + span` over `:hover span`,
   `.button-outline:hover` over `.button:hover`, `.game-over .game-over-win-note` over `dialog p`).
-- **No comments in CSS.** Names and structure say what; a reason worth keeping goes to this file,
-  a decision record or a skill, not above a rule.
 - Keep CSS split by responsibility through the files imported in `src/styles/main.css`; every
   `@keyframes` is in `animations.css`. A media query sits inside the selector it changes, as a
   range with `<=` only (`(width <= 768px)`, `(height <= 600px)`): the build makes it `max-width`,
@@ -70,22 +68,18 @@
   takes its duration from a CSS custom property, so JS holds no timer for it. One that is a
   `hidden` element in the markup (the record badge) is shown by clearing `hidden` and hidden
   again on `animationend`; it sets no `display`. Both float out of the layout.
-- **Colours only through tokens.** Every colour (a hex value, `rgb()` / `hsl()`, a named
-  colour, the colours inside a gradient or a shadow) is a custom property defined in
-  `src/styles/theme.css` (all of the UI) or `src/styles/tiles.css` (the tiles) and read as
-  `var(--name)` everywhere else; `transparent` and `currentColor` stay as keywords. A token
-  has its dark value on `:root` and, where the light theme differs, an override under
-  `:root[data-theme='light']` in the same file. A new colour is a token in the right file
-  with both values, its text contrast checked in **both** themes (4.5:1 for normal text; 3:1
-  for large bold text, icons and other UI parts), and no literal anywhere else: a search for
-  `#`, `rgb(`, `hsl(` in `src/styles/` outside those two files must find nothing. JS never
-  writes a colour either: it reads the token (`ThemeView` reads `--page-bg`).
+- **Colours only through tokens.** Every colour (also inside a gradient or a shadow) is a custom
+  property in `theme.css` (the UI) or `tiles.css` (the tiles): the dark value on `:root`, the
+  light override under `:root[data-theme='light']` in the same file; `transparent` and
+  `currentColor` stay keywords. A new colour has both values and its contrast checked in **both**
+  themes (4.5:1 text; 3:1 large bold text, icons, UI parts); `#`, `rgb(`, `hsl(` appear nowhere
+  else in `src/styles/`. JS never writes a colour: it reads the token (`ThemeView`, `--page-bg`).
 - A component that looks different in one theme only re-points tokens in a scoped block in
   `theme.css` (`:root[data-theme='light'] .confirm-dialog { … }`); it gets no colour literal. The
   win and game-over cards keep one look in both themes; the confirmation and the settings follow
   the theme.
-- The theme is the `data-theme` attribute on `<html>`, always set (the inline script in
-  `index.html`, then `ThemeController`). The stylesheets have no `prefers-color-scheme`
+- The theme is the `data-theme` attribute on `<html>`, always set (`themeHead.js`, inlined
+  into `<head>` at build, then `ThemeController`). The stylesheets have no `prefers-color-scheme`
   block: that would be a second place deciding the theme. The theme switch's circle is a
   View Transition, a progressive enhancement feature-detected in `ThemeView` and skipped
   under reduced motion; its rules live in `theme.css`
@@ -119,13 +113,9 @@
   as a share of the cell, `calc(var(--cell-size) * x)`: 1-2 digits 0.4, 3 digits 0.35,
   4 digits 0.3, 5 digits 0.25, the fallback 0.2. No pixel floor: it overflows a small tile
   on the 5x5 board (`ai/decisions/2026-10-12-board-geometry-per-size.md`).
-- Tile colours are two ramps (2 to 2048 cream to magenta; 4096 and up restart in lavender
-  and run to deep blue). A new colour keeps that order and stays clearly different from its
-  neighbours. The tile text must reach 3:1 against **both** ends of the gradient (the base
-  colour, and the base blended 14% with white, the light end of `--tile-sheen`), computed
-  with the WCAG formula because axe does not check gradients. The tile colours, text and
-  sheen are the same in both themes, so one check covers both; a theme override of any of
-  them redoes it (`ai/decisions/2026-10-10-tile-palette.md`).
+- A new tile colour keeps the order of the two ramps and stays clearly different from its
+  neighbours; its text reaches 3:1 against **both** ends of the gradient, computed with the
+  WCAG formula (axe does not check gradients) (`ai/decisions/2026-10-10-tile-palette.md`).
 - **Typography** lives in `base.css`: one family, set once on `body` (Rubik with an Arial
   fallback) and inherited (buttons through `font: inherit`); no `font-family` on other
   elements. Two weights, normal (400) and `bold` (700). `font-variant-numeric: tabular-nums`
@@ -145,9 +135,7 @@
 - Imports include the `.js` extension.
 - Keep game logic simple and event-driven.
 - Do not add utility-heavy abstractions for one-use logic.
-- **No comments in `src/scripts/` or `index.html`.** A name or a small method says what the code does; a
-  durable "why" goes to a rule, a skill or a decision record (`ai/rules/docs.md`). An empty `catch {}` fails
-  ESLint `no-empty`: let it return a fallback.
+- An empty `catch {}` fails ESLint `no-empty` (comments are gone): let it return a fallback.
 - **A clean `return`:** a name, a literal, one call or a boolean of names (`return isNewBest || isOver`). A
   ternary, `??`, a chain or a call inside an object literal is computed into a `const` first.
 - **Named conditions.** A long or compound condition is a `const` (`canMove`) or early returns; no nested

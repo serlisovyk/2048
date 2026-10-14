@@ -1,7 +1,7 @@
 export class FooterView {
   #yearElement
 
-  constructor(yearElement) {
+  constructor({ yearElement }) {
     this.#yearElement = yearElement
   }
 

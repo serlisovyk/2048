@@ -6,7 +6,7 @@ export class KeyboardInput {
   #target
   #onDirection
 
-  constructor(target, onDirection) {
+  constructor({ target, onDirection }) {
     this.#target = target
     this.#onDirection = onDirection
   }

@@ -3,26 +3,26 @@ export class OverlayView {
   #gameOverDialog
   #continueButton
   #winRestartButton
-  #restartButton
+  #gameOverRestartButton
   #winMessage
-  #winNote
+  #gameOverWinNote
 
   constructor({
     winDialog,
     gameOverDialog,
     continueButton,
     winRestartButton,
-    restartButton,
+    gameOverRestartButton,
     winMessage,
-    winNote,
+    gameOverWinNote,
   }) {
     this.#winDialog = winDialog
     this.#gameOverDialog = gameOverDialog
     this.#continueButton = continueButton
     this.#winRestartButton = winRestartButton
-    this.#restartButton = restartButton
+    this.#gameOverRestartButton = gameOverRestartButton
     this.#winMessage = winMessage
-    this.#winNote = winNote
+    this.#gameOverWinNote = gameOverWinNote
 
     this.#gameOverDialog.addEventListener('cancel', (event) =>
       event.preventDefault(),
@@ -39,7 +39,7 @@ export class OverlayView {
 
   onRestart(handler) {
     this.#winRestartButton.addEventListener('click', handler)
-    this.#restartButton.addEventListener('click', handler)
+    this.#gameOverRestartButton.addEventListener('click', handler)
   }
 
   onClose(handler) {
@@ -47,24 +47,24 @@ export class OverlayView {
     this.#gameOverDialog.addEventListener('close', handler)
   }
 
-  showWin({ winTile, summary }) {
+  openWin({ winTile, summary }) {
     this.#winMessage.textContent = OverlayView.#getReachedMessage(winTile)
     OverlayView.#renderSummary(this.#winDialog, summary)
     this.#winDialog.showModal()
   }
 
-  showGameOver({ hasJustWon, winTile, summary }) {
-    this.#winNote.textContent = OverlayView.#getReachedMessage(winTile)
-    this.#winNote.hidden = !hasJustWon
+  openGameOver({ hasJustWon, winTile, summary }) {
+    this.#gameOverWinNote.textContent = OverlayView.#getReachedMessage(winTile)
+    this.#gameOverWinNote.hidden = !hasJustWon
     OverlayView.#renderSummary(this.#gameOverDialog, summary)
     this.#gameOverDialog.showModal()
   }
 
-  hideWin() {
+  closeWin() {
     this.#winDialog.close()
   }
 
-  hideAll() {
+  closeAll() {
     this.#winDialog.close()
     this.#gameOverDialog.close()
   }

@@ -5,7 +5,7 @@ export class SwipeInput {
   #onDirection
   #pointerStart = null
 
-  constructor(element, onDirection) {
+  constructor({ element, onDirection }) {
     this.#element = element
     this.#onDirection = onDirection
   }

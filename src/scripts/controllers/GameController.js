@@ -81,7 +81,7 @@ export class GameController {
 
   restart() {
     this.#isPausedAfterWin = false
-    this.#overlayView.hideAll()
+    this.#overlayView.closeAll()
 
     if (this.#game.isInProgress) this.#statisticsController.recordRestart()
 
@@ -92,10 +92,10 @@ export class GameController {
       this.#settings.get(SETTING_NAMES.WIN_TILE),
     )
 
-    this.#showBoardSize()
+    this.#highScoreController.showSize(this.#game.size)
     this.#highScoreController.beginGame()
     this.#renderScore()
-    this.#gridView.render(this.#game.tiles, spawnedTiles)
+    this.#renderBoard(spawnedTiles)
   }
 
   restartAndFocus() {
@@ -105,7 +105,7 @@ export class GameController {
 
   continueAfterWin() {
     this.#isPausedAfterWin = false
-    this.#overlayView.hideWin()
+    this.#overlayView.closeWin()
   }
 
   returnFocusToBoard() {
@@ -146,7 +146,7 @@ export class GameController {
     const { winTile } = this.#game
 
     if (isOver) {
-      this.#overlayView.showGameOver({
+      this.#overlayView.openGameOver({
         hasJustWon,
         winTile,
         summary: this.#getSummary(),
@@ -157,7 +157,7 @@ export class GameController {
     if (!hasJustWon) return
 
     this.#isPausedAfterWin = true
-    this.#overlayView.showWin({ winTile, summary: this.#getSummary() })
+    this.#overlayView.openWin({ winTile, summary: this.#getSummary() })
   }
 
   #getSummary() {
@@ -185,17 +185,20 @@ export class GameController {
 
     this.#settings.set(SETTING_NAMES.BOARD_SIZE, this.#game.size)
     this.#settings.set(SETTING_NAMES.WIN_TILE, this.#game.winTile)
-    this.#showBoardSize()
+    this.#highScoreController.showSize(this.#game.size)
     this.#highScoreController.resumeGame(this.#game.score)
     this.#renderScore()
-    this.#gridView.render(this.#game.tiles)
+    this.#renderBoard([])
 
     return true
   }
 
-  #showBoardSize() {
-    this.#gridView.resize(this.#game.size)
-    this.#highScoreController.showSize(this.#game.size)
+  #renderBoard(spawnedTiles) {
+    this.#gridView.render({
+      size: this.#game.size,
+      tiles: this.#game.tiles,
+      spawnedTiles,
+    })
   }
 
   #renderScore() {

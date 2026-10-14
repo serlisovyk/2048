@@ -4,7 +4,7 @@ export class GameController {
   static #NEW_GAME_PROMPT = Object.freeze({
     title: 'Start a new game?',
     message: 'Your current progress will be lost.',
-    confirmLabel: 'New Game',
+    confirmLabel: 'New game',
   })
 
   static #RESET_HIGH_SCORE_PROMPT = Object.freeze({

@@ -5,7 +5,7 @@ export class SettingsController {
     title: 'Start a new game?',
     message:
       'Changing this setting starts a new game. Your current progress will be lost.',
-    confirmLabel: 'New Game',
+    confirmLabel: 'New game',
   })
 
   static #RESET_STATISTICS_PROMPT = Object.freeze({

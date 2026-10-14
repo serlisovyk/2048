@@ -111,7 +111,7 @@ export class GridView {
 
   #appendTilesInReadingOrder() {
     const tiles = [...this.#tiles.values()].sort(
-      (a, b) => a.row - b.row || a.col - b.col,
+      (first, second) => first.row - second.row || first.col - second.col,
     )
 
     this.#element.append(...tiles.map(({ element }) => element))

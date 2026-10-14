@@ -117,20 +117,20 @@ export class GameController {
 
     if (!canMove) return
 
-    const result = this.#game.move(direction)
+    const moveResult = this.#game.move(direction)
 
-    if (!result.hasMoved) return
+    if (!moveResult.hasMoved) return
 
-    this.#renderMove(result)
-    this.#recordMove(result)
-    this.#showOutcome(result)
+    this.#renderMove(moveResult)
+    this.#recordMove(moveResult)
+    this.#showOutcome(moveResult)
     this.#persistGame()
   }
 
-  #renderMove(result) {
+  #renderMove(moveResult) {
     this.#renderScore()
-    this.#scoreView.showScoreGain(result.scoreGained)
-    this.#gridView.animateMove(result)
+    this.#scoreView.showScoreGain(moveResult.scoreGained)
+    this.#gridView.animateMove(moveResult)
   }
 
   #recordMove({ hasJustWon, isOver }) {

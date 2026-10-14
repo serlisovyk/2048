@@ -56,10 +56,10 @@ export class Board {
     const merges = []
 
     for (let index = 0; index < this.#size; index++) {
-      const result = this.#slideLine(index, isVertical, isTowardsStart)
+      const lineResult = this.#slideLine(index, isVertical, isTowardsStart)
 
-      slides.push(...result.slides)
-      merges.push(...result.merges)
+      slides.push(...lineResult.slides)
+      merges.push(...lineResult.merges)
     }
 
     const hasMoved = slides.length > 0

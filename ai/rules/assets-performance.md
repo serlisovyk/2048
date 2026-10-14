@@ -56,7 +56,8 @@
 
 - Keep HTML, CSS, and JavaScript minified in production.
 - CSS is prefixed by Autoprefixer through `postcss.config.js`. The project has no
-  `browserslist` config and none is added: Autoprefixer uses its defaults.
+  `browserslist` config and none is added: Autoprefixer uses its defaults
+  (`ai/decisions/2026-10-14-no-browserslist.md`).
 - Build for Vite's default `baseline-widely-available` target. No legacy chunks or
   polyfills — see `ai/decisions/2026-10-10-no-legacy-plugin.md`.
 - Keep the gzipped bundle within the `size-limit` budget (`.size-limit.json`); raise

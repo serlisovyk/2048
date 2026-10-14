@@ -55,36 +55,33 @@ export class SettingsController {
   async requestChange(name, value) {
     if (!this.#settings.isChange(name, value)) {
       this.#render()
-
       return
     }
 
-    const isAsked = this.#gameController.isInProgress
-
-    if (
-      isAsked &&
-      !(await this.#askFromSettings(SettingsController.#CHANGE_PROMPT))
-    ) {
+    if (!this.#gameController.isInProgress) {
+      this.#apply(name, value)
+      this.#render()
+      this.#gameController.restart()
       return
     }
 
-    this.#settings.set(name, value)
-    this.#persist()
-    // The dialog is still open when nothing was asked, and a size change changes the
-    // choices of the win target.
-    this.#render()
-    this.#gameController.restart()
+    const isConfirmed = await this.#askFromSettings(
+      SettingsController.#CHANGE_PROMPT,
+    )
 
-    if (isAsked) this.#gameController.returnFocusToBoard()
+    if (!isConfirmed) return
+
+    this.#apply(name, value)
+    this.#gameController.restartAndFocus()
   }
 
   // The reset only touches the statistics: the high scores and the current game stay.
   async requestResetStatistics() {
-    if (
-      !(await this.#askFromSettings(SettingsController.#RESET_STATISTICS_PROMPT))
-    ) {
-      return
-    }
+    const isConfirmed = await this.#askFromSettings(
+      SettingsController.#RESET_STATISTICS_PROMPT,
+    )
+
+    if (!isConfirmed) return
 
     this.#statisticsController.reset()
     this.#gameController.returnFocusToBoard()
@@ -110,6 +107,11 @@ export class SettingsController {
       ),
     })
     this.#view.renderStatistics(this.#statisticsController.values)
+  }
+
+  #apply(name, value) {
+    this.#settings.set(name, value)
+    this.#persist()
   }
 
   #persist() {

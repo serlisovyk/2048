@@ -2,6 +2,8 @@ import '../styles/main.css'
 
 import { SETTING_NAMES } from './constants.js'
 import { GameController } from './controllers/GameController.js'
+import { HighScoreController } from './controllers/HighScoreController.js'
+import { SavedGameController } from './controllers/SavedGameController.js'
 import { SettingsController } from './controllers/SettingsController.js'
 import { StatisticsController } from './controllers/StatisticsController.js'
 import { ThemeController } from './controllers/ThemeController.js'
@@ -67,8 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
     overlayView,
     confirmDialogView,
     settings,
+    highScoreController: new HighScoreController({ scoreView, storage }),
+    savedGameController: new SavedGameController({ storage }),
     statisticsController,
-    storage,
   })
 
   const themeView = new ThemeView({

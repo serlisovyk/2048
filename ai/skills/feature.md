@@ -33,9 +33,10 @@ reads or writes persisted data.
      statistics) gets a key of its own and a controller that is its only writer
      (`StatisticsController`): it writes only when something changes, never at start, and a
      damaged blob costs a field or gives zeros (`ai/decisions/2026-10-13-statistics.md`).
-   - **Styles**: the CSS file that owns that responsibility (`ai/map.md`), motion in
-     `motion.css`. Colours, tiles, fonts and focus follow `ai/rules/style.md`: any new
-     colour is a token, text inherits the font from `body`.
+   - **Styles**: the CSS file that owns that responsibility (`ai/map.md`), keyframes in
+     `animations.css`, reduced motion in `motion.css`. Colours, sizes, tiles, fonts and focus
+     follow `ai/rules/style.md`: any new colour is a token, sizes come from the scales, text
+     inherits the font from `body`.
 3. Wire new objects in `main.js` only: the one place that queries the DOM and calls `new`.
    Its `start()` order is part of the design: the settings and the statistics load first,
    because the game reads the one and counts into the other.
@@ -50,7 +51,8 @@ reads or writes persisted data.
 trap, `::backdrop` and `cancel` on `Escape` come free (`ai/decisions/2026-10-10-native-dialog.md`).
 
 - Markup in `index.html`: `<dialog class="…" aria-labelledby="…">` with a heading and real
-  buttons; no `role` / `aria-modal`. The safe or primary button comes first, with `autofocus`.
+  buttons (`.button`, `.button-outline` for a secondary one, plus a hook class for `main.js`);
+  no `role` / `aria-modal`. The safe or primary button comes first, with `autofocus`.
 - View: `OverlayView` owns the `<dialog>` elements `main.js` passes in: `open…()` calls
   `showModal()`, `close…()` calls `close()`; no `style.display`, no manual focus. A dialog
   with state of its own gets its own view class. A modal page takes no move, so the two
@@ -64,9 +66,9 @@ trap, `::backdrop` and `cancel` on `Escape` come free (`ai/decisions/2026-10-10-
 - The controller decides when to open which dialog; the model only reports (`hasJustWon`,
   `isOver`). What a dialog says about the game (`#getSummary()`) is written by the view into
   the `[data-summary]` element of that name: the markup holds labels and no number.
-- CSS (`overlays.css`): `display` only on `dialog[open]`; `margin: auto` (the reset's `margin: 0`
-  beats the browser's); dimming on `::backdrop`, which also goes in the reduced-motion
-  selector in `motion.css` (`*` does not match it).
+- CSS (`overlays.css`): the `dialog` rule is every dialog's look (`display` only on
+  `&[open]`, `margin: auto`, the dimming on `&::backdrop`); its own class sets only its
+  background. `::backdrop` is in the reduced-motion selector in `motion.css`: `*` misses it.
 
 **Confirmation** ("are you sure?" before something hard to undo) — do not write another
 dialog: `ConfirmDialogView.ask({ title, message, confirmLabel })` returns a `Promise<boolean>`

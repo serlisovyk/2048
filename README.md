@@ -98,11 +98,12 @@ src/
     theme.css            Every UI colour as a token for both themes, and the theme reveal
     base.css             Font face, reset, base element styles, the shared button focus ring
     layout.css           Page and responsive layout
-    header.css           Header: logo, score boxes, and the icon toolbar
+    header.css           Header: logo and score boxes
     board.css            Board, background cells, tiles, and tile animations
     tiles.css            Tile colour tokens (both themes) and text sizing
     overlays.css         Win, game-over, confirmation, and settings dialogs
     controls.css         Button styles
+    animations.css       Every @keyframes
     motion.css           Reduced-motion preferences
 ai/                  AI-agent docs: repo map, workflow, rules, decisions, skills, templates
 AGENTS.md            AI-agent entry instructions

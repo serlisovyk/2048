@@ -34,22 +34,38 @@
 
 ## CSS
 
-- Keep plain CSS. Do not introduce Less, Sass, or CSS-in-JS unless explicitly requested.
+- Plain CSS with native nesting; no Less, Sass or CSS-in-JS unless explicitly requested. States and
+  children go inside their rule (`&:hover`, `&[open]`, `.is-sliding &`). Nesting adds the parent's
+  specificity: keep what has to win (`input:checked + span` over `:hover span`,
+  `.button-outline:hover` over `.button:hover`, `.game-over .game-over-win-note` over `dialog p`).
 - **No comments in CSS.** Names and structure say what; a reason worth keeping goes to this file,
   a decision record or a skill, not above a rule.
-- Keep CSS split by responsibility through the files imported in `src/styles/main.css`.
-  Keep responsive rules near the layout or component they affect.
-- Use CSS custom properties for values shared inside a component. When CSS needs a number
-  from `constants.js` (board size, durations), the owning view sets it as a custom property
-  and the CSS reads it with a fallback: `var(--board-size, 4)`.
-- **Reduced motion** lives in `src/styles/motion.css`. Its rule sets every
-  `animation-duration` to 0.01ms with `!important`. An animation the player must still see
-  gets its own override there: the score pop loses its movement (`--score-pop-rise: 0px`)
-  and keeps its duration; the record badge keeps its duration and swaps in keyframes that
-  change nothing, because `animationend` must still fire. The tiles go the other way:
-  `--tile-slide-duration` and `--tile-pop-duration` are set to `0ms !important` on
-  `.game-grid`, so the delays built from them collapse and JS knows nothing about reduced
-  motion (`ai/decisions/2026-10-10-score-pop.md`, `ai/decisions/2026-10-10-new-record-badge.md`).
+- Keep CSS split by responsibility through the files imported in `src/styles/main.css`; every
+  `@keyframes` is in `animations.css`. A media query sits inside the selector it changes, as a
+  range with `<=` only (`(width <= 768px)`, `(height <= 600px)`): the build makes it `max-width`,
+  while a `<` becomes `not (min-width: …)` with another boundary. Read the built CSS in `dist/`.
+- **Scales** at the top of `theme.css`: font sizes (`--font-*`, `rem`), radii, shadow geometry
+  (`--shadow-*`, then the colour token: `var(--shadow-md) var(--button-shadow)`), durations
+  (`--duration-*`, `ms`) and the focus ring (`--focus-ring-width`, `--focus-ring-offset`). Other
+  files hold no literal for them. A token is one exact value; merging near-duplicates changes the
+  look, so it is decided with the result in front of you
+  (`ai/decisions/2026-10-14-css-token-scales.md`).
+- When CSS needs a number from `constants.js` (board size, durations), the owning view sets it as a
+  custom property and the CSS reads it with no fallback; a default needed before the view runs is
+  declared once where it is used (`--board-size: 4` on `.game-grid`).
+- **Hover and buttons.** `:hover` only inside `@media (hover: hover)`, so a tap leaves no hover look
+  on a touch screen; the toolbar buttons add `:active`. A dialog button is `.button` (the secondary
+  one also `.button-outline`) next to its hook class for `main.js`; every dialog gets its look from
+  the `dialog` selector, and its own class sets only the background.
+- **Reduced motion** is one `@media (prefers-reduced-motion)` block in `motion.css`, imported last (its
+  `.record-badge` `animation-name` beats the `animation` shorthand of `header.css` by order only). It
+  sets every `animation-duration` to 0.01ms with `!important`; an animation the player must still
+  see gets its own override: the score pop loses its movement (`--score-pop-rise: 0px`) and keeps
+  its duration, the record badge keeps its duration and swaps in keyframes that change nothing,
+  because `animationend` must still fire. The tiles go the other way: `--tile-slide-duration` and
+  `--tile-pop-duration` are `0ms !important` on `.game-grid`, so the delays built from them collapse
+  and JS knows nothing about reduced motion (`ai/decisions/2026-10-10-score-pop.md`,
+  `ai/decisions/2026-10-10-new-record-badge.md`).
 - A transient element that JS creates (the score pop) removes itself on `animationend` and
   takes its duration from a CSS custom property, so JS holds no timer for it. One that is a
   `hidden` element in the markup (the record badge) is shown by clearing `hidden` and hidden
@@ -75,28 +91,26 @@
   under reduced motion; its rules live in `theme.css`
   (`ai/decisions/2026-10-10-theme-tokens-and-head-script.md`,
   `ai/decisions/2026-10-10-view-transitions-progressive-enhancement.md`).
-- **Focus.** One generic `button:focus-visible, a:focus-visible` rule in `base.css` draws
-  the ring for every button and link, in `--focus-ring-color` (the dialogs re-point it with
-  `--dialog-ring`). Do not add per-button focus styles or `outline: none` / `outline: 0` on a
-  button or a link: a new one gets the ring with no CSS, and a control next to another
-  element leaves room for it (the GitHub link's bottom margin keeps the ring off the
-  header). The ring is an `outline`, not a
-  `box-shadow` (hover rules set their own); its width, gap and colour sit on the base
-  `button, a` rule and only `outline-style` flips on `:focus-visible`, because buttons use
-  `transition: all` and would animate the ring in. An element focused only from script
-  (`tabindex="-1"`, the board) gets `:focus-visible { outline: none }`.
+- **Focus.** One `button:focus-visible, a:focus-visible` rule in `base.css` draws the ring for
+  every button and link: an `outline` of `--focus-ring-width` and `--focus-ring-offset` in
+  `--focus-ring-color` (the dialogs set it to `--dialog-text`). No per-button focus styles and no
+  `outline: none` on a button or a link: a new one gets the ring with no CSS, and a control next
+  to another element leaves room for it (the GitHub link's bottom margin keeps the ring off the
+  header). An `outline`, not a `box-shadow` (hover rules set their own). A `transition` names its
+  properties, never `all`, so the ring does not animate in. An element focused only from script
+  (`tabindex="-1"`, the board) gets `:focus-visible { outline: none }`
+  (`ai/decisions/2026-10-14-plain-focus-ring.md`).
 - **Tiles.** Tile colours live in `tiles.css` and nowhere else: every colour is a custom
   property on `:root` (`--tile-<value>`, `--tile-fallback`, text, sheen, glow, shadow) and the
   rules only read tokens, so a theme overrides tokens and touches no selector. `board.css`
   keeps the structure of a tile and its move animations.
 - A tile is a `.tile` element over the background `.grid-cell`s, placed by the custom
   properties `--row` and `--col` that the view writes; its `translate` is built from them
-  and the inherited `--cell-size` and `--cell-gap`, so no pixel value is written and a
-  resize needs no JS. Use the `translate` and `scale` properties, not `transform`. The
-  slide `transition` lives only on `.is-sliding .tile` (a standing one makes tiles trail
-  the grid while the window is resized). A tile never changes its `data-value`; a merge
-  makes a new tile. The animations are classes (`.new-tile`, `.merged-tile`,
-  `.retired-tile`) that start after CSS delays, in the order slide, merge pop, new tile.
+  and the inherited `--cell-size` and `--cell-gap`, so a resize needs no JS. Use `translate`
+  and `scale`, not `transform`. The slide `transition` lives only on `.is-sliding .tile` (a
+  standing one makes tiles trail the grid while the window is resized). A tile never changes
+  its `data-value`; a merge makes a new tile. `.new-tile`, `.merged-tile` and `.retired-tile`
+  start after CSS delays, in the order slide, merge pop, new tile.
 - The base rule `.tile[data-value]` is the first rule in `tiles.css` and the fallback for
   every value without a rule of its own; the per-value rules come after it and win by order.
   Never write the fallback as a `:not()` chain.

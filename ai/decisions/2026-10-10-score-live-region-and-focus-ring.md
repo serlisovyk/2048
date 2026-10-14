@@ -1,6 +1,6 @@
 # The score is announced through a hidden, debounced live region; one focus ring for every button
 
-Date: 2026-10-10 · Status: accepted
+Date: 2026-10-10 · Status: accepted; the focus ring mechanics are superseded by 2026-10-14-plain-focus-ring.md
 
 ## Context
 

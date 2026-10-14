@@ -65,6 +65,7 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [Modal dialogs are native `<dialog>` elements](2026-10-10-native-dialog.md)
 - [One reusable confirmation dialog, answered with a Promise](2026-10-10-confirm-dialog.md)
 - [Hidden debounced live region for the score; one focus ring for every button](2026-10-10-score-live-region-and-focus-ring.md)
+- [The focus ring is a plain `:focus-visible` outline; a transition never uses `all`](2026-10-14-plain-focus-ring.md)
 - [One header with an icon toolbar; icons are inline SVG](2026-10-10-header-toolbar.md)
 - [The score pop is a separate `aria-hidden` element, one at a time](2026-10-10-score-pop.md)
 - [The New record badge is a transient `aria-hidden` flag, spoken once in the score](2026-10-10-new-record-badge.md)
@@ -82,6 +83,7 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [One tile palette in two ramps, a shared sheen, a base-rule fallback](2026-10-10-tile-palette.md)
 - [Rubik, self-hosted, Latin only, with tabular digits](2026-10-10-self-hosted-font.md)
 - [Cell size follows board size and viewport; the size picker is a segmented control](2026-10-12-board-geometry-per-size.md)
+- [Font sizes, radii, shadows and durations come from scales in `theme.css`](2026-10-14-css-token-scales.md)
 
 ### Link preview
 

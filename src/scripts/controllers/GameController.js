@@ -1,11 +1,4 @@
-import {
-  LEGACY_BOARD_SIZE,
-  MIDDLE_CHOICE_INDEX,
-  SAVED_GAME_VERSION,
-  SETTING_NAMES,
-  STORAGE_KEYS,
-  WIN_TILES,
-} from '../constants.js'
+import { SAVED_GAME_VERSION, SETTING_NAMES, STORAGE_KEYS } from '../constants.js'
 
 export class GameController {
   static #NEW_GAME_PROMPT = Object.freeze({
@@ -22,18 +15,9 @@ export class GameController {
   })
 
   // Brings a saved game to the next version; the key is the version a step starts from, so
-  // a new version adds one entry and raises SAVED_GAME_VERSION. Version 1 has no size (the
-  // classic board), version 2 has no win tile (the middle choice of its size), version 3
-  // has no move count (it starts from 0).
-  static #SAVE_UPGRADES = Object.freeze({
-    1: (saved) => ({ ...saved, version: 2, size: LEGACY_BOARD_SIZE }),
-    2: (saved) => ({
-      ...saved,
-      version: 3,
-      winTile: WIN_TILES[saved.size]?.[MIDDLE_CHOICE_INDEX],
-    }),
-    3: (saved) => ({ ...saved, version: 4, moves: 0 }),
-  })
+  // a new version adds one entry and raises SAVED_GAME_VERSION. Empty while only the
+  // current version exists.
+  static #SAVE_UPGRADES = Object.freeze({})
 
   #game
   #gridView
@@ -72,8 +56,6 @@ export class GameController {
   }
 
   start() {
-    this.#migrateLegacyHighScore()
-
     if (!this.#restoreSavedGame()) this.#startNewGame()
   }
 
@@ -222,23 +204,6 @@ export class GameController {
     this.#gridView.resize(size)
     this.#highScores.set(size, Math.max(this.#highScores.get(size) ?? 0, stored))
     this.#scoreView.renderHighScore(this.#highScore)
-  }
-
-  // The one record the game had before the sizes is the record of the classic board. It is
-  // moved to that size's key once: the old key is removed, so it cannot come back after a
-  // reset, and the larger value wins in case an older tab wrote the old key again.
-  #migrateLegacyHighScore() {
-    const legacyKey = STORAGE_KEYS.LEGACY_HIGH_SCORE
-
-    if (this.#storage.getString(legacyKey) === null) return
-
-    const key = GameController.#getHighScoreKey(LEGACY_BOARD_SIZE)
-
-    this.#storage.setValue(
-      key,
-      Math.max(this.#storage.getNumber(legacyKey), this.#storage.getNumber(key)),
-    )
-    this.#storage.remove(legacyKey)
   }
 
   #persistGame() {

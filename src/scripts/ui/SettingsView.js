@@ -66,7 +66,10 @@ export class SettingsView {
   }
 
   #focus(selector) {
-    this.#dialog.querySelector(selector)?.focus()
+    const option = this.#dialog.querySelector(selector)
+
+    option?.focus()
+    option?.closest('label').scrollIntoView({ block: 'nearest' })
   }
 
   #renderChoices(name, options) {

@@ -27,9 +27,11 @@ export class ThemeView {
   // reduced, the new theme spreads from the button as a circle (the CSS is in theme.css);
   // everywhere else it is the same instant render.
   transitionTo(theme) {
-    if (!document.startViewTransition || this.#reducedMotionQuery.matches) {
-      this.render(theme)
+    const isSupported = typeof document.startViewTransition === 'function'
+    const canAnimate = isSupported && !this.#reducedMotionQuery.matches
 
+    if (!canAnimate) {
+      this.render(theme)
       return
     }
 

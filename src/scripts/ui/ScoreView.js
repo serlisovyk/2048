@@ -26,9 +26,8 @@ export class ScoreView {
     this.#popsElement = popsElement
     this.#recordBadgeElement = recordBadgeElement
 
-    this.#recordBadgeElement.addEventListener(
-      'animationend',
-      this.#handleRecordBadgeEnd,
+    this.#recordBadgeElement.addEventListener('animationend', () =>
+      this.hideNewRecord(),
     )
   }
 
@@ -41,7 +40,6 @@ export class ScoreView {
 
     if (this.#announcedScore === null) {
       this.#announce(score)
-
       return
     }
 
@@ -91,12 +89,11 @@ export class ScoreView {
   #announce(score) {
     if (score === this.#announcedScore) return
 
+    const recordPrefix = this.#recordBadgeElement.textContent
+    const message = this.#isRecordPending ? `${recordPrefix} ${score}` : score
+
     this.#announcedScore = score
-    this.#announcementElement.textContent = this.#isRecordPending
-      ? `${this.#recordBadgeElement.textContent} ${score}`
-      : score
+    this.#announcementElement.textContent = message
     this.#isRecordPending = false
   }
-
-  #handleRecordBadgeEnd = () => this.hideNewRecord()
 }

@@ -40,16 +40,16 @@ export class Statistics {
   // A move of the game in progress: it can raise the bests (they include the game that is
   // being played), reach the target for the first time (a win) and end the game (a played
   // game). Returns whether anything changed, so most moves cost no write.
-  recordMove({ score, highestTile, justWon, isOver }) {
+  recordMove({ score, highestTile, hasJustWon, isOver }) {
     const isNewBest = score > this.#bestScore || highestTile > this.#bestTile
 
     this.#bestScore = Math.max(this.#bestScore, score)
     this.#bestTile = Math.max(this.#bestTile, highestTile)
 
-    if (justWon) this.#wins += 1
+    if (hasJustWon) this.#wins += 1
     if (isOver) this.#played += 1
 
-    return isNewBest || justWon || isOver
+    return isNewBest || hasJustWon || isOver
   }
 
   // A game that was left by starting a new one after at least one move.

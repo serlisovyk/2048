@@ -19,7 +19,7 @@ export class ThemeController {
     this.#isChosen = Object.values(THEMES).includes(stored)
     this.#theme = this.#isChosen ? stored : this.#getSystemTheme()
     this.#view.render(this.#theme)
-    this.#systemQuery.addEventListener('change', this.#handleSystemChange)
+    this.#systemQuery.addEventListener('change', () => this.#handleSystemChange())
   }
 
   toggle() {
@@ -30,7 +30,7 @@ export class ThemeController {
   }
 
   // The system setting only counts while the player has not chosen a theme.
-  #handleSystemChange = () => {
+  #handleSystemChange() {
     if (this.#isChosen) return
 
     this.#theme = this.#getSystemTheme()
@@ -38,6 +38,8 @@ export class ThemeController {
   }
 
   #getSystemTheme() {
-    return this.#systemQuery.matches ? THEMES.LIGHT : THEMES.DARK
+    if (this.#systemQuery.matches) return THEMES.LIGHT
+
+    return THEMES.DARK
   }
 }

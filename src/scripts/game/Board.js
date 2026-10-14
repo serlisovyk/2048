@@ -16,11 +16,15 @@ export class Board {
   }
 
   toTiles() {
-    return this.#cells.flatMap((cells, row) =>
-      cells.flatMap((tile, col) =>
-        tile ? [{ id: tile.id, value: tile.value, row, col }] : [],
-      ),
-    )
+    const tiles = []
+
+    this.#cells.forEach((cells, row) => {
+      cells.forEach((tile, col) => {
+        if (tile) tiles.push({ id: tile.id, value: tile.value, row, col })
+      })
+    })
+
+    return tiles
   }
 
   restore(cells) {
@@ -36,11 +40,12 @@ export class Board {
   spawnRandomTile() {
     const emptyCells = this.#getEmptyCells()
     const { row, col } = emptyCells[Math.floor(Math.random() * emptyCells.length)]
-    const tile = this.#createTile(Math.random() < FOUR_TILE_PROBABILITY ? 4 : 2)
+    const value = Math.random() < FOUR_TILE_PROBABILITY ? 4 : 2
+    const tile = this.#createTile(value)
 
     this.#cells[row][col] = tile
 
-    return { id: tile.id, row, col, value: tile.value }
+    return { id: tile.id, row, col, value }
   }
 
   move(direction) {
@@ -57,12 +62,10 @@ export class Board {
       merges.push(...result.merges)
     }
 
-    return {
-      moved: slides.length > 0,
-      scoreGained: merges.reduce((sum, { value }) => sum + value, 0),
-      slides,
-      merges,
-    }
+    const hasMoved = slides.length > 0
+    const scoreGained = merges.reduce((sum, { value }) => sum + value, 0)
+
+    return { hasMoved, scoreGained, slides, merges }
   }
 
   // The largest tile on the board, 0 when it is empty. A tile only ever merges into a
@@ -73,18 +76,16 @@ export class Board {
 
   hasAvailableMoves() {
     const values = this.toArray()
+    const lastIndex = this.#size - 1
 
     for (let row = 0; row < this.#size; row++) {
       for (let col = 0; col < this.#size; col++) {
         const value = values[row][col]
+        const isEmpty = value === 0
+        const canMergeRight = col < lastIndex && value === values[row][col + 1]
+        const canMergeDown = row < lastIndex && value === values[row + 1][col]
 
-        if (
-          value === 0 ||
-          (col < this.#size - 1 && value === values[row][col + 1]) ||
-          (row < this.#size - 1 && value === values[row + 1][col])
-        ) {
-          return true
-        }
+        if (isEmpty || canMergeRight || canMergeDown) return true
       }
     }
 
@@ -108,7 +109,7 @@ export class Board {
   }
 
   #slideLine(index, isVertical, isTowardsStart) {
-    const line = isVertical ? this.#getColumn(index) : this.#getRow(index)
+    const line = this.#getLine(index, isVertical)
     const cellAt = (position) =>
       isVertical ? { row: position, col: index } : { row: index, col: position }
     const slidLine = Array(this.#size).fill(null)
@@ -118,7 +119,8 @@ export class Board {
     Board.#planSlide(line, isTowardsStart).forEach(({ sources, value }, order) => {
       const position = isTowardsStart ? order : this.#size - 1 - order
       const to = cellAt(position)
-      const tile = sources.length === 1 ? line[sources[0]] : this.#createTile(value)
+      const isMerge = sources.length === 2
+      const tile = isMerge ? this.#createTile(value) : line[sources[0]]
 
       slidLine[position] = tile
 
@@ -128,7 +130,7 @@ export class Board {
           slides.push({ id: line[source].id, from: cellAt(source), to })
         })
 
-      if (sources.length === 2) {
+      if (isMerge) {
         merges.push({
           id: tile.id,
           ...to,
@@ -138,44 +140,38 @@ export class Board {
       }
     })
 
-    if (isVertical) {
-      this.#setColumn(index, slidLine)
-    } else {
-      this.#setRow(index, slidLine)
-    }
+    this.#setLine(index, slidLine, isVertical)
 
     return { slides, merges }
   }
 
-  #getRow(row) {
-    return [...this.#cells[row]]
+  #getLine(index, isVertical) {
+    if (isVertical) return this.#cells.map((row) => row[index])
+
+    return [...this.#cells[index]]
   }
 
-  #getColumn(col) {
-    return this.#cells.map((row) => row[col])
-  }
+  #setLine(index, line, isVertical) {
+    if (!isVertical) {
+      this.#cells[index] = [...line]
+      return
+    }
 
-  #setRow(row, line) {
-    this.#cells[row] = [...line]
-  }
-
-  #setColumn(col, line) {
     line.forEach((tile, row) => {
-      this.#cells[row][col] = tile
+      this.#cells[row][index] = tile
     })
   }
 
   static #isValidCells(cells, size) {
-    return (
-      Array.isArray(cells) &&
-      cells.length === size &&
-      cells.every(
-        (row) =>
-          Array.isArray(row) &&
-          row.length === size &&
-          row.every((value) => Validation.isTile(value)),
-      )
-    )
+    if (!Array.isArray(cells) || cells.length !== size) return false
+
+    return cells.every((row) => Board.#isValidRow(row, size))
+  }
+
+  static #isValidRow(row, size) {
+    const hasSize = Array.isArray(row) && row.length === size
+
+    return hasSize && row.every((value) => Validation.isTile(value))
   }
 
   // Where each tile of a line lands, in sliding order: `sources` are the line
@@ -189,8 +185,9 @@ export class Board {
     for (const position of positions) {
       const last = plan.at(-1)
       const { value } = line[position]
+      const canMerge = last?.sources.length === 1 && last.value === value
 
-      if (last?.sources.length === 1 && last.value === value) {
+      if (canMerge) {
         last.sources.push(position)
         last.value *= 2
       } else {

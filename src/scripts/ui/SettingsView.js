@@ -10,8 +10,8 @@ export class SettingsView {
     this.#closeButton = closeButton
     this.#resetStatisticsButton = resetStatisticsButton
 
-    this.#closeButton.addEventListener('click', this.#dismiss)
-    this.#dialog.addEventListener('cancel', this.#handleCancel)
+    this.#closeButton.addEventListener('click', () => this.#dismiss())
+    this.#dialog.addEventListener('cancel', (event) => this.#handleCancel(event))
   }
 
   onOpen(handler) {
@@ -72,12 +72,12 @@ export class SettingsView {
   }
 
   // Escape and Close: the dialog was opened by a button, so focus goes back to it.
-  #dismiss = () => {
+  #dismiss() {
     this.close()
     this.#openButton.focus()
   }
 
-  #handleCancel = (event) => {
+  #handleCancel(event) {
     event.preventDefault()
     this.#dismiss()
   }

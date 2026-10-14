@@ -12,10 +12,10 @@ export class KeyboardInput {
   }
 
   bind() {
-    this.#target.addEventListener('keydown', this.#handleKeydown)
+    this.#target.addEventListener('keydown', (event) => this.#handleKeydown(event))
   }
 
-  #handleKeydown = (event) => {
+  #handleKeydown(event) {
     if (!Object.hasOwn(KEY_CODE_DIRECTIONS, event.code)) return
     if (KeyboardInput.#hasCommandModifier(event)) return
     if (KeyboardInput.#isInsideNonGameContext(event.target)) return
@@ -31,9 +31,10 @@ export class KeyboardInput {
   static #isInsideNonGameContext(target) {
     if (!(target instanceof Element)) return false
 
-    return (
-      target.isContentEditable ||
+    const isEditable = target.isContentEditable
+    const isInsideBlockingElement =
       target.closest(KeyboardInput.#NON_GAME_CONTEXT_SELECTOR) !== null
-    )
+
+    return isEditable || isInsideBlockingElement
   }
 }

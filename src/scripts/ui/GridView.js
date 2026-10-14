@@ -33,7 +33,9 @@ export class GridView {
     this.#clearTiles()
 
     tiles.forEach((tile) => {
-      this.#createTile(tile, spawnedIds.has(tile.id) ? ['new-tile'] : [])
+      const classNames = spawnedIds.has(tile.id) ? ['new-tile'] : []
+
+      this.#createTile(tile, classNames)
     })
 
     this.#scheduleSettle()
@@ -53,11 +55,10 @@ export class GridView {
       this.#createTile(tile, ['merged-tile'])
     })
 
+    const delayClassName = merges.length > 0 ? 'after-merge' : 'after-slide'
+
     spawnedTiles.forEach((tile) => {
-      this.#createTile(tile, [
-        'new-tile',
-        merges.length > 0 ? 'after-merge' : 'after-slide',
-      ])
+      this.#createTile(tile, ['new-tile', delayClassName])
     })
 
     this.#scheduleSettle()

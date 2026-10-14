@@ -53,7 +53,7 @@ export class SettingsController {
   // A setting starts a new game, so a game in progress is asked about first (the settings
   // returns on "no", showing the stored value again).
   async requestChange(name, value) {
-    if (!this.#settings.isChange(name, value)) {
+    if (!this.#settings.isNewValue(name, value)) {
       this.#render()
       return
     }

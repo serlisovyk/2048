@@ -119,7 +119,7 @@ export class GameController {
 
     const result = this.#game.move(direction)
 
-    if (!result.moved) return
+    if (!result.hasMoved) return
 
     this.#renderMove(result)
     this.#recordMove(result)
@@ -133,28 +133,28 @@ export class GameController {
     this.#gridView.animateMove(result)
   }
 
-  #recordMove({ justWon, isOver }) {
+  #recordMove({ hasJustWon, isOver }) {
     this.#statisticsController.recordMove({
       score: this.#game.score,
       highestTile: this.#game.highestTile,
-      justWon,
+      hasJustWon,
       isOver,
     })
   }
 
-  #showOutcome({ justWon, isOver }) {
+  #showOutcome({ hasJustWon, isOver }) {
     const { winTile } = this.#game
 
     if (isOver) {
       this.#overlayView.showGameOver({
-        justWon,
+        hasJustWon,
         winTile,
         summary: this.#getSummary(),
       })
       return
     }
 
-    if (!justWon) return
+    if (!hasJustWon) return
 
     this.#isPausedAfterWin = true
     this.#overlayView.showWin({ winTile, summary: this.#getSummary() })

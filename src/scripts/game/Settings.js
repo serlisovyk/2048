@@ -12,19 +12,17 @@ export class Settings {
     return [...Settings.#getAllowedValues(name, this.#values)]
   }
 
-  isChange(name, value) {
+  isNewValue(name, value) {
     const allowedValue = this.#findAllowedValue(name, value)
 
-    return allowedValue !== undefined && allowedValue !== this.get(name)
+    return allowedValue !== undefined && allowedValue !== this.#values[name]
   }
 
   // A value that changes sends the settings that depend on it back to their defaults.
   set(name, value) {
-    const allowedValue = this.#findAllowedValue(name, value)
+    if (!this.isNewValue(name, value)) return
 
-    if (allowedValue === undefined || allowedValue === this.#values[name]) return
-
-    this.#values[name] = allowedValue
+    this.#values[name] = this.#findAllowedValue(name, value)
     this.#resetDependents(name)
   }
 
@@ -53,11 +51,18 @@ export class Settings {
   #findAllowedValue(name, value) {
     if (!Object.hasOwn(SETTING_DEFINITIONS, name)) return undefined
 
-    return Settings.#getAllowedValues(name, this.#values).find(
-      (allowedValue) =>
-        allowedValue === value ||
-        (typeof value === 'string' && String(allowedValue) === value),
+    const allowedValues = Settings.#getAllowedValues(name, this.#values)
+
+    return allowedValues.find((allowedValue) =>
+      Settings.#isSameValue(allowedValue, value),
     )
+  }
+
+  static #isSameValue(allowedValue, value) {
+    const isEqual = allowedValue === value
+    const isEqualAsText = typeof value === 'string' && String(allowedValue) === value
+
+    return isEqual || isEqualAsText
   }
 
   static #getDefaults() {
@@ -73,14 +78,16 @@ export class Settings {
   static #getDefaultValue(name, values) {
     const { defaultValue } = SETTING_DEFINITIONS[name]
 
-    return (
-      defaultValue ?? Settings.#getAllowedValues(name, values)[MIDDLE_CHOICE_INDEX]
-    )
+    if (defaultValue !== undefined) return defaultValue
+
+    return Settings.#getAllowedValues(name, values)[MIDDLE_CHOICE_INDEX]
   }
 
   static #getAllowedValues(name, values) {
     const { dependsOn, allowedValues } = SETTING_DEFINITIONS[name]
 
-    return dependsOn === undefined ? allowedValues : allowedValues[values[dependsOn]]
+    if (dependsOn === undefined) return allowedValues
+
+    return allowedValues[values[dependsOn]]
   }
 }

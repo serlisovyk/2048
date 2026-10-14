@@ -11,18 +11,25 @@ export class SwipeInput {
   }
 
   bind() {
-    this.#element.addEventListener('pointerdown', this.#handlePointerDown)
-    this.#element.addEventListener('pointerup', this.#handlePointerUp)
-    this.#element.addEventListener('pointercancel', this.#resetPointer)
+    this.#element.addEventListener('pointerdown', (event) =>
+      this.#handlePointerDown(event),
+    )
+    this.#element.addEventListener('pointerup', (event) =>
+      this.#handlePointerUp(event),
+    )
+    this.#element.addEventListener('pointercancel', () => this.#resetPointer())
   }
 
-  #handlePointerDown = (event) => {
-    if (event.pointerType === 'mouse' && event.button !== 0) return
+  #handlePointerDown(event) {
+    const isSecondaryMouseButton =
+      event.pointerType === 'mouse' && event.button !== 0
+
+    if (isSecondaryMouseButton) return
 
     this.#pointerStart = { x: event.clientX, y: event.clientY }
   }
 
-  #handlePointerUp = (event) => {
+  #handlePointerUp(event) {
     if (!this.#pointerStart) return
 
     const deltaX = event.clientX - this.#pointerStart.x
@@ -35,7 +42,7 @@ export class SwipeInput {
     if (direction) this.#onDirection(direction)
   }
 
-  #resetPointer = () => {
+  #resetPointer() {
     this.#pointerStart = null
   }
 
@@ -45,10 +52,12 @@ export class SwipeInput {
 
     if (Math.max(absX, absY) < SWIPE_THRESHOLD_PX) return null
 
-    if (absX > absY) {
-      return deltaX > 0 ? DIRECTIONS.RIGHT : DIRECTIONS.LEFT
-    }
+    const isHorizontal = absX > absY
 
-    return deltaY > 0 ? DIRECTIONS.DOWN : DIRECTIONS.UP
+    if (isHorizontal && deltaX > 0) return DIRECTIONS.RIGHT
+    if (isHorizontal) return DIRECTIONS.LEFT
+    if (deltaY > 0) return DIRECTIONS.DOWN
+
+    return DIRECTIONS.UP
   }
 }

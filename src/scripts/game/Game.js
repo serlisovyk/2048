@@ -10,7 +10,7 @@ export class Game {
   #moves = 0
   #hasWon = false
   #isOver = false
-  #hasMoved = false
+  #hasBeenPlayed = false
 
   // `size` and `winTile` are what the game holds until its first start() or restore().
   constructor({ size, winTile }) {
@@ -49,14 +49,16 @@ export class Game {
   }
 
   get isInProgress() {
-    return this.#hasMoved && !this.#isOver
+    return this.#hasBeenPlayed && !this.#isOver
   }
 
   toState() {
+    const board = this.#board.toArray()
+
     return {
       size: this.#size,
       winTile: this.#winTile,
-      board: this.#board.toArray(),
+      board,
       score: this.#score,
       moves: this.#moves,
       hasWon: this.#hasWon,
@@ -68,19 +70,14 @@ export class Game {
 
     if (!BOARD_SIZES.includes(size)) return false
     if (!WIN_TILES[size].includes(winTile)) return false
+    if (!Validation.isCount(score) || !Validation.isCount(moves)) return false
+    if (typeof hasWon !== 'boolean') return false
 
     const restoredBoard = new Board(size)
 
-    if (
-      !restoredBoard.restore(board) ||
-      restoredBoard.getHighestTile() === 0 ||
-      !Validation.isCount(score) ||
-      !Validation.isCount(moves) ||
-      typeof hasWon !== 'boolean' ||
-      !restoredBoard.hasAvailableMoves()
-    ) {
-      return false
-    }
+    if (!restoredBoard.restore(board)) return false
+    if (restoredBoard.getHighestTile() === 0) return false
+    if (!restoredBoard.hasAvailableMoves()) return false
 
     this.#size = size
     this.#winTile = winTile
@@ -89,9 +86,7 @@ export class Game {
     this.#moves = moves
     this.#hasWon = hasWon
     this.#isOver = false
-    // A game is only saved after its first successful move, also when an older save
-    // brought no move count (it is 0 then).
-    this.#hasMoved = true
+    this.#hasBeenPlayed = true
 
     return true
   }
@@ -104,7 +99,7 @@ export class Game {
     this.#moves = 0
     this.#hasWon = false
     this.#isOver = false
-    this.#hasMoved = false
+    this.#hasBeenPlayed = false
 
     const spawnedTiles = [
       this.#board.spawnRandomTile(),
@@ -115,39 +110,28 @@ export class Game {
   }
 
   move(direction) {
-    const { moved, scoreGained, slides, merges } = this.#board.move(direction)
+    const boardResult = this.#board.move(direction)
 
-    if (!moved) {
+    if (!boardResult.hasMoved) {
       return {
-        moved,
-        scoreGained,
-        slides,
-        merges,
+        ...boardResult,
         spawnedTiles: [],
-        justWon: false,
+        hasJustWon: false,
         isOver: this.#isOver,
       }
     }
 
-    this.#hasMoved = true
+    this.#hasBeenPlayed = true
     this.#moves += 1
-    this.#score += scoreGained
+    this.#score += boardResult.scoreGained
 
     const spawnedTiles = [this.#board.spawnRandomTile()]
-    const justWon = !this.#hasWon && this.#board.getHighestTile() >= this.#winTile
+    const hasJustWon = !this.#hasWon && this.#board.getHighestTile() >= this.#winTile
 
-    if (justWon) this.#hasWon = true
+    if (hasJustWon) this.#hasWon = true
 
     this.#isOver = !this.#board.hasAvailableMoves()
 
-    return {
-      moved,
-      scoreGained,
-      slides,
-      merges,
-      spawnedTiles,
-      justWon,
-      isOver: this.#isOver,
-    }
+    return { ...boardResult, spawnedTiles, hasJustWon, isOver: this.#isOver }
   }
 }

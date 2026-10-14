@@ -22,7 +22,7 @@ export class ConfirmDialogView {
 
     this.#cancelButton.addEventListener('click', () => this.#answer(false))
     this.#confirmButton.addEventListener('click', () => this.#answer(true))
-    this.#dialog.addEventListener('close', this.#handleClose)
+    this.#dialog.addEventListener('close', () => this.#handleClose())
   }
 
   ask({ title, message, confirmLabel }) {
@@ -50,15 +50,19 @@ export class ConfirmDialogView {
     this.#opener = null
     opener.focus()
 
-    return this.#dialog.ownerDocument.activeElement === opener
+    const { activeElement } = this.#dialog.ownerDocument
+
+    return activeElement === opener
   }
 
   #findOpener() {
     const { activeElement, body } = this.#dialog.ownerDocument
+    const isFocusedElement =
+      activeElement instanceof HTMLElement && activeElement !== body
 
-    return activeElement instanceof HTMLElement && activeElement !== body
-      ? activeElement
-      : null
+    if (!isFocusedElement) return null
+
+    return activeElement
   }
 
   #answer(isConfirmed) {
@@ -75,7 +79,9 @@ export class ConfirmDialogView {
 
   // Escape and a close forced by the browser end up here: both mean "no". The
   // event can arrive late, after a new question has already opened the dialog.
-  #handleClose = () => {
-    if (!this.#dialog.open) this.#settle(false)
+  #handleClose() {
+    const isClosed = !this.#dialog.open
+
+    if (isClosed) this.#settle(false)
   }
 }

@@ -66,10 +66,13 @@ export class SettingsController {
       SettingsController.#CHANGE_PROMPT,
     )
 
-    if (!isConfirmed) return
+    if (isConfirmed) {
+      this.#apply(name, value)
+      this.#gameController.restart()
+    }
 
-    this.#apply(name, value)
-    this.#gameController.restartAndFocus()
+    this.open()
+    this.#view.focusSetting(name)
   }
 
   async requestResetStatistics() {
@@ -77,20 +80,17 @@ export class SettingsController {
       SettingsController.#RESET_STATISTICS_PROMPT,
     )
 
-    if (!isConfirmed) return
+    if (isConfirmed) this.#statisticsController.reset()
 
-    this.#statisticsController.reset()
-    this.#gameController.returnFocusToBoard()
+    this.open()
+
+    if (!isConfirmed) this.#view.focusResetStatistics()
   }
 
-  async #askFromSettings(prompt) {
+  #askFromSettings(prompt) {
     this.#view.close()
 
-    const isConfirmed = await this.#confirmDialogView.ask(prompt)
-
-    if (!isConfirmed) this.open()
-
-    return isConfirmed
+    return this.#confirmDialogView.ask(prompt)
   }
 
   #render() {

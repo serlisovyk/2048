@@ -12,7 +12,6 @@ dialog {
   &[open] {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     animation: modal-pop var(--duration-base) ease-out;
   }
@@ -59,6 +58,13 @@ dialog {
 
 .settings-dialog {
   width: 360px;
+
+  .settings-note {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: var(--font-caption);
+    text-align: left;
+  }
 
   .settings-section {
     width: 100%;

@@ -274,8 +274,15 @@
       </div>
     </dialog>
 
-    <dialog class="settings-dialog" aria-labelledby="settings-title">
+    <dialog
+      class="settings-dialog"
+      aria-labelledby="settings-title"
+      aria-describedby="settings-note"
+    >
       <h2 id="settings-title">Settings</h2>
+      <p id="settings-note" class="settings-note">
+        Changing the board size or win target starts a new game.
+      </p>
       <section class="settings-section">
         <h3 id="settings-board-size-title">Board size</h3>
         <div
@@ -342,7 +349,7 @@
           Reset statistics
         </button>
       </section>
-      <button class="button settings-close-button" autofocus>Close</button>
+      <button class="button settings-close-button">Close</button>
     </dialog>
   </body>
 </html>

@@ -49,10 +49,24 @@ export class SettingsView {
 
   open() {
     this.#dialog.showModal()
+    this.#dialog.scrollTop = 0
+    this.#focus('input:checked')
   }
 
   close() {
     this.#dialog.close()
+  }
+
+  focusSetting(name) {
+    this.#focus(`input[name="${name}"]:checked`)
+  }
+
+  focusResetStatistics() {
+    this.#resetStatisticsButton.focus()
+  }
+
+  #focus(selector) {
+    this.#dialog.querySelector(selector)?.focus()
   }
 
   #renderChoices(name, options) {

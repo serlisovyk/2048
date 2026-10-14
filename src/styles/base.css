@@ -47,11 +47,9 @@ button {
 
 button,
 a {
-  outline: var(--focus-ring-width) none var(--focus-ring-color);
-  outline-offset: var(--focus-ring-offset);
-
   &:focus-visible {
-    outline-style: solid;
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
   }
 }
 

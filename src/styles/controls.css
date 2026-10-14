@@ -16,7 +16,10 @@
   font-size: var(--font-control);
   font-weight: bold;
   cursor: pointer;
-  transition: all var(--duration-base) ease;
+  transition:
+    background-color var(--duration-base) ease,
+    box-shadow var(--duration-base) ease,
+    transform var(--duration-base) ease;
 
   &:hover {
     background-color: var(--button-hover-bg);

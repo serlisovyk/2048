@@ -13,15 +13,11 @@
   outline: none;
 }
 
-/* The grid cells are only the background; the tiles are their own elements over them. */
 .grid-cell {
   background-color: var(--cell-bg);
   border-radius: 6px;
 }
 
-/* A tile sits in the cell given by --row and --col (set by GridView). The cell size and
-   gap are inherited, so a resize moves the tiles with no JS. `translate` and `scale` are
-   separate properties, so a pop never replaces the position. */
 .tile {
   position: absolute;
   top: var(--cell-gap);
@@ -38,14 +34,10 @@
     calc(var(--row) * (var(--cell-size) + var(--cell-gap)));
 }
 
-/* Only while a move animates: with a standing transition the tiles would trail the
-   cells while the window is resized. */
 .is-sliding .tile {
   transition: translate var(--tile-slide-duration, 110ms) ease-out;
 }
 
-/* The merged tile waits hidden until the slide is over and then pops over the two
-   tiles that slid under it, which vanish at that moment. */
 .merged-tile {
   visibility: hidden;
   animation: merge-pop var(--tile-pop-duration, 100ms) ease-out
@@ -56,8 +48,6 @@
   animation: tile-retire 0s var(--tile-slide-duration, 110ms) forwards;
 }
 
-/* A new tile waits for the slide, or for the slide and the merge pop; a new game's
-   tiles (no modifier) pop in at once. */
 .new-tile {
   animation: pop-in var(--tile-pop-duration, 100ms) ease-out backwards;
 }

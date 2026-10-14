@@ -9,21 +9,17 @@
     transition-duration: 0.01ms !important;
   }
 
-  /* Tiles: no slide and no pop, and no step waits for another (the waits are delays
-     built from these two durations). `!important` beats the value GridView sets inline. */
   .game-grid {
     --tile-slide-duration: 0ms !important;
     --tile-pop-duration: 0ms !important;
   }
 
-  /* The score pop has to stay visible long enough to read: it fades in place. */
   .score-pop {
     --score-pop-rise: 0px;
 
     animation-duration: var(--score-pop-duration) !important;
   }
 
-  /* The record badge is static: full size and opacity for its whole time, then gone. */
   .record-badge {
     animation-name: record-badge-static;
     animation-duration: var(--record-badge-duration) !important;

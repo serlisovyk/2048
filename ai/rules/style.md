@@ -35,6 +35,8 @@
 ## CSS
 
 - Keep plain CSS. Do not introduce Less, Sass, or CSS-in-JS unless explicitly requested.
+- **No comments in CSS.** Names and structure say what; a reason worth keeping goes to this file,
+  a decision record or a skill, not above a rule.
 - Keep CSS split by responsibility through the files imported in `src/styles/main.css`.
   Keep responsive rules near the layout or component they affect.
 - Use CSS custom properties for values shared inside a component. When CSS needs a number
@@ -63,7 +65,9 @@
   `#`, `rgb(`, `hsl(` in `src/styles/` outside those two files must find nothing. JS never
   writes a colour either: it reads the token (`ThemeView` reads `--page-bg`).
 - A component that looks different in one theme only re-points tokens in a scoped block in
-  `theme.css` (`:root[data-theme='light'] .confirm-dialog { … }`); it gets no colour literal.
+  `theme.css` (`:root[data-theme='light'] .confirm-dialog { … }`); it gets no colour literal. The
+  win and game-over cards keep one look in both themes; the confirmation and the settings follow
+  the theme.
 - The theme is the `data-theme` attribute on `<html>`, always set (the inline script in
   `index.html`, then `ThemeController`). The stylesheets have no `prefers-color-scheme`
   block: that would be a second place deciding the theme. The theme switch's circle is a
@@ -74,7 +78,9 @@
 - **Focus.** One generic `button:focus-visible, a:focus-visible` rule in `base.css` draws
   the ring for every button and link, in `--focus-ring-color` (the dialogs re-point it with
   `--dialog-ring`). Do not add per-button focus styles or `outline: none` / `outline: 0` on a
-  button or a link: a new one gets the ring with no CSS. The ring is an `outline`, not a
+  button or a link: a new one gets the ring with no CSS, and a control next to another
+  element leaves room for it (the GitHub link's bottom margin keeps the ring off the
+  header). The ring is an `outline`, not a
   `box-shadow` (hover rules set their own); its width, gap and colour sit on the base
   `button, a` rule and only `outline-style` flips on `:focus-visible`, because buttons use
   `transition: all` and would animate the ring in. An element focused only from script

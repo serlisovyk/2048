@@ -48,7 +48,6 @@ dialog::backdrop {
   width: 360px;
 }
 
-/* A setting: a heading and its controls. Each one arrives with its own section. */
 .settings-section {
   width: 100%;
   margin-bottom: 20px;
@@ -80,10 +79,6 @@ dialog::backdrop {
   margin-bottom: 10px;
 }
 
-/* Numbers, each a small label over a bold value: the summary of a game (a row, in the win
-   and game-over cards) and the statistics (a grid, in the settings). White on the win card's
-   gradient is only 3.7:1 at its lightest corner, so the summary sits on a dark tint, and its
-   labels keep the full text colour (no opacity). */
 .game-summary dt,
 .statistics dt {
   font-size: 13px;

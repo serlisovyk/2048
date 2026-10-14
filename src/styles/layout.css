@@ -24,11 +24,6 @@ body {
   user-select: none;
 }
 
-/* The last child of .game-layout, so it is as wide as the board without knowing it: like
-   the header it adds only its minimum width to the wrapper (the percentage is applied
-   after). Its auto margin pairs with the header's: with room they split it, so the
-   footer is at the bottom of the page and the game centred above it; without room both
-   are 0 and the layout's gap is the distance to the board. */
 .site-footer {
   width: min-content;
   min-width: 100%;
@@ -40,12 +35,6 @@ body {
   text-align: center;
 }
 
-/* The grid owns the board size (GridView sets --board-size), so the cell size is
-   declared on it. Its first term is the old 4x4 rule with the size in it (72vw / 4 is
-   18vw, a 100px cap): 3x3 never gets a cell bigger than 4x4's, 5x5 an 80px cap that
-   keeps the board about as wide as the 4x4 one. The second term is what is left of the
-   viewport after the page padding and the size + 3 gaps (the two paddings and the gaps
-   between cells), so no board is ever wider than the screen. */
 .game-grid {
   --cell-size: min(
     clamp(

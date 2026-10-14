@@ -62,9 +62,6 @@
   background-color: var(--button-outline-hover-bg);
 }
 
-/* A choice among a few options (the board size): radio buttons drawn as a row of buttons.
-   The inputs stay in the page, visually hidden, so it is still a radio group for the
-   keyboard and for screen readers; the chosen segment is filled like a primary button. */
 .segmented {
   display: flex;
 }
@@ -133,9 +130,6 @@
   color: var(--icon-hover);
 }
 
-/* The GitHub mark in a 44px target. A flex item of body, so it has a row of its own at
-   the top right of the page and never shares a line with the header; the bottom margin
-   keeps its focus ring (3px and a 3px offset) off the header. */
 .github-link {
   display: flex;
   align-self: flex-end;
@@ -167,8 +161,6 @@
   display: block;
 }
 
-/* The toggle shows the theme it switches to: the sun on the dark page, the moon on the
-   light one. Dark is also what a page without data-theme looks like. */
 .theme-toggle .theme-icon-moon {
   display: none;
 }

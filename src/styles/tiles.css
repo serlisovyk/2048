@@ -26,15 +26,11 @@
   --tile-fallback: #3049a4;
 }
 
-/* The tile colours work on both pages; only the depth cues get light-theme values. */
 :root[data-theme='light'] {
   --tile-2048-glow: rgba(214, 150, 10, 0.55);
   --tile-shadow: rgba(60, 40, 10, 0.28);
 }
 
-/* Fallback: every value without a rule of its own below (32768 and up). The text is a
-   share of the cell by digit count, 0.4 (1-2), 0.35, 0.3, 0.25, and 0.2 (6), so it
-   scales with the board size. */
 .tile[data-value] {
   background-color: var(--tile-fallback);
   background-image: var(--tile-sheen);

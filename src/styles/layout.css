@@ -26,10 +26,6 @@
   body {
     --page-padding: 10px;
   }
-
-  .game-container {
-    padding: var(--cell-gap);
-  }
 }
 
 @media (max-height: 600px) {

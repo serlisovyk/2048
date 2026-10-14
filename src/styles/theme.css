@@ -29,7 +29,6 @@
 
   --backdrop: rgba(0, 0, 0, 0.5);
   --dialog-text: #ffffff;
-  --dialog-ring: #ffffff;
   --dialog-shadow: rgba(0, 0, 0, 0.5);
   --game-over-bg: rgba(80, 50, 50, 0.95);
   --win-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -77,7 +76,6 @@
 :root[data-theme='light'] .confirm-dialog,
 :root[data-theme='light'] .settings-dialog {
   --dialog-text: #2e2620;
-  --dialog-ring: #2e2620;
   --button-bg: #2e2620;
   --button-text: #fffdf8;
   --button-hover-bg: #4a3f36;

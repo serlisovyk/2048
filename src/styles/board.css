@@ -4,30 +4,23 @@
   background-color: var(--board-bg);
   padding: var(--cell-gap);
   border-radius: clamp(8px, 2vw, 15px);
-  backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px var(--board-shadow);
   touch-action: none;
   user-select: none;
 }
 
 .game-grid {
+  --board-size: 4;
   --cell-size: min(
-    clamp(
-      60px,
-      72vw / var(--board-size, 4),
-      min(100px, 400px / var(--board-size, 4))
-    ),
-    (
-        100vw - 2 * var(--page-padding) - (var(--board-size, 4) + 3) *
-          var(--cell-gap)
-      ) /
-      var(--board-size, 4)
+    clamp(60px, 72vw / var(--board-size), min(100px, 400px / var(--board-size))),
+    (100vw - 2 * var(--page-padding) - (var(--board-size) + 3) * var(--cell-gap)) /
+      var(--board-size)
   );
 
   position: relative;
   display: grid;
-  grid-template-columns: repeat(var(--board-size, 4), var(--cell-size));
-  grid-template-rows: repeat(var(--board-size, 4), var(--cell-size));
+  grid-template-columns: repeat(var(--board-size), var(--cell-size));
+  grid-template-rows: repeat(var(--board-size), var(--cell-size));
   gap: var(--cell-gap);
   background-color: var(--grid-bg);
   padding: var(--cell-gap);
@@ -60,29 +53,27 @@
 }
 
 .is-sliding .tile {
-  transition: translate var(--tile-slide-duration, 110ms) ease-out;
+  transition: translate var(--tile-slide-duration) ease-out;
 }
 
 .merged-tile {
   visibility: hidden;
-  animation: merge-pop var(--tile-pop-duration, 100ms) ease-out
-    var(--tile-slide-duration, 110ms) forwards;
+  animation: merge-pop var(--tile-pop-duration) ease-out var(--tile-slide-duration)
+    forwards;
 }
 
 .retired-tile {
-  animation: tile-retire 0s var(--tile-slide-duration, 110ms) forwards;
+  animation: tile-retire 0s var(--tile-slide-duration) forwards;
 }
 
 .new-tile {
-  animation: pop-in var(--tile-pop-duration, 100ms) ease-out backwards;
+  animation: pop-in var(--tile-pop-duration) ease-out backwards;
 }
 
 .new-tile.after-slide {
-  animation-delay: var(--tile-slide-duration, 110ms);
+  animation-delay: var(--tile-slide-duration);
 }
 
 .new-tile.after-merge {
-  animation-delay: calc(
-    var(--tile-slide-duration, 110ms) + var(--tile-pop-duration, 100ms)
-  );
+  animation-delay: calc(var(--tile-slide-duration) + var(--tile-pop-duration));
 }

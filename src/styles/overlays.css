@@ -7,7 +7,7 @@
   border: none;
   border-radius: 15px;
   color: var(--dialog-text);
-  --focus-ring-color: var(--dialog-ring);
+  --focus-ring-color: var(--dialog-text);
   max-width: 90vw;
   text-align: center;
 }

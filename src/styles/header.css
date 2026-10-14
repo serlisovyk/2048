@@ -75,7 +75,6 @@
   color: var(--on-gold);
   font-size: clamp(11px, 2.8vw, 12px);
   font-weight: bold;
-  line-height: 1.15;
   white-space: nowrap;
   pointer-events: none;
   animation: record-badge var(--record-badge-duration) ease-out forwards;

@@ -1,3 +1,5 @@
+import { Validation } from './Validation.js'
+
 // What the player has done over all games and all board sizes: four numbers. The model
 // counts what it is told happened; the controller says when, and owns storage.
 export class Statistics {
@@ -22,10 +24,10 @@ export class Statistics {
 
     this.reset()
 
-    if (Statistics.#isCount(played)) this.#played = played
-    if (Statistics.#isCount(wins)) this.#wins = wins
-    if (Statistics.#isCount(bestScore)) this.#bestScore = bestScore
-    if (Statistics.#isTileValue(bestTile)) this.#bestTile = bestTile
+    if (Validation.isCount(played)) this.#played = played
+    if (Validation.isCount(wins)) this.#wins = wins
+    if (Validation.isCount(bestScore)) this.#bestScore = bestScore
+    if (Validation.isTile(bestTile)) this.#bestTile = bestTile
   }
 
   reset() {
@@ -53,21 +55,5 @@ export class Statistics {
   // A game that was left by starting a new one after at least one move.
   recordRestart() {
     this.#played += 1
-  }
-
-  static #isCount(value) {
-    return Number.isSafeInteger(value) && value >= 0
-  }
-
-  // 0 (no game yet) or a tile: a power of two from 2 up, as the board's own check.
-  static #isTileValue(value) {
-    if (value === 0) return true
-    if (!Statistics.#isCount(value) || value < 2) return false
-
-    let remainder = value
-
-    while (remainder % 2 === 0) remainder /= 2
-
-    return remainder === 1
   }
 }

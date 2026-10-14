@@ -1,4 +1,5 @@
 import { DIRECTIONS, FOUR_TILE_PROBABILITY } from '../constants.js'
+import { Validation } from './Validation.js'
 
 export class Board {
   #size
@@ -179,20 +180,9 @@ export class Board {
         (row) =>
           Array.isArray(row) &&
           row.length === size &&
-          row.every((value) => Board.#isTileValue(value)),
+          row.every((value) => Validation.isTile(value)),
       )
     )
-  }
-
-  static #isTileValue(value) {
-    if (value === 0) return true
-    if (!Number.isSafeInteger(value) || value < 2) return false
-
-    let remainder = value
-
-    while (remainder % 2 === 0) remainder /= 2
-
-    return remainder === 1
   }
 
   // Where each tile of a line lands, in sliding order: `sources` are the line

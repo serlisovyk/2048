@@ -1,5 +1,6 @@
 import { BOARD_SIZES, WIN_TILES } from '../constants.js'
 import { Board } from './Board.js'
+import { Validation } from './Validation.js'
 
 export class Game {
   #size
@@ -72,8 +73,8 @@ export class Game {
 
     if (
       !restoredBoard.restore(board) ||
-      !Game.#isCount(score) ||
-      !Game.#isCount(moves) ||
+      !Validation.isCount(score) ||
+      !Validation.isCount(moves) ||
       typeof hasWon !== 'boolean' ||
       !restoredBoard.hasAvailableMoves()
     ) {
@@ -147,9 +148,5 @@ export class Game {
       justWon,
       isOver: this.#isOver,
     }
-  }
-
-  static #isCount(value) {
-    return Number.isSafeInteger(value) && value >= 0
   }
 }

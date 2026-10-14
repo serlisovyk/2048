@@ -17,18 +17,19 @@ the rules do not cover:
 
 - **Gameplay**: moves, merges (no double merge in one move), scoring, spawning, win at the
   target tile, `Continue`, game over, high score — still correct? The New record badge
-  shows once per game, only when the record was above 0, and starts over after `New Game`,
-  `Restart Game` and the high score reset.
+  shows once per game, only when the record was above 0, and starts over after `New game`
+  and the high score reset.
 - **Statistics** (`ai/decisions/2026-10-13-statistics.md`): a game is played once (a game
-  over, or a game left by `New Game`, a size or a target change after at least one move; a
-  fresh board, a `Restart Game` after a game over and a reload add nothing), a win once per
+  over, or a game left by `New game`, a size or a target change after at least one move; a
+  fresh board, the `New game` of a game-over dialog and a reload add nothing), a win once per
   game (a win that ends the game on the same move adds a win and a played game); the summary
   in the dialogs equals the header's score, the presses that changed the board and the
-  largest tile; the reset asks first, never shows two dialogs, reopens the settings on "no",
+  largest tile; the reset asks first, never shows two dialogs, reopens the settings after either answer,
   and touches neither the high scores nor the game.
 - **Input**: keyboard and swipe both go through the single movement guard; nothing moves
   while a dialog is open or after game over; a press during an animation is applied at once
-  (no lock, no queue, no dropped move).
+  (no lock, no queue, no dropped move); a swipe is read on the whole page but not from a
+  control, not by a second finger, not under a dialog, and pinch zoom still works.
 - **Tile animation**: the merge pop only on real merges (none after a plain slide or a
   reload), slide then merge pop then new tile, no tile trails its cell while the window is
   resized, no stray or hidden tile element after a burst of presses, reduced motion changes

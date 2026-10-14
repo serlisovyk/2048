@@ -35,7 +35,7 @@ conventions. `ai/map.md` says where every file and class lives.
   `showModal()`, with no custom overlay, focus trap, or `style.display` toggling
   (`ai/decisions/2026-10-10-native-dialog.md`).
 - Never two dialogs open at once: a question asked from the settings closes the settings first
-  and reopens it on "no" (`ai/decisions/2026-10-11-settings-dialog-and-storage.md`).
+  and reopens them after the answer (`ai/decisions/2026-10-14-settings-reopen-after-a-question.md`).
 - Do not add React, Vue, Angular, or another UI framework.
 - Do not rename existing CSS classes only for cosmetic reasons; class names are part
   of the local styling contract.

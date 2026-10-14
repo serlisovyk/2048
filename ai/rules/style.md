@@ -3,7 +3,6 @@
 ## General
 
 - Prefer readable HTML, CSS, and JavaScript over clever tricks.
-- Keep changes close to the feature or file section they affect.
 - **No comments in `src/`** (HTML, CSS, JavaScript). Names and structure say what the code does; a
   durable "why" goes to a rule, a skill or a decision record (`ai/rules/docs.md`).
 - Use existing naming and spacing patterns before introducing new ones.
@@ -16,6 +15,8 @@
 - Give interactive controls clear accessible names when visible text is not enough. An
   icon-only button or link has an `aria-label` and a `title` with the same text (a link
   that opens a new tab says so: `… (opens in a new tab)`).
+- **Texts are sentence case** (`New game`, `Game over`, `High score`; CSS capitalises a label, the markup does
+  not), and one action has one name wherever it shows: the toolbar, the confirmation, the dialogs.
 - Icons are inline SVG written in the markup: `viewBox`, `stroke="currentColor"` (or
   `fill`), `aria-hidden="true"`, `focusable="false"`. No icon font, icon library, image
   file, or `<use>` sprite.
@@ -123,9 +124,9 @@
   `line-height: 1.15` so box heights do not depend on which face is active. A new weight, an
   italic, another script or another face needs a decision record
   (`ai/decisions/2026-10-10-self-hosted-font.md`).
-- A swipe surface carries `touch-action: none` and stays as small as the surface;
-  `SwipeInput` listens on `.game-container`, so if that surface changes, move `touch-action`
-  with it (`ai/decisions/2026-10-10-no-viewport-zoom-lock.md`).
+- The swipe surface is the whole page: `SwipeInput` listens on `document` and `html`, `body` carry
+  `touch-action: pinch-zoom` (no single-finger pan, pinch zoom stays); nothing else sets it, and never
+  `none` or a viewport zoom lock (`ai/decisions/2026-10-14-swipe-on-the-whole-page.md`).
 - Avoid one-off visual effects that do not improve the game UI.
 
 ## JavaScript
@@ -134,7 +135,6 @@
   constructor-injected dependencies.
 - Imports include the `.js` extension.
 - Keep game logic simple and event-driven.
-- Do not add utility-heavy abstractions for one-use logic.
 - An empty `catch {}` fails ESLint `no-empty` (comments are gone): let it return a fallback.
 - **A clean `return`:** a name, a literal, one call or a boolean of names (`return isNewBest || isOver`). A
   ternary, `??`, a chain or a call inside an object literal is computed into a `const` first.

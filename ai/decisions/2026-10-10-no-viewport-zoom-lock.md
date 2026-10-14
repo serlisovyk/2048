@@ -1,6 +1,6 @@
 # Double-tap zoom is stopped with `touch-action`, not a viewport zoom lock
 
-Date: 2026-10-10 · Status: accepted
+Date: 2026-10-10 · Status: accepted · partly superseded by `2026-10-14-swipe-on-the-whole-page.md` (the swipe surface and the `touch-action` values)
 
 ## Context
 

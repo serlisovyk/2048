@@ -56,7 +56,7 @@ trap, `::backdrop` and `cancel` on `Escape` come free (`ai/decisions/2026-10-10-
 - View: `OverlayView` owns the `<dialog>` elements `main.js` passes in: `open…()` calls
   `showModal()`, `close…()` calls `close()`; no `style.display`, no manual focus. A dialog
   with state of its own gets its own view class. A modal page takes no move, so the two
-  game-end dialogs never need to close each other.
+  game-end dialogs never close each other.
 - `Escape` is the `cancel` event: cancel it and run the action that fits (`onContinue` answers
   it too), or only `preventDefault()` when there is nothing to dismiss into. A browser may
   close a dialog by force on a repeated `Escape`: leave it closed, keep the controller valid.
@@ -64,8 +64,8 @@ trap, `::backdrop` and `cancel` on `Escape` come free (`ai/decisions/2026-10-10-
   (`OverlayView.onClose`); a dialog a button opens and the player can dismiss (the
   confirmation, the settings) gives it back to that button.
 - The controller decides when to open which dialog; the model only reports (`hasJustWon`,
-  `isOver`). What a dialog says about the game (`#getSummary()`) is written by the view into
-  the `[data-summary]` element of that name: the markup holds labels and no number.
+  `isOver`). The view writes what a dialog says about the game into its `[data-summary]`
+  elements: the markup holds labels, no number.
 - CSS (`overlays.css`): the `dialog` rule is every dialog's look (`display` only on
   `&[open]`, `margin: auto`, the dimming on `&::backdrop`); its own class adds only what
   differs (background, a shadow colour). `::backdrop` is in the reduced-motion selector in
@@ -73,14 +73,14 @@ trap, `::backdrop` and `cancel` on `Escape` come free (`ai/decisions/2026-10-10-
 
 **Confirmation** ("are you sure?" before something hard to undo) — do not write another
 dialog: `ConfirmDialogView.ask({ title, message, confirmLabel })` returns a `Promise<boolean>`
-(`#confirm` in the controller wraps `ask()` and the focus rule; the wording is a private
-static frozen prompt next to the use case). `Cancel` is in the markup and has the initial focus; `Escape` or a forced close answer
-`false`, and only a closed dialog answers: its `close` event can arrive after a new question
-has opened it. Ask only when there is something to lose (`game.isInProgress`); buttons whose
-intent is explicit use `restart()`. Focus: after a "no" call `restoreFocus()` (fall back to
-`returnFocusToBoard()` when it returns `false`); after a "yes" act, then focus the board
-(`restartAndFocus()`). Never stacked over another dialog: the settings close first and reopen
-on "no" (`ai/decisions/2026-10-10-confirm-dialog.md`).
+(`#confirm` in the controller wraps `ask()` and the focus rule; the wording is a frozen
+prompt next to the use case). `Cancel` is in the markup and has the initial focus;
+`Escape` or a forced close answer `false`, and only a closed dialog answers: its `close` event
+can arrive after a new question has opened it. Ask only when there is something to lose
+(`game.isInProgress`); buttons whose intent is explicit use `restart()`. Focus: after a "no" call
+`restoreFocus()` (fall back to `returnFocusToBoard()` when it returns `false`); after a "yes" act,
+then focus the board (`restartAndFocus()`). Never stacked over another dialog: the settings close,
+ask and reopen after the answer (`ai/decisions/2026-10-14-settings-reopen-after-a-question.md`).
 
 **Setting** — a choice the player makes once and the game keeps (board size, win target):
 data plus a section of the existing dialog
@@ -100,24 +100,27 @@ data plus a section of the existing dialog
   checks the stored value and `onChange` reports `(name, value)` to
   `SettingsController.requestChange`: nothing to wire in `main.js`. A few exclusive options
   are a `.segmented` control: the inputs stay a real radio group (`visually-hidden`), the
-  `<span>` after each is drawn and carries the focus ring.
+  `<span>` after each is drawn and carries the focus ring. The dialog has no `autofocus`:
+  `SettingsView.open` focuses the checked option of the first group.
 - A change starts a new game: `requestChange` ignores an unchanged or invalid value, asks
-  first in a game in progress (the settings reopen on "no" with the stored value, so a refusal
-  needs no revert), saves, then `GameController.restart()`. The game reads the value where it
-  builds the game: both controllers get the same `Settings`, and the settings start first.
+  first in a game in progress, saves, then `GameController.restart()`; the settings reopen after
+  either answer, rendered from the stored values (a refusal needs no revert) and focused on the
+  changed group (`focusSetting`). The game reads the value where it builds the game: both
+  controllers get the same `Settings`, and the settings start first.
 - Choices that depend on another setting (win target on board size): `dependsOn: <name>`,
   an `allowedValues` map from the other's value to the choices, no `defaultValue` (the
   middle choice, again each time the other changes), listed after what it depends on. The
-  radios' values and labels come from `SettingsView.render(values, choices)`;
-  `SettingsController.#render` passes `getAllowedValues` every time.
+  radios' values and labels come from `SettingsView.render(values, choices)`, which
+  `SettingsController.#render` calls with `getAllowedValues` every time.
 - Also part of the saved game (size, win target): the save stores what the game was built
-  with; a save that disagrees with the stored setting wins, and `GameController` sets the
-  in-memory setting from it, the one others depend on first; `SettingsController` stays the
-  only writer. Data kept per choice (the high score per size) gets a key per choice
+  with and wins over the stored setting; `GameController` sets the in-memory setting from it
+  (the one others depend on first), `SettingsController` stays the only writer. Data kept per
+  choice (the high score per size) gets a key per choice
   (`ai/decisions/2026-10-12-board-size-records-and-saved-game.md`).
 - An action inside a section (the statistics reset): `SettingsController.#askFromSettings`
-  closes the settings, asks through `ConfirmDialogView` and reopens on "no"; on "yes" act and
-  focus the board. A section that is not a radio group (Statistics) is markup (a `<dl>` whose
+  closes the settings and asks through `ConfirmDialogView`; on "yes" act, then `open()` either
+  way, and after a "no" focus the button (`focusResetStatistics`). A section that is not a radio
+  group (Statistics) is markup (a `<dl>` whose
   `<dd data-statistic="…">` are named after the fields shown) plus a `SettingsView` method
   that writes the values (`renderStatistics`, called by `#render`) and `on<Action>` for its
   button; no `SETTING_DEFINITIONS` entry. A button with nothing to do is `hidden`. The high
@@ -129,11 +132,11 @@ data plus a section of the existing dialog
   that comes from code (the footer's year) is written by a view (`FooterView`)
   (`ai/decisions/2026-10-13-footer-and-github-link.md`).
 - A header action (the theme toggle, the settings button) is a `.toolbar-button` in
-  `.toolbar`: copy the `New Game` button, give it an inline SVG icon (24px), an `aria-label`
+  `.toolbar`: copy the `New game` button, give it an inline SVG icon (24px), an `aria-label`
   and a `title` with the same text, a hook class for its view and a one-method view class
-  (`NewGameView`). No CSS, unless the icon depends on a state (the theme toggle holds both
-  icons and `controls.css` shows one by `data-theme`). Three buttons fit at 320px, a fourth
-  does not (`ai/decisions/2026-10-10-header-toolbar.md`).
+  (`NewGameView`). No CSS, unless the icon depends on a state (the theme toggle shows one of
+  two by `data-theme`). Three buttons fit at 320px, a fourth does not
+  (`ai/decisions/2026-10-10-header-toolbar.md`).
 - A value that changes during play and that a screen-reader user needs gets a live region
   owned by its view (`ScoreView`), updated after a debounce; something that must be heard but
   is not the value (the `New record!` badge) rides on that announcement (`ai/rules/style.md`,
@@ -148,8 +151,8 @@ reorder player input (`ai/rules/style.md`).
   one still in the air (`ai/decisions/2026-10-10-score-pop.md`).
 - A flourish that needs a newer browser API (the theme reveal, a View Transition) is a
   progressive enhancement: feature-detect it in the view, skip it under reduced motion in
-  JS, keep the instant path as the base behaviour, keep its coordinates as custom
-  properties, and swallow the `ready` rejection of a transition a newer one replaced
+  JS, keep the instant path as the base, keep its coordinates as custom properties, and
+  swallow the `ready` rejection of a replaced transition
   (`ai/decisions/2026-10-10-view-transitions-progressive-enhancement.md`).
 - A tile animation follows the move result (`GridView.animateMove`), not a diff of the
   board; the order (slide, merge pop, new tile) is CSS delays, not JS timers. The view
@@ -157,8 +160,7 @@ reorder player input (`ai/rules/style.md`).
   lock, no queue. A whole board is drawn with `render({ size, tiles, spawnedTiles })`: a new
   game pops its tiles in, a restored one draws with no animation. When a move settles the
   view re-appends the tiles in row-major order, for screen readers; re-appending drops a
-  transition, so only the settle timer does it, never a move
-  (`ai/decisions/2026-10-10-tiles-over-the-grid.md`,
+  transition, so only the settle timer does it (`ai/decisions/2026-10-10-tiles-over-the-grid.md`,
   `ai/decisions/2026-10-10-input-during-tile-animation.md`).
 
 ## Avoid
@@ -169,4 +171,4 @@ What the rules and decisions do not already say loudly:
   written on a path other than `SettingsController`.
 - A placeholder button, section or state for a feature that does not exist yet.
 - A "has beaten the record" flag in the model or in the saved game.
-- A pixel position written by JS, or an input lock, cooldown or queue for an animation.
+- A pixel position written by JS.

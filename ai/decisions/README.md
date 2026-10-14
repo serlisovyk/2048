@@ -73,6 +73,8 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [The high score reset stays next to the high score, not in the settings](2026-10-11-high-score-reset-stays-in-the-header.md)
 - [The settings dialog is built before its first section; one dialog at a time; one `settings` object](2026-10-11-settings-dialog-and-storage.md)
 - [The footer year is written by a view; the GitHub link is a row of its own](2026-10-13-footer-and-github-link.md)
+- [The settings reopen after their questions, with focus on what was used, and open on the first group](2026-10-14-settings-reopen-after-a-question.md)
+- [A swipe is read on the whole page; `touch-action: pinch-zoom` keeps pinch zoom](2026-10-14-swipe-on-the-whole-page.md)
 
 ### Look: theme, colours, type, geometry
 

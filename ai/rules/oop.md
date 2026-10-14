@@ -61,6 +61,7 @@ Each class has one reason to change:
 - `show*` / `hide*` is a transient decoration (`showScoreGain`, `showNewRecord`).
 - `open*` / `close*` is a native `<dialog>` (`openWin`, `closeAll`, `SettingsView.open`);
   `ConfirmDialogView.ask()` answers a `Promise<boolean>`.
+- `focus*` moves focus inside a view (`GridView.focus`, `SettingsView.focusSetting`).
 - `on<Action>(handler)` reports a user action of a view. A view attaches the listeners it
   handles itself in its constructor; an input class takes `onDirection` in its options and
   listens after `bind()`.

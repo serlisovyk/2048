@@ -39,7 +39,7 @@ Views (`ui/`) — own their elements and render what they are given; user action
 - `GridView` — the background cells and the tile elements; animates a move from the model's result.
 - `ScoreView` — score and high score, the live region, the `+N` pop, the `New record!` badge, the high score reset button.
 - `OverlayView` — the win and game-over dialogs and the summary of the game in them.
-- `NewGameView` — the New Game toolbar button.
+- `NewGameView` — the New game toolbar button.
 - `ConfirmDialogView` — the one reusable "are you sure?" dialog: `ask()` returns a `Promise<boolean>`.
 - `SettingsView` — the settings dialog, its toolbar button, the Statistics numbers.
 - `ThemeView` — `<html data-theme>`, the toggle button, the `theme-color` metas, the View Transition reveal.
@@ -48,7 +48,7 @@ Views (`ui/`) — own their elements and render what they are given; user action
 Input (`input/`) and storage (`storage/`):
 
 - `KeyboardInput` — arrows and WASD by `event.code` → a direction callback.
-- `SwipeInput` — a pointer swipe on `.game-container` → a direction callback.
+- `SwipeInput` — a pointer swipe anywhere on the page (one primary pointer, not on a control, not under a dialog) → a direction callback.
 - `SafeStorage` — `localStorage` behind an API that never throws; the only code that touches it, bar `themeHead.js`.
 
 Controllers (`controllers/`) — one role each: use cases and flow state:

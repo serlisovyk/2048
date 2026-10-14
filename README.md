@@ -16,8 +16,8 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Board sizes 3×3, 4×4 and 5×5 from the settings dialog, with a high score for each
 - A win target of your choice, three per board size (4×4: 1024, 2048 or 4096), saved with the game
 - Keyboard controls for desktop: arrow keys or WASD, on any keyboard layout
-- Swipe controls for touch screens: a swipe works anywhere on the board area, with
-  no pull-to-refresh and no double-tap zoom
+- Swipe controls for touch screens: a swipe works anywhere on the page (not on buttons or
+  links, not under a dialog), with no pull-to-refresh and no double-tap zoom; pinch zoom still works
 - A header above the board, as wide as the board: the `2048` logo, the score and the
   persisted high score in two boxes, and a toolbar of icon buttons (inline SVG, each
   with a label and a tooltip). A small icon in the high score box resets it after a
@@ -39,7 +39,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - The game in progress is saved in the browser and restored after a reload
 - Win dialog: keep playing or start a new game (`Escape` keeps playing)
 - Game-over dialog when no moves remain; if the same move reaches the target, it says so
-- The `New Game` icon button in the header, in the middle of a game, asks for
+- The `New game` icon button in the header, in the middle of a game, asks for
   confirmation first (`Cancel` is focused, `Escape` cancels and focus returns to the
   button); a fresh or finished game starts over at once
 - Dialogs are native `<dialog>` modals: the page behind is dimmed and inert, `Tab`
@@ -47,7 +47,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Responsive layout for desktop, tablet, and small mobile screens, clear of notches
   and home indicators
 - Footer with the author's name and year, and a GitHub icon linking to the source
-- Game summary (score, moves, highest tile) in the win and game-over dialogs, and all-time statistics with a reset in the settings
+- Game summary (score, moves, best tile) in the win and game-over dialogs, and all-time statistics with a reset in the settings
 - Generated board cells and tiles for any board size
 - SVG favicon based on a compact 2x2 2048 board
 - Link preview image for social networks (Open Graph, Twitter card)

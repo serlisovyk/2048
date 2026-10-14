@@ -1,6 +1,6 @@
 # The settings dialog is built before its first section; one dialog at a time; one `settings` object
 
-Date: 2026-10-11 · Status: accepted
+Date: 2026-10-11 · Status: accepted · partly superseded by `2026-10-14-settings-reopen-after-a-question.md` (the reopening after an answer, and the focus)
 
 ## Context
 

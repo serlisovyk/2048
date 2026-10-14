@@ -73,6 +73,7 @@ export class Game {
 
     if (
       !restoredBoard.restore(board) ||
+      restoredBoard.getHighestTile() === 0 ||
       !Validation.isCount(score) ||
       !Validation.isCount(moves) ||
       typeof hasWon !== 'boolean' ||
@@ -110,7 +111,7 @@ export class Game {
       this.#board.spawnRandomTile(),
     ]
 
-    return { spawnedTiles: spawnedTiles.filter(Boolean) }
+    return { spawnedTiles }
   }
 
   move(direction) {
@@ -132,8 +133,8 @@ export class Game {
     this.#moves += 1
     this.#score += scoreGained
 
-    const spawnedTile = this.#board.spawnRandomTile()
-    const justWon = !this.#hasWon && this.#board.hasTile(this.#winTile)
+    const spawnedTiles = [this.#board.spawnRandomTile()]
+    const justWon = !this.#hasWon && this.#board.getHighestTile() >= this.#winTile
 
     if (justWon) this.#hasWon = true
 
@@ -144,7 +145,7 @@ export class Game {
       scoreGained,
       slides,
       merges,
-      spawnedTiles: spawnedTile ? [spawnedTile] : [],
+      spawnedTiles,
       justWon,
       isOver: this.#isOver,
     }

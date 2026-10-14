@@ -1,18 +1,14 @@
 export class SafeStorage {
-  #storage
+  #storage = SafeStorage.#getLocalStorage()
 
-  constructor(storage = SafeStorage.#getLocalStorage()) {
-    this.#storage = storage
-  }
-
-  getNumber(key, fallback = 0) {
+  getNumber(key) {
     try {
       const rawValue = this.#storage?.getItem(key)
       const value = Number(rawValue)
 
-      return rawValue != null && Number.isFinite(value) ? value : fallback
+      return rawValue != null && Number.isFinite(value) ? value : 0
     } catch {
-      return fallback
+      return 0
     }
   }
 
@@ -43,11 +39,7 @@ export class SafeStorage {
   }
 
   setJson(key, value) {
-    try {
-      this.setValue(key, JSON.stringify(value))
-    } catch {
-      // The value cannot be serialized: there is nothing to persist.
-    }
+    this.setValue(key, JSON.stringify(value))
   }
 
   remove(key) {

@@ -17,7 +17,10 @@ export const FOUR_TILE_PROBABILITY = 0.1
 export const SCORE_ANNOUNCEMENT_DELAY_MS = 500
 export const TILE_SLIDE_MS = 110
 export const TILE_POP_MS = 100
-export const TILE_CLEANUP_MS = TILE_SLIDE_MS + 2 * TILE_POP_MS + 50
+const TILE_CLEANUP_MARGIN_MS = 50
+
+export const TILE_CLEANUP_MS =
+  TILE_SLIDE_MS + 2 * TILE_POP_MS + TILE_CLEANUP_MARGIN_MS
 
 export const DIRECTIONS = Object.freeze({
   UP: 'up',
@@ -69,9 +72,12 @@ export const SETTING_NAMES = Object.freeze({
 // are `allowedValues[value of the other]` and it starts from the middle one, again each
 // time the other one changes.
 export const SETTING_DEFINITIONS = Object.freeze({
-  [SETTING_NAMES.BOARD_SIZE]: { defaultValue: 4, allowedValues: BOARD_SIZES },
-  [SETTING_NAMES.WIN_TILE]: {
+  [SETTING_NAMES.BOARD_SIZE]: Object.freeze({
+    defaultValue: 4,
+    allowedValues: BOARD_SIZES,
+  }),
+  [SETTING_NAMES.WIN_TILE]: Object.freeze({
     dependsOn: SETTING_NAMES.BOARD_SIZE,
     allowedValues: WIN_TILES,
-  },
+  }),
 })

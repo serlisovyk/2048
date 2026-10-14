@@ -1,8 +1,7 @@
 import { KEY_CODE_DIRECTIONS } from '../constants.js'
 
 export class KeyboardInput {
-  static #NON_GAME_CONTEXT_SELECTOR =
-    'input, textarea, select, dialog[open], [role="dialog"]'
+  static #NON_GAME_CONTEXT_SELECTOR = 'input, dialog[open]'
 
   #target
   #onDirection

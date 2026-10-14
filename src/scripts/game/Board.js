@@ -35,9 +35,6 @@ export class Board {
 
   spawnRandomTile() {
     const emptyCells = this.#getEmptyCells()
-
-    if (emptyCells.length === 0) return null
-
     const { row, col } = emptyCells[Math.floor(Math.random() * emptyCells.length)]
     const tile = this.#createTile(Math.random() < FOUR_TILE_PROBABILITY ? 4 : 2)
 
@@ -72,10 +69,6 @@ export class Board {
   // larger one, so this is also the highest tile the game has reached.
   getHighestTile() {
     return Math.max(0, ...this.toArray().flat())
-  }
-
-  hasTile(value) {
-    return this.#cells.some((row) => row.some((tile) => tile?.value === value))
   }
 
   hasAvailableMoves() {

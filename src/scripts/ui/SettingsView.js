@@ -31,7 +31,7 @@ export class SettingsView {
 
   // Checks the radio button of every named group whose value is the setting's. A group
   // listed in `choices` (a setting whose options change) takes them first.
-  render(values, choices = {}) {
+  render(values, choices) {
     Object.entries(choices).forEach(([name, options]) =>
       this.#renderChoices(name, options),
     )

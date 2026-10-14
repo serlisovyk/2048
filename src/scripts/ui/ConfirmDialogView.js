@@ -25,13 +25,12 @@ export class ConfirmDialogView {
     this.#dialog.addEventListener('close', this.#handleClose)
   }
 
-  ask({ title, message, confirmLabel, cancelLabel = 'Cancel' }) {
+  ask({ title, message, confirmLabel }) {
     if (this.#dialog.open) return Promise.resolve(false)
 
     this.#opener = this.#findOpener()
     this.#titleElement.textContent = title
     this.#messageElement.textContent = message
-    this.#cancelButton.textContent = cancelLabel
     this.#confirmButton.textContent = confirmLabel
 
     return new Promise((resolve) => {

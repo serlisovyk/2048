@@ -22,14 +22,10 @@ export class Settings {
   set(name, value) {
     const allowedValue = this.#findAllowedValue(name, value)
 
-    if (allowedValue === undefined) return false
+    if (allowedValue === undefined || allowedValue === this.#values[name]) return
 
-    if (allowedValue !== this.#values[name]) {
-      this.#values[name] = allowedValue
-      this.#resetDependents(name)
-    }
-
-    return true
+    this.#values[name] = allowedValue
+    this.#resetDependents(name)
   }
 
   toState() {

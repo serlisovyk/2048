@@ -50,15 +50,13 @@ export class OverlayView {
   showWin({ winTile, summary }) {
     this.#winMessage.textContent = OverlayView.#getReachedMessage(winTile)
     OverlayView.#renderSummary(this.#winDialog, summary)
-    this.#gameOverDialog.close()
     this.#winDialog.showModal()
   }
 
-  showGameOver({ justWon = false, winTile, summary }) {
+  showGameOver({ justWon, winTile, summary }) {
     this.#winNote.textContent = OverlayView.#getReachedMessage(winTile)
     this.#winNote.hidden = !justWon
     OverlayView.#renderSummary(this.#gameOverDialog, summary)
-    this.#winDialog.close()
     this.#gameOverDialog.showModal()
   }
 

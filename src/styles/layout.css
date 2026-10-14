@@ -1,6 +1,7 @@
 .game-layout {
   --header-gap: clamp(10px, 2.5vw, 16px);
   --rows-height: calc(2 * var(--page-padding) + 3 * var(--header-gap) + 193px);
+  --side-width: 0px;
 
   display: flex;
   flex-direction: column;
@@ -16,6 +17,37 @@
 
   @media (height <= 600px) {
     --header-gap: 10px;
+  }
+
+  @media (height <= 570px) and (width >= 540px) and (orientation: landscape) {
+    --rows-height: calc(2 * var(--page-padding) + 50px);
+    --side-width: calc(276px + var(--header-gap));
+
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    align-content: center;
+    justify-content: center;
+
+    .game-header,
+    .site-footer {
+      margin-top: 0;
+    }
+
+    .game-header {
+      grid-area: 1 / 1;
+      align-self: start;
+    }
+
+    .game-container {
+      grid-area: 1 / 2 / 3;
+      align-self: center;
+    }
+
+    .site-footer {
+      grid-area: 2 / 1;
+      align-self: end;
+    }
   }
 }
 

@@ -16,7 +16,10 @@
         var(--board-size)
     ),
     clamp(60px, 72vw / var(--board-size), min(128px, 510px / var(--board-size))),
-    (100vw - 2 * var(--page-padding) - (var(--board-size) + 3) * var(--cell-gap)) /
+    (
+        100vw - 2 * var(--page-padding) - var(--side-width) -
+          (var(--board-size) + 3) * var(--cell-gap)
+      ) /
       var(--board-size)
   );
 

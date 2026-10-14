@@ -1,6 +1,6 @@
 # One tile palette in two ramps, a shared sheen, and a base-rule fallback
 
-Date: 2026-10-10 · Status: accepted
+Date: 2026-10-10 · Status: accepted; the 3:1 text contrast and the colours of 128 to 2048, 8192 and 16384 are superseded by 2026-10-14-tile-text-contrast.md
 
 ## Context
 

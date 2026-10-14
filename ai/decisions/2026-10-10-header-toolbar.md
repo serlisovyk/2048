@@ -1,6 +1,6 @@
 # One header with an icon toolbar; icons are inline SVG
 
-Date: 2026-10-10 · Status: accepted
+Date: 2026-10-10 · Status: accepted; on a short landscape window the header is beside the board, see 2026-10-14-board-fits-the-window.md
 
 ## Context
 

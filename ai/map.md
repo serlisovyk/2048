@@ -36,7 +36,7 @@ Model (`game/`) — rules and values; no DOM, storage or timers:
 
 Views (`ui/`) — own their elements and render what they are given; user actions are `on<Action>(handler)`:
 
-- `GridView` — the background cells and the tile elements; animates a move from the model's result.
+- `GridView` — the background cells and the tile elements, the board's accessible name; animates a move from the model's result.
 - `ScoreView` — score and high score, the live region, the `+N` pop, the `New record!` badge, the high score reset button.
 - `OverlayView` — the win and game-over dialogs and the summary of the game in them.
 - `NewGameView` — the New game toolbar button.
@@ -65,22 +65,22 @@ Controllers (`controllers/`) — one role each: use cases and flow state:
 `main.css` imports the rest, in this order (`motion.css` stays last):
 
 - `theme.css` — the scales (font sizes, radii, shadow geometry, durations, focus ring) and every UI colour for both themes, the theme reveal.
-- `base.css` — `@font-face`, reset, `body` (font, colours, flex column, safe areas, page padding), the focus ring, `.visually-hidden`.
-- `layout.css` — `.game-layout`, the width the header and the footer share, the footer.
+- `base.css` — `@font-face`, reset, `body` (font, colours, flex column, safe areas, page padding), the focus ring, `.label`, `.visually-hidden`.
+- `layout.css` — `.game-layout`, the width the header and the footer share, `--rows-height`, the short landscape layout, the footer.
 - `header.css` — the header (logo, score boxes), the score pop, the record badge.
 - `board.css` — `.game-container`, the grid and its cell size, the background cells, a tile's structure and animation classes.
 - `tiles.css` — the tile palette tokens and one rule per tile value, the fallback rule first.
 - `overlays.css` — the `dialog` look, the four dialogs, the backdrop, the summary and statistics blocks.
-- `controls.css` — `.button` / `.button-outline`, `.segmented`, the toolbar, the GitHub link, the theme toggle's icon swap.
+- `controls.css` — `.button` / `.button-outline`, `.segmented`, the toolbar, `.icon-button`, the GitHub link, the theme toggle's icon swap.
 - `animations.css` — every `@keyframes`.
 - `motion.css` — the `prefers-reduced-motion` overrides.
 
 ## `src/index.html`
 
 - Head: metadata (two `theme-color` metas, Open Graph, Twitter), the theme script (injected by a plugin), favicon, font preload, the entry.
-- Body: `.github-link` (a row of its own), then `.game-layout`: `.game-header` (logo, `.toolbar`, scores), `.game-container`, `.site-footer`.
+- Body: `.game-layout` (`.game-header`, `.game-container`, `.site-footer`), then `.github-link`: last in the DOM, the top row by `order`.
 - Four modal `<dialog>`s: win (`.win-overlay`), game over (`.game-over`), the confirmation (`.confirm-dialog`) and the settings (`.settings-dialog`).
-- The header and the footer are as wide as the board: the `header-toolbar` and `footer-and-github-link` decisions.
+- The header and footer are as wide as the board, beside it on a short landscape window: `header-toolbar`, `board-fits-the-window`.
 
 ## Storage (`STORAGE_KEYS`)
 

@@ -20,7 +20,7 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
   links, not under a dialog), with no pull-to-refresh and no double-tap zoom; pinch zoom still works
 - A header above the board, as wide as the board: the `2048` logo, the score and the
   persisted high score in two boxes, and a toolbar of icon buttons (inline SVG, each
-  with a label and a tooltip). A small icon in the high score box resets it after a
+  with a label and a tooltip). A small trash icon in the high score box resets it after a
   confirmation (the current game is not affected)
 - Tiles slide to their new cell, a merged tile pops, then the new tile pops in (about
   0.3 s in all). Only a real merge pops. A press during an animation finishes it at
@@ -45,7 +45,8 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Dialogs are native `<dialog>` modals: the page behind is dimmed and inert, `Tab`
   stays inside, and focus returns to the board when the win and game-over dialogs close
 - Responsive layout for desktop, tablet, and small mobile screens, clear of notches
-  and home indicators
+  and home indicators; the board is sized by the window's width and height, so it fits
+  a laptop screen or a phone on its side without scrolling
 - Footer with the author's name and year, and a GitHub icon linking to the source
 - Game summary (score, moves, best tile) in the win and game-over dialogs, and all-time statistics with a reset in the settings
 - Generated board cells and tiles for any board size
@@ -54,8 +55,9 @@ CI on GitHub Actions, and a clear AI-agent rule set for future maintenance.
 - Reduced-motion support for users who prefer less animation
 - Rubik as the game font, self-hosted (one Latin woff2 from the game's own origin, no
   font CDN), with tabular digits so the score and the tiles keep their width
-- Screen reader support: the score is announced after a move (once for a burst of
-  fast moves), and every button shows the same clear focus ring for keyboard users
+- Screen reader support: the board has a name and the score is announced as `Score N` after
+  a move (once for a burst of fast moves), and every button shows the same clear focus ring
+  for keyboard users
 - Vite production build with HTML, CSS, and JavaScript minification
 - Autoprefixer for CSS vendor prefixes
 - Bundle size budget checked with size-limit (the font has its own budget)

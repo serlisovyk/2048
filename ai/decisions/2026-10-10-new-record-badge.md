@@ -1,6 +1,6 @@
 # The New record badge is a transient `aria-hidden` flag; the record is spoken once, inside the score announcement
 
-Date: 2026-10-10 · Status: accepted
+Date: 2026-10-10 · Status: accepted; the announcement wording is superseded by 2026-10-14-score-announcement-and-board-name.md
 
 ## Context
 

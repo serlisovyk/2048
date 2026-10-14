@@ -1,6 +1,6 @@
 # The cell size is a function of the board size and the viewport; tile text is a share of the cell; the size picker is radios drawn as a segmented control
 
-Date: 2026-10-12 · Status: accepted
+Date: 2026-10-12 · Status: accepted; the width-only formula (no height term, a 100px ceiling) is superseded by 2026-10-14-board-fits-the-window.md
 
 ## Context
 

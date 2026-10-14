@@ -75,6 +75,8 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [The footer year is written by a view; the GitHub link is a row of its own](2026-10-13-footer-and-github-link.md)
 - [The settings reopen after their questions, with focus on what was used, and open on the first group](2026-10-14-settings-reopen-after-a-question.md)
 - [A swipe is read on the whole page; `touch-action: pinch-zoom` keeps pinch zoom](2026-10-14-swipe-on-the-whole-page.md)
+- [The GitHub link is last in the DOM and first on screen](2026-10-14-github-link-after-the-game.md)
+- [The score is announced as `Score N`; the board is a named group](2026-10-14-score-announcement-and-board-name.md)
 
 ### Look: theme, colours, type, geometry
 
@@ -85,6 +87,8 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [One tile palette in two ramps, a shared sheen, a base-rule fallback](2026-10-10-tile-palette.md)
 - [Rubik, self-hosted, Latin only, with tabular digits](2026-10-10-self-hosted-font.md)
 - [Cell size follows board size and viewport; the size picker is a segmented control](2026-10-12-board-geometry-per-size.md)
+- [The board is sized by the window width and height, up to about 600px; a short landscape window puts the header beside it](2026-10-14-board-fits-the-window.md)
+- [Tile text reaches 4.5:1 against both ends of the tile gradient](2026-10-14-tile-text-contrast.md)
 - [Font sizes, radii, shadows and durations come from scales in `theme.css`](2026-10-14-css-token-scales.md)
 
 ### Link preview

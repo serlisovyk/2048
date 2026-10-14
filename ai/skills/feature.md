@@ -28,11 +28,11 @@ reads or writes persisted data.
      model exports and validates game state (`Game.toState` / `Game.restore`);
      `SavedGameController` owns the `version` envelope. **A new field of the save is a
      version bump and one entry in `SavedGameController.#SAVE_UPGRADES`**, keyed by the
-     version the step starts from and returning the next version with the field filled: an
-     unknown or newer version is no save and the model stays strict. Other data (the
-     statistics) gets a key of its own and a controller that is its only writer
-     (`StatisticsController`): it writes only when something changes, never at start, and a
-     damaged blob costs a field or gives zeros (`ai/decisions/2026-10-13-statistics.md`).
+     version the step starts from, returning the next version with the field filled (an
+     unknown or newer version is no save; the model stays strict). Other data (the statistics)
+     gets its own key and a controller that is its only writer (`StatisticsController`): it
+     writes only on a change, never at start, and a damaged blob costs a field or gives zeros
+     (`ai/decisions/2026-10-13-statistics.md`).
    - **Styles**: the CSS file that owns that responsibility (`ai/map.md`), keyframes in
      `animations.css`, reduced motion in `motion.css`. Colours, sizes, tiles, fonts and focus
      follow `ai/rules/style.md`: any new colour is a token, sizes come from the scales, text
@@ -61,8 +61,8 @@ trap, `::backdrop` and `cancel` on `Escape` come free (`ai/decisions/2026-10-10-
   it too), or only `preventDefault()` when there is nothing to dismiss into. A browser may
   close a dialog by force on a repeated `Escape`: leave it closed, keep the controller valid.
 - Focus: the win and game-over dialogs return it to the board on every close
-  (`OverlayView.onClose`); a dialog a button opens and the player can dismiss (the
-  confirmation, the settings) gives it back to that button.
+  (`OverlayView.onClose`); one a button opens (the confirmation, the settings) gives it back
+  to that button.
 - The controller decides when to open which dialog; the model only reports (`hasJustWon`,
   `isOver`). The view writes what a dialog says about the game into its `[data-summary]`
   elements: the markup holds labels, no number.
@@ -120,17 +120,18 @@ data plus a section of the existing dialog
 - An action inside a section (the statistics reset): `SettingsController.#askFromSettings`
   closes the settings and asks through `ConfirmDialogView`; on "yes" act, then `open()` either
   way, and after a "no" focus the button (`focusResetStatistics`). A section that is not a radio
-  group (Statistics) is markup (a `<dl>` whose
-  `<dd data-statistic="…">` are named after the fields shown) plus a `SettingsView` method
-  that writes the values (`renderStatistics`, called by `#render`) and `on<Action>` for its
-  button; no `SETTING_DEFINITIONS` entry. A button with nothing to do is `hidden`. The high
-  score reset stays by the high score (`ai/decisions/2026-10-11-high-score-reset-stays-in-the-header.md`).
+  group (Statistics) is markup (a `<dl>` of tiles whose `<dd data-statistic="…">` are named after
+  the fields shown, and its reset, an `.icon-button`, in the heading row) plus a `SettingsView`
+  method that writes the values (`renderStatistics`, called by `#render`) and `on<Action>` for the
+  button; no `SETTING_DEFINITIONS` entry. A button with nothing to do is `hidden`. The high score
+  reset stays by the high score (`ai/decisions/2026-10-11-high-score-reset-stays-in-the-header.md`).
 
 **Controls** — real `<button>`s with an accessible name (`ai/rules/style.md`).
 
-- A link out of the page (`.github-link`) has a row of its own, not a toolbar button; text
-  that comes from code (the footer's year) is written by a view (`FooterView`)
-  (`ai/decisions/2026-10-13-footer-and-github-link.md`).
+- A link out of the page (`.github-link`) has a row of its own, not a toolbar button, and
+  comes last in the DOM, shown first by `order`; text that comes from code (the footer's year)
+  is written by a view (`FooterView`) (`ai/decisions/2026-10-13-footer-and-github-link.md`,
+  `ai/decisions/2026-10-14-github-link-after-the-game.md`).
 - A header action (the theme toggle, the settings button) is a `.toolbar-button` in
   `.toolbar`: copy the `New game` button, give it an inline SVG icon (24px), an `aria-label`
   and a `title` with the same text, a hook class for its view and a one-method view class
@@ -157,10 +158,11 @@ reorder player input (`ai/rules/style.md`).
 - A tile animation follows the move result (`GridView.animateMove`), not a diff of the
   board; the order (slide, merge pop, new tile) is CSS delays, not JS timers. The view
   finishes the running move at once (`getAnimations().finish()`) before the next: no input
-  lock, no queue. A whole board is drawn with `render({ size, tiles, spawnedTiles })`: a new
-  game pops its tiles in, a restored one draws with no animation. When a move settles the
-  view re-appends the tiles in row-major order, for screen readers; re-appending drops a
-  transition, so only the settle timer does it (`ai/decisions/2026-10-10-tiles-over-the-grid.md`,
+  lock, no queue. A whole board is drawn (and named) with
+  `render({ size, winTile, tiles, spawnedTiles })`: a new game pops its tiles in, a restored
+  one draws with no animation. When a move settles the view re-appends the tiles in
+  row-major order, for screen readers; re-appending drops a transition, so only the settle
+  timer does it (`ai/decisions/2026-10-10-tiles-over-the-grid.md`,
   `ai/decisions/2026-10-10-input-during-tile-animation.md`).
 
 ## Avoid

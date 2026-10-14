@@ -1,6 +1,6 @@
 # Font sizes, radii, shadows and durations come from scales in `theme.css`, one exact value each
 
-Date: 2026-10-14 · Status: accepted
+Date: 2026-10-14 · Status: accepted; the near-duplicates it kept apart were merged afterwards (one `--font-text`, one `4px 12px` shadow step, the shadow scale renamed `xs` to `xl`)
 
 ## Context
 

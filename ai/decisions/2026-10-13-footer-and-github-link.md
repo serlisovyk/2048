@@ -1,6 +1,6 @@
 # The footer's year is written by a view at load; the GitHub link is a row of its own in the page's flow
 
-Date: 2026-10-13 · Status: accepted
+Date: 2026-10-13 · Status: accepted; "first in the DOM" is superseded by 2026-10-14-github-link-after-the-game.md
 
 ## Context
 

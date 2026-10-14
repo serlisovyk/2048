@@ -5,13 +5,17 @@
   flex-direction: column;
   flex-grow: 1;
   gap: var(--header-gap);
-}
 
-.game-header,
-.site-footer {
-  width: min-content;
-  min-width: 100%;
-  margin-top: auto;
+  .game-header,
+  .site-footer {
+    width: min-content;
+    min-width: 100%;
+    margin-top: auto;
+  }
+
+  @media (height <= 600px) {
+    --header-gap: 10px;
+  }
 }
 
 .site-footer {
@@ -20,20 +24,4 @@
   color: var(--text-muted);
   font-size: 13px;
   text-align: center;
-}
-
-@media (max-width: 768px) {
-  body {
-    --page-padding: 10px;
-  }
-}
-
-@media (max-height: 600px) {
-  body {
-    --page-padding: 10px;
-  }
-
-  .game-layout {
-    --header-gap: 10px;
-  }
 }

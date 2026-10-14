@@ -42,45 +42,45 @@
   --button-hover-shadow: rgba(0, 0, 0, 0.3);
   --button-outline: rgba(255, 255, 255, 0.8);
   --button-outline-hover-bg: rgba(255, 255, 255, 0.15);
-}
 
-:root[data-theme='light'] {
-  color-scheme: light;
+  &[data-theme='light'] {
+    color-scheme: light;
 
-  --page-bg: #f4efe6;
-  --text: #2e2620;
-  --text-muted: #6b6055;
-  --focus-ring-color: #2e2620;
+    --page-bg: #f4efe6;
+    --text: #2e2620;
+    --text-muted: #6b6055;
+    --focus-ring-color: #2e2620;
 
-  --surface: #fffdf8;
-  --surface-border: #ddd3c2;
-  --divider: #b9ab98;
-  --surface-hover: #f0e9db;
-  --icon-muted: #7a6f63;
-  --icon-hover: #2e2620;
-  --icon-hover-bg: rgba(46, 38, 32, 0.08);
+    --surface: #fffdf8;
+    --surface-border: #ddd3c2;
+    --divider: #b9ab98;
+    --surface-hover: #f0e9db;
+    --icon-muted: #7a6f63;
+    --icon-hover: #2e2620;
+    --icon-hover-bg: rgba(46, 38, 32, 0.08);
 
-  --accent: #9a6b00;
-  --logo-shadow: rgba(154, 107, 0, 0.3);
-  --record-badge-shadow: rgba(70, 50, 20, 0.3);
+    --accent: #9a6b00;
+    --logo-shadow: rgba(154, 107, 0, 0.3);
+    --record-badge-shadow: rgba(70, 50, 20, 0.3);
 
-  --board-bg: rgba(255, 255, 255, 0.55);
-  --board-shadow: rgba(70, 50, 20, 0.16);
-  --grid-bg: #b9ab98;
-  --cell-bg: rgba(255, 255, 255, 0.3);
+    --board-bg: rgba(255, 255, 255, 0.55);
+    --board-shadow: rgba(70, 50, 20, 0.16);
+    --grid-bg: #b9ab98;
+    --cell-bg: rgba(255, 255, 255, 0.3);
 
-  --backdrop: rgba(46, 38, 32, 0.45);
-  --dialog-shadow: rgba(46, 38, 32, 0.35);
-}
+    --backdrop: rgba(46, 38, 32, 0.45);
+    --dialog-shadow: rgba(46, 38, 32, 0.35);
 
-:root[data-theme='light'] .confirm-dialog,
-:root[data-theme='light'] .settings-dialog {
-  --dialog-text: #2e2620;
-  --button-bg: #2e2620;
-  --button-text: #fffdf8;
-  --button-hover-bg: #4a3f36;
-  --button-outline: rgba(46, 38, 32, 0.85);
-  --button-outline-hover-bg: rgba(46, 38, 32, 0.08);
+    .confirm-dialog,
+    .settings-dialog {
+      --dialog-text: #2e2620;
+      --button-bg: #2e2620;
+      --button-text: #fffdf8;
+      --button-hover-bg: #4a3f36;
+      --button-outline: rgba(46, 38, 32, 0.85);
+      --button-outline-hover-bg: rgba(46, 38, 32, 0.08);
+    }
+  }
 }
 
 ::view-transition-old(root),

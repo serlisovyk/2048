@@ -24,11 +24,11 @@
   --tile-8192: #9575e2;
   --tile-16384: #6359d2;
   --tile-fallback: #3049a4;
-}
 
-:root[data-theme='light'] {
-  --tile-2048-glow: rgba(214, 150, 10, 0.55);
-  --tile-shadow: rgba(60, 40, 10, 0.28);
+  &[data-theme='light'] {
+    --tile-2048-glow: rgba(214, 150, 10, 0.55);
+    --tile-shadow: rgba(60, 40, 10, 0.28);
+  }
 }
 
 .tile[data-value] {

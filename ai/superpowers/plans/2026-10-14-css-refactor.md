@@ -80,8 +80,9 @@ before `GridView` sets it, so its default `4` stays, once, on `.game-grid`, inst
    `.is-sliding &`, `.segment` in `.segmented`, `h3` in `.settings-section`, the light theme in `:root`, the
    theme icons; every `@media` into the selector it changes, as `(width <= 768px)` / `(height <= 600px)`.
 7. **Token scales** as above, and the focus ring numbers.
-8. **`.button` / `.button-outline`** in `index.html` and `controls.css` (the primary button gets a transparent 2px
-   border, so `padding: 10px 22px` disappears), and one `dialog` selector for the shared dialog look.
+8. **`.button` / `.button-outline`** in `index.html` and `controls.css` (both get a 2px border, transparent on the
+   primary one, and share `padding: 10px 22px`, so the outlined one's own padding disappears), and one `dialog`
+   selector for the shared dialog look.
 9. **Focus ring and transitions.** `transition` lists its properties instead of `all`; the ring is a plain
    `:focus-visible { outline: … solid }` (no `outline-style` trick); the segment ring reuses the tokens.
 10. **Hover for the mouse only.** Every `:hover` inside `@media (hover: hover)`; `:active` on the toolbar buttons.
@@ -101,3 +102,18 @@ score pop and the record badge, reduced motion; the console has no errors.
 
 Then the Definition of Done point by point, a self-review with the `review` skill, and the report. Stop at the
 author-approval gate.
+
+## What changed while implementing
+
+- **The primary button is not `12px 24px` plus a border.** The first version kept that padding and added the
+  transparent 2px border, which made the primary buttons 4px larger each way; the computed-style diff caught it.
+  Both variants share `padding: 10px 22px` and a 2px border.
+- **`backdrop-filter` is the one pixel-level difference** from `main`. A build of `main` with only that declaration
+  removed is identical to the final build pixel for pixel (196 screenshots: every state, width and theme, reduced
+  motion, hover, focus). Against `main` itself the board container is one level lighter in its fill (1/255) and the
+  tile digits are drawn with subpixel antialiasing like the rest of the page, instead of the greyscale
+  antialiasing a `backdrop-filter` layer forces.
+- **`--board-size` keeps a default** on `.game-grid` (planned); the old `custom-properties-from-js` record gets a
+  pointer in its `Status` line, because its `var(--x, default)` fallbacks are replaced.
+- `.toolbar` moved to `controls.css` and `body` to `base.css`, so `layout.css` is left with the page skeleton and
+  the footer.

@@ -67,8 +67,9 @@ trap, `::backdrop` and `cancel` on `Escape` come free (`ai/decisions/2026-10-10-
   `isOver`). What a dialog says about the game (`#getSummary()`) is written by the view into
   the `[data-summary]` element of that name: the markup holds labels and no number.
 - CSS (`overlays.css`): the `dialog` rule is every dialog's look (`display` only on
-  `&[open]`, `margin: auto`, the dimming on `&::backdrop`); its own class sets only its
-  background. `::backdrop` is in the reduced-motion selector in `motion.css`: `*` misses it.
+  `&[open]`, `margin: auto`, the dimming on `&::backdrop`); its own class adds only what
+  differs (background, a shadow colour). `::backdrop` is in the reduced-motion selector in
+  `motion.css`: `*` misses it.
 
 **Confirmation** ("are you sure?" before something hard to undo) — do not write another
 dialog: `ConfirmDialogView.ask({ title, message, confirmLabel })` returns a `Promise<boolean>`

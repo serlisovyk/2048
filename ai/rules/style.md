@@ -56,7 +56,7 @@
 - **Hover and buttons.** `:hover` only inside `@media (hover: hover)`, so a tap leaves no hover look
   on a touch screen; the toolbar buttons add `:active`. A dialog button is `.button` (the secondary
   one also `.button-outline`) next to its hook class for `main.js`; every dialog gets its look from
-  the `dialog` selector, and its own class sets only the background.
+  the `dialog` selector, and its own class adds only what differs (background, shadow colour, width).
 - **Reduced motion** is one `@media (prefers-reduced-motion)` block in `motion.css`, imported last (its
   `.record-badge` `animation-name` beats the `animation` shorthand of `header.css` by order only). It
   sets every `animation-duration` to 0.01ms with `!important`; an animation the player must still

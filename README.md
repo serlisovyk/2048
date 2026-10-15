@@ -73,7 +73,7 @@ src/
     controls.css         Buttons, segmented control, toolbar, icon buttons
     animations.css       Every @keyframes
     motion.css           Reduced-motion overrides
-public/                  Files with an unhashed URL, copied as they are: the link preview image
+public/                  Files with an unhashed URL, copied as they are: link preview image, robots.txt, llms.txt
 webpack/                 Webpack config in parts: paths, browser targets, loaders, plugins
 docs/                    The gameplay GIF shown above
 ai/                      Agent docs: repo map, rules, decisions, skills, prompts, plans

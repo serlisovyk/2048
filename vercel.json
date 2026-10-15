@@ -3,5 +3,9 @@
   "framework": null,
   "installCommand": "yarn install --frozen-lockfile",
   "buildCommand": "yarn build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "status": 404, "dest": "/404.html" }
+  ]
 }

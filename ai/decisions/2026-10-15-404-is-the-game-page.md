@@ -1,6 +1,6 @@
 # A missing path answers 404 with the game page; crawler files are served; no ARD catalog
 
-Date: 2026-10-15 · Status: accepted · Supersedes `2026-10-15-crawler-files-no-catch-all.md`
+Date: 2026-10-15 · Status: superseded by `2026-10-15-404-through-vercel-routes.md` · Supersedes `2026-10-15-crawler-files-no-catch-all.md`
 
 ## Context
 

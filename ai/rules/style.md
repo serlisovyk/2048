@@ -3,8 +3,8 @@
 ## General
 
 - Prefer readable HTML, CSS, and JavaScript over clever tricks.
-- **No comments in `src/`** (HTML, CSS, JavaScript). Names and structure say what the code does; a
-  durable "why" goes to a rule, a skill or a decision record (`ai/rules/docs.md`).
+- **No comments in `src/`** (HTML, CSS, JavaScript), `webpack/` or the root configs. Names and structure say
+  what the code does; a durable "why" goes to a rule, a skill or a decision record (`ai/rules/docs.md`).
 - Use existing naming and spacing patterns before introducing new ones.
 
 ## HTML

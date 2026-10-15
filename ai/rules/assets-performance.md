@@ -57,7 +57,7 @@
 
 - Keep HTML, CSS, and JavaScript minified in production.
 - CSS is lowered (nesting, ranges) and prefixed by Lightning CSS for the browser targets,
-  one object in `webpack.config.js`. The project has no `browserslist` config and none is
+  one object in `webpack/targets.js`. The project has no `browserslist` config and none is
   added (`ai/decisions/2026-10-14-webpack-instead-of-vite.md`).
 - The JavaScript is not transpiled: no Babel, no legacy chunks or polyfills, one bundle
   (same record).

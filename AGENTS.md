@@ -89,7 +89,7 @@ change (`ai/rules/docs.md`).
 
 - Package manager: `yarn` (v1), never npm or pnpm; keep `yarn.lock`, no `package-lock.json`,
   and do not edit the lockfile by hand unless there is no safer option
-- Stack: the browser plus Node.js build tooling; Webpack 5 (`webpack.config.js`); HTML,
+- Stack: the browser plus Node.js build tooling; Webpack 5 (`webpack/`); HTML,
   modular plain CSS imported from `src/styles/main.css`, and JavaScript ESM (ES classes,
   OOP)
 - Sources: everything in `src/` (`index.html`, `favicon.svg`, `fonts/`, `scripts/`,

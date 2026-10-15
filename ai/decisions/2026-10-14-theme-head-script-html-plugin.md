@@ -14,7 +14,7 @@ The head script was moved into its own file and inlined by a Vite plugin. The bu
   `ai/rules/oop.md` says to change them in both places. It is classic inline code because it runs before any module; it only
   reads `localStorage`, inside `try/catch`, falls back to `prefers-color-scheme`, and is the one read that skips `SafeStorage`.
   Not a precedent: any other early read needs its own record. After load `ThemeController` is the authority.
-- **`InlineThemeScriptPlugin` in `webpack.config.js`** taps `afterTemplateExecution` of `html-webpack-plugin`, reads the file,
+- **`InlineThemeScriptPlugin` in `webpack/plugins/`** taps `afterTemplateExecution` of `html-webpack-plugin`, reads the file,
   minifies it with terser and puts it right after `<head>`, so it is the first element, before `<meta charset>`: the same in
   `yarn dev` and `yarn build`. It fails the build when the template has no `<head>`.
 - **In dev an edit of the file reloads the page**: the plugin adds the file to the watched files, `devServer.watchFiles`

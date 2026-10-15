@@ -49,6 +49,7 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [No `browserslist`, Autoprefixer and the build use their defaults](2026-10-14-no-browserslist.md)
 - [Webpack 5 instead of Vite as the build tool](2026-10-14-webpack-instead-of-vite.md)
 - [The Vercel build is pinned in `vercel.json`](2026-10-14-vercel-config-in-repo.md)
+- [`robots.txt` and `llms.txt` are served, a missing path is a 404, no ARD catalog](2026-10-15-crawler-files-no-catch-all.md)
 
 ### Game, saves and statistics
 

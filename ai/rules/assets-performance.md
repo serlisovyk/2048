@@ -4,9 +4,9 @@
 
 - Keep the favicon next to `index.html` (`src/favicon.svg`) so the build hashes it. Files
   that need a stable, unhashed URL go into `public/` in the repo root (copied as they are
-  to the root of `dist/`): today only the Open Graph image, `public/og-image.png`
-  (1200×630). The 1280×640 GitHub social preview is not kept in the repo: it is uploaded
-  by hand in the repository settings.
+  to the root of `dist/`): the Open Graph image, `public/og-image.png` (1200×630), and the
+  crawler files `robots.txt` and `llms.txt` (see Metadata). The 1280×640 GitHub social
+  preview is not kept in the repo: it is uploaded by hand in the repository settings.
 - Keep the favicon visually readable at small sizes. Prefer simple tile shapes
   over tiny text. Its tile colours are taken from the palette (the logo gold and
   `tiles.css` values); when the palette changes, change them too.
@@ -41,8 +41,14 @@
   tag repeats its `og:*` twin: change them together. The build keeps the attribute quotes
   (`removeAttributeQuotes: false`), so every tag reads `content="https://…"` in `dist/index.html`.
 - Keep metadata truthful to the visible game and current tech stack.
-- Do not add larger SEO infrastructure such as `robots.txt`, `sitemap.xml`, or
-  web app manifests unless the user asks for it.
+- `public/robots.txt` allows every crawler and has no `Sitemap` or `Agentmap` line.
+  `public/llms.txt` follows llmstxt.org (an H1, a one-line blockquote, Markdown links) and
+  stays true to the game and the repository, with absolute links like the Open Graph tags.
+  A missing path answers 404, so there is no catch-all rewrite: not in `vercel.json`, and
+  none in the Vercel dashboard's routing rules, which the repo cannot show
+  (`ai/decisions/2026-10-15-crawler-files-no-catch-all.md`).
+- Do not add a sitemap, a web app manifest or an ARD catalog (`ai-catalog.json`,
+  `ard.json`, an `ai-catalog` link or an `Agentmap` line) unless the author asks for it.
 
 ## Performance
 

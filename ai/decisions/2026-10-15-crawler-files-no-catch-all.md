@@ -1,6 +1,6 @@
 # robots.txt and llms.txt are served, a missing path is a 404, no ARD catalog
 
-Date: 2026-10-15 · Status: accepted
+Date: 2026-10-15 · Status: superseded by `2026-10-15-404-is-the-game-page.md`
 
 ## Context
 

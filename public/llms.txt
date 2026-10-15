@@ -1,0 +1,16 @@
+# 2048 Game
+
+> A responsive 2048 browser game in vanilla JavaScript: 3x3, 4x4 and 5x5 boards, keyboard and swipe controls, light and dark themes, saved games and statistics. Built and maintained by AI agents under the author's review.
+
+## Play
+
+- [Live demo](https://2048-xi-three.vercel.app/): the game, playable in any modern browser
+
+## Documentation
+
+- [README](https://github.com/serlisovyk/2048#readme): features, controls, scripts and project structure
+- [AGENTS.md](https://github.com/serlisovyk/2048/blob/main/AGENTS.md): the rules AI agents follow when working in the repository
+
+## Source
+
+- [GitHub repository](https://github.com/serlisovyk/2048): the code, the decision records and the task plans

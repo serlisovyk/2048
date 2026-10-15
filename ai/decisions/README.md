@@ -51,7 +51,7 @@ reverse, anything `ai/rules/` and `ai/map.md` already cover. Do not create noise
 - [The Vercel build is pinned in `vercel.json`](2026-10-14-vercel-config-in-repo.md)
 - [`robots.txt` and `llms.txt` are served, a missing path is a 404, no ARD catalog](2026-10-15-crawler-files-no-catch-all.md)
 - [A missing path answers 404 with the game page; crawler files are served; no ARD catalog](2026-10-15-404-is-the-game-page.md)
-- [A missing path answers 404 through the `vercel.json` routes](2026-10-15-404-through-vercel-routes.md)
+- [A missing path answers 404 with the game page through the `vercel.json` routes](2026-10-15-404-through-vercel-routes.md)
 
 ### Game, saves and statistics
 

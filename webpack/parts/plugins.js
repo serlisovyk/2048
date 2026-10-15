@@ -24,20 +24,14 @@ const HTML_MINIFY_OPTIONS = {
   useShortDoctype: true,
 }
 
-function createPagePlugin({ filename, isProduction }) {
-  return new HtmlWebpackPlugin({
-    template: TEMPLATE,
-    filename,
-    cache: false,
-    scriptLoading: 'defer',
-    minify: isProduction ? HTML_MINIFY_OPTIONS : false,
-  })
-}
-
 export function getPlugins({ isProduction, hashSuffix }) {
   return [
-    createPagePlugin({ filename: 'index.html', isProduction }),
-    createPagePlugin({ filename: '404.html', isProduction }),
+    new HtmlWebpackPlugin({
+      template: TEMPLATE,
+      cache: false,
+      scriptLoading: 'defer',
+      minify: isProduction ? HTML_MINIFY_OPTIONS : false,
+    }),
     new InlineThemeScriptPlugin({ scriptPath: THEME_SCRIPT }),
     new MiniCssExtractPlugin({ filename: `assets/style${hashSuffix}.css` }),
     new CopyPlugin({ patterns: [{ from: PUBLIC }] }),

@@ -44,11 +44,10 @@
 - `public/robots.txt` allows every crawler and has no `Sitemap` or `Agentmap` line.
   `public/llms.txt` follows llmstxt.org (an H1, a one-line blockquote, Markdown links) and
   stays true to the game and the repository, with absolute links like the Open Graph tags.
-  A missing path answers 404 with the game: the build emits `404.html`, the game page again (a
-  second output of the same template in `webpack/parts/plugins.js`, never a hand-made copy in
-  `public/`), and the `routes` in `vercel.json` serve real files first and `404.html` with
-  status 404 for anything else. No catch-all rewrite, and no routing rules in the Vercel
-  dashboard, which the repo cannot show (`ai/decisions/2026-10-15-404-through-vercel-routes.md`).
+  A missing path answers 404 with the game: the `routes` in `vercel.json` serve the real files
+  first and `index.html` with status 404 for anything else; there is no separate 404 page. No
+  catch-all rewrite with status 200, and no routing rules in the Vercel dashboard, which the
+  repo cannot show (`ai/decisions/2026-10-15-404-through-vercel-routes.md`).
 - Do not add a sitemap, a web app manifest or an ARD catalog (`ai-catalog.json`,
   `ard.json`, an `ai-catalog` link or an `Agentmap` line) unless the author asks for it.
 

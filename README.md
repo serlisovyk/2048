@@ -4,6 +4,7 @@
 
 **[▶ Play the demo](https://2048-xi-three.vercel.app/)**
 
+<!-- markdownlint-disable-next-line MD033 -->
 <img src="docs/demo.gif" width="400" alt="Gameplay: tiles slide and merge with a +N score pop and a New record! badge, then the theme switches from dark to light with a circular reveal">
 
 The classic 2048 puzzle as a compact static web game, written without a UI framework. The code is split into small object-oriented layers: a model with the rules, views, input, storage and controllers. It keeps production habits from larger projects: a Webpack build, size budgets, CI, linting hooks, and accessibility.

@@ -4,7 +4,7 @@
 
 **[▶ Play the demo](https://2048-xi-three.vercel.app/)**
 
-![Gameplay: tiles slide and merge with a +N score pop and a New record! badge, then the theme switches from dark to light with a circular reveal](docs/demo.gif)
+![Gameplay: tiles slide and merge with a +N score pop and a New record! badge, then the theme switches from dark to light with a circular reveal](assets/demo.gif)
 
 The classic 2048 puzzle as a compact static web game, written without a UI framework. The code is split into small object-oriented layers: a model with the rules, views, input, storage and controllers. It keeps production habits from larger projects: a Webpack build, size budgets, CI, linting hooks, and accessibility.
 
@@ -75,7 +75,7 @@ src/
     motion.css           Reduced-motion overrides
 public/                  Files with an unhashed URL, copied as they are: link preview image, robots.txt, llms.txt
 webpack/                 Webpack config in parts: paths, browser targets, loaders, plugins
-docs/                    The gameplay GIF shown above
+assets/                  The gameplay GIF shown above
 ai/                      Agent docs: repo map, rules, decisions, skills, prompts, plans
 ```
 

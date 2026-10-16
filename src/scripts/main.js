@@ -24,6 +24,7 @@ import { ThemeView } from './ui/ThemeView.js'
 
 const storage = new SafeStorage()
 const settings = new Settings()
+
 const statisticsController = new StatisticsController({
   statistics: new Statistics(),
   storage,
@@ -45,6 +46,7 @@ const scoreView = new ScoreView({
   resetHighScoreButton: document.querySelector('.reset-high-score-button'),
   recordBadgeElement: document.querySelector('.record-badge'),
 })
+
 const overlayView = new OverlayView({
   winDialog: document.querySelector('.win-overlay'),
   gameOverDialog: document.querySelector('.game-over'),
@@ -54,7 +56,9 @@ const overlayView = new OverlayView({
   winMessage: document.querySelector('.win-message'),
   gameOverWinNote: document.querySelector('.game-over-win-note'),
 })
+
 const gridView = new GridView({ element: document.querySelector('.game-grid') })
+
 const newGameView = new NewGameView({
   button: document.querySelector('.new-game-button'),
 })
@@ -78,6 +82,7 @@ new KeyboardInput({
   target: document,
   onDirection: (direction) => gameController.requestMove(direction),
 }).bind()
+
 new SwipeInput({
   target: document,
   onDirection: (direction) => gameController.requestMove(direction),
@@ -95,6 +100,7 @@ const settingsView = new SettingsView({
   closeButton: document.querySelector('.settings-close-button'),
   resetStatisticsButton: document.querySelector('.reset-statistics-button'),
 })
+
 const settingsController = new SettingsController({
   settings,
   view: settingsView,
@@ -114,6 +120,7 @@ const themeView = new ThemeView({
   themeColorMetas: document.querySelectorAll('meta[name="theme-color"]'),
   reducedMotionQuery: matchMedia('(prefers-reduced-motion: reduce)'),
 })
+
 const themeController = new ThemeController({
   view: themeView,
   storage,
@@ -127,6 +134,7 @@ const footerView = new FooterView({
 })
 
 footerView.renderYear(new Date().getFullYear())
+
 themeController.start()
 settingsController.start()
 statisticsController.start()

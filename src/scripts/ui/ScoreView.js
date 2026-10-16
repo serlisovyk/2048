@@ -86,7 +86,9 @@ export class ScoreView {
     if (score === this.#announcedScore) return
 
     const recordPrefix = this.#recordBadgeElement.textContent
+
     const scoreMessage = `Score ${score}`
+
     const message = this.#isRecordPending
       ? `${recordPrefix} ${scoreMessage}`
       : scoreMessage

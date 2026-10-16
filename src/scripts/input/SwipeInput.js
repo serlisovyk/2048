@@ -29,6 +29,7 @@ export class SwipeInput {
     const isPrimaryButton = event.isPrimary && event.button === 0
     const isOnInteractive =
       event.target.closest(SwipeInput.#INTERACTIVE_SELECTOR) !== null
+
     const canStart = isPrimaryButton && !isOnInteractive && !this.#hasOpenDialog()
 
     if (!canStart) return

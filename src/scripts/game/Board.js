@@ -39,7 +39,9 @@ export class Board {
 
   spawnRandomTile() {
     const emptyCells = this.#getEmptyCells()
+
     const { row, col } = emptyCells[Math.floor(Math.random() * emptyCells.length)]
+
     const value = Math.random() < FOUR_TILE_PROBABILITY ? 4 : 2
     const tile = this.#createTile(value)
 
@@ -52,6 +54,7 @@ export class Board {
     const isVertical = direction === DIRECTIONS.UP || direction === DIRECTIONS.DOWN
     const isTowardsStart =
       direction === DIRECTIONS.UP || direction === DIRECTIONS.LEFT
+
     const slides = []
     const merges = []
 
@@ -111,6 +114,7 @@ export class Board {
     const cellAt = (position) =>
       isVertical ? { row: position, col: index } : { row: index, col: position }
     const slidLine = Array(this.#size).fill(null)
+
     const slides = []
     const merges = []
 
@@ -180,7 +184,9 @@ export class Board {
 
     for (const position of positions) {
       const last = plan.at(-1)
+
       const { value } = line[position]
+
       const canMerge = last?.sources.length === 1 && last.value === value
 
       if (canMerge) {

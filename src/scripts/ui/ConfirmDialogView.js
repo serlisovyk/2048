@@ -54,6 +54,7 @@ export class ConfirmDialogView {
 
   #findOpener() {
     const { activeElement, body } = this.#dialog.ownerDocument
+
     const isFocusedElement =
       activeElement instanceof HTMLElement && activeElement !== body
 

@@ -41,8 +41,10 @@ export class ThemeView {
 
   #placeReveal() {
     const { left, top, width, height } = this.#button.getBoundingClientRect()
+
     const x = left + width / 2
     const y = top + height / 2
+
     const radius = Math.hypot(
       Math.max(x, innerWidth - x),
       Math.max(y, innerHeight - y),

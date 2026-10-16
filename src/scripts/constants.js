@@ -14,6 +14,7 @@ export const FOUR_TILE_PROBABILITY = 0.1
 export const SCORE_ANNOUNCEMENT_DELAY_MS = 500
 export const TILE_SLIDE_MS = 110
 export const TILE_POP_MS = 100
+
 const TILE_CLEANUP_MARGIN_MS = 50
 
 export const TILE_CLEANUP_MS =
